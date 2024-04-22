@@ -186,9 +186,9 @@ export default function FormEvCad (){
                         </label>
                         <label>Aplicador:</label>
                         <input type="text" name="aplicador" value={formData.aplicador} onChange={handleInputChange} placeholder="Aplicador" disabled={formData.mesmoProfessor}></input>
-                        <label>Email do Aplicador: {!emailValido && <span style={{ color: 'red', fontSize: '8'}}>Email inválido</span>}</label>
+                        <label>Email do Responsável: {!emailValido && <span style={{ color: 'red', fontSize: '8'}}>Email inválido</span>}</label>
                         <input type="text" name="emailAplicador" value={formData.emailAplicador} onChange={handleInputChange} placeholder="Email do Aplicador"></input>
-                        <label>Telefone:</label>
+                        <label>Telefone do Responsável:</label>
                         <InputMask mask="(99) 99999-9999" value={formData.phone} onChange={handlePhoneChange}/>
                         <label>Público Alvo:</label>
                         <input type="text" name="publicoAlvo" value={formData.publicoAlvo} onChange={handleInputChange} placeholder="Público Alvo"></input>
