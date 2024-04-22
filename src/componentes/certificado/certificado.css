@@ -1,0 +1,22 @@
+.certificado{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 20px;
+    background-color: #D9D9D9;
+    border-radius: 5px;
+    margin-bottom: 20px;
+}
+
+.certificado a{
+    padding: 10px;
+    background-color: #69A120;
+    text-decoration: none;
+    color: white;
+    border-radius: 5px;
+}
+
+.certificado a:hover{
+    cursor: pointer;
+    background-color: #517e17;
+}

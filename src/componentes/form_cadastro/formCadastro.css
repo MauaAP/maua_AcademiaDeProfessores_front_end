@@ -1,0 +1,55 @@
+.corpo-cad{
+    margin: 30px 5%;
+}
+
+.info{
+    display: flex;
+    flex-direction: column;
+}
+
+.senhas{
+    display: flex;
+    justify-content: space-evenly;
+}
+
+.info label{
+    margin-bottom: 5px;
+}
+
+.info input{
+    margin-bottom: 10px;
+    padding: 5px; 
+    border-radius: 5px;
+    border: none;
+    box-shadow: 0px 0px 5px 0px rgba(0, 0, 0, 0.5);
+}
+
+.info p{
+    font-size: 10px;
+    color: red;
+}
+
+.corpo-cad button {
+    margin-left: 85%;
+    margin-top: 15px; 
+    padding: 12px; 
+    border-radius: 5px;
+    background-color: #69A120;
+    border: none;
+    color: white;
+}
+
+.corpo-cad button:hover {
+    cursor: pointer;
+    font-weight: bold;
+    background-color: #517e17;
+}
+
+.date-picker {
+    margin-left: 10px;
+    padding: 10px; 
+    border-radius: 5px;
+    border: none;
+    box-shadow: 0px 0px 5px 0px rgba(0, 0, 0, 0.5);
+}
+  
