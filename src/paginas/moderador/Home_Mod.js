@@ -12,7 +12,7 @@ const certificadosData = [
 export default function HomeMod({itensMenu}) {
     return(
         <div>
-            <NavBar cargo={"Moderador"} nome={"Nome User"} itensMenu={itensMenu} cor={"#006400"}/>
+            <NavBar itensMenu={itensMenu} cor={"#006400"}/>
             <Certificados certificadosData={certificadosData}/>
         </div>
     )

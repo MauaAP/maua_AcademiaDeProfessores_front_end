@@ -5,7 +5,7 @@ import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import './professor.css';
 
-export default function TemplateProfessor({ professor, cpf, phone, email }) {
+export default function TemplateProfessor({ professor, cpf, phone, email, role }) {
     const [isEditing, setIsEditing] = useState(false);
     const [editedData] = useState({ professor, cpf, phone, email });
 
@@ -19,12 +19,28 @@ export default function TemplateProfessor({ professor, cpf, phone, email }) {
     const notiInativar = () => toast.warning("Professor Inativado!");
     const notiatualizar = () => toast.success("Dados Atualizados!");
 
+    const getRoleText = (role) => {
+        switch (role.toUpperCase()) {
+            case 'ADMIN':
+                return 'Administrador';
+            case 'SECRETARY':
+                return 'Secretário';
+            case 'MODERATOR':
+                return 'Moderador';
+            case 'COMMON':
+                return 'Comum';
+            default:
+                return role;
+        }
+    };
+
     return (
         <div>
             <ToastContainer />
             <div className="professor">
                 <FaUserCircle size={32} />
-                <p>Prof. {professor}</p>
+                <p>{professor}</p>
+                <p>Usuário {getRoleText(role)}</p>
                 <p>{cpf}</p>
                 <p>{phone}</p>
                 <div className="professor-dir">

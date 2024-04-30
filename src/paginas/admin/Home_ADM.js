@@ -17,7 +17,7 @@ const certificadosData = [
 export default function HomeADM ({itensMenu}){
     return(
         <body>
-            <NavBar cargo={"Admin"} nome={"Nome User"} itensMenu={itensMenu} cor={"#4F1313"}/>
+            <NavBar itensMenu={itensMenu} cor={"#4F1313"}/>
             <Certificados certificadosData={certificadosData}/>
         </body>
     );

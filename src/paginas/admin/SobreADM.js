@@ -1,12 +1,32 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import FormSobre from "../../componentes/form_sobre/formSobre";
 import NavBar from "../../componentes/home/navbar";
+import axios from 'axios';
 
 export default function SobreADM ({itensMenu}){
+    const [userData, setUserData] = useState(null);
+
+    useEffect(() => {
+        const token = localStorage.getItem('token');
+        if (token) {
+            axios.get('http://168.138.135.69:3000/api/user', {
+                headers: {
+                    Authorization: `Bearer ${token}`
+                }
+            })
+            .then(response => {
+                setUserData(response.data);
+            })
+            .catch(error => {
+                console.error('Erro ao buscar os dados do usuário:', error);
+            });
+        }
+    }, []);
+
     return(
-        <body className="sobre-adm">  
-            <NavBar cargo={"Admin"} nome={"Nome User"} itensMenu={itensMenu} cor={"#4F1313"}/>
-            <FormSobre nomeP='Adm' emailP='adm@gmail.br' cpfP='111.222.333.44' phone='(11) 98765-1234'/>
+        <body className="sobre">  
+            <NavBar itensMenu={itensMenu} cor={"#4F1313"}/>
+            {userData && <FormSobre nomeP={userData.name} emailP={userData.email} cpfP={userData.cpf} phone={userData.phone}/>}
         </body>
     )
 }

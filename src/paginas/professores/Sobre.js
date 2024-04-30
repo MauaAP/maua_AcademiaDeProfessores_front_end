@@ -1,13 +1,32 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import NavBar from "../../componentes/home/navbar";
 import FormSobre from "../../componentes/form_sobre/formSobre";
+import axios from 'axios';
 
 export default function SobreProf ({itensMenu}){
+    const [userData, setUserData] = useState(null);
+
+    useEffect(() => {
+        const token = localStorage.getItem('token');
+        if (token) {
+            axios.get('http://168.138.135.69:3000/api/user', {
+                headers: {
+                    Authorization: `Bearer ${token}`
+                }
+            })
+            .then(response => {
+                setUserData(response.data);
+            })
+            .catch(error => {
+                console.error('Erro ao buscar os dados do usuário:', error);
+            });
+        }
+    }, []);
     
     return(
-        <body className="sobre-professor">  
-            <NavBar cargo={"Professor"} nome={"Nome User"} itensMenu={itensMenu} cor={"#14134F"}/>
-            <FormSobre nomeP='Joana Silva' emailP='joana@gmail.br' cpfP='111.222.333.44' phone='(11) 98765-4321'/>
+        <body className="sobre">  
+            <NavBar itensMenu={itensMenu} cor={"#14134F"}/>
+            {userData && <FormSobre nomeP={userData.name} emailP={userData.email} cpfP={userData.cpf} phone={userData.phone}/>}
         </body>
     )
 }

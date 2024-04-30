@@ -168,7 +168,7 @@ export default function ListaEventosMod ({itensMenu}){
 
     return(
         <body>
-            <NavBar cargo={"Moderador"} nome={"Nome User"} itensMenu={itensMenu} cor={"#006400"}/>
+            <NavBar itensMenu={itensMenu} cor={"#006400"}/>
             <Eventos listaEventos={listaEventos} cadEvento={"/cadastroEventosMod"}/>
         </body>
     )

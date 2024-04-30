@@ -3,6 +3,7 @@ import './formCadastro.css';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import InputMask from "react-input-mask";
+import axios from 'axios';
 
 export default function FormProfCad (){
     const [formData, setFormData] = useState({
@@ -10,7 +11,6 @@ export default function FormProfCad (){
         email: '',
         cpf: '',
         phone: '',
-        instituicao: '',
         senha: '',
         confirSenha: ''
     });
@@ -57,14 +57,29 @@ export default function FormProfCad (){
         setCargoSelecionado(cargo);
     };
 
-    const handleSubmit = (event) => {
+    const handleSubmit = async (event) => {
         event.preventDefault();
         const allFieldsFilled = Object.values(formData).every(value => value !== '');
         if (allFieldsFilled) {
             if (formData.senha === formData.confirSenha) {
-                notifySuccess();
-                // envia pro banco
-                console.log(formData);
+                try {
+                    const response = await axios.post('http://168.138.135.69:3000/api/create-user', {
+                        "name": formData.nome,
+                        "email": formData.email,
+                        "password": formData.senha,
+                        "role": cargoSelecionado.toUpperCase(),
+                        "telefone": formData.phone,
+                        "cpf": formData.cpf,
+                        "status": "ACTIVE",
+                        "registration": "0-12345"
+                    });
+
+                    notifySuccess();
+                    console.log(response.data); 
+                } catch (error) {
+                    console.error('Erro ao cadastrar usuário:', error);
+                    notifyError("Erro.\n Por favor, verifique se os campos estão preenchidos corretamente.");
+                }
             } else {
                 notifyError("As senhas não coincidem!");
             }
@@ -92,21 +107,21 @@ export default function FormProfCad (){
                         <div className="senhas">
                             <div>
                                 <div>
-                                    <input type="checkbox" checked={cargoSelecionado === 'professor'} onChange={() => handleCargoChange('professor')}></input>
+                                    <input type="checkbox" checked={cargoSelecionado === 'common'} onChange={() => handleCargoChange('common')}></input>
                                     <label>É professor</label>
                                 </div>
                                 <div>
-                                    <input type="checkbox" checked={cargoSelecionado === 'moderador'} onChange={() => handleCargoChange('moderador')}></input>
+                                    <input type="checkbox" checked={cargoSelecionado === 'moderator'} onChange={() => handleCargoChange('moderator')}></input>
                                     <label>É moderador</label>
                                 </div>
                                 <div>
-                                    <input type="checkbox" checked={cargoSelecionado === 'administrador'} onChange={() => handleCargoChange('administrador')}></input>
+                                    <input type="checkbox" checked={cargoSelecionado === 'secretary'} onChange={() => handleCargoChange('secretary')}></input>
+                                    <label>É secretário(a)</label>
+                                </div>
+                                <div>
+                                    <input type="checkbox" checked={cargoSelecionado === 'admin'} onChange={() => handleCargoChange('admin')}></input>
                                     <label>É administrador</label>
                                 </div>  
-                            </div>
-                            <div>
-                                <label>Nome da Instituição: </label>
-                                <input type="text" name="instituicao" value={formData.instituicao} onChange={handleInputChange} placeholder="Nome da Instituição"></input>
                             </div>
                         </div>
                         

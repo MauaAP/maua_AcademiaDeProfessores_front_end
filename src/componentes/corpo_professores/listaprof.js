@@ -11,7 +11,7 @@ export default function Professores({ listaprofessores }) {
     };
 
     const filteredProfessores = listaprofessores.filter(professor =>
-        professor.nome.toLowerCase().includes(filtro.toLowerCase())
+        professor.name.toLowerCase().includes(filtro.toLowerCase())
     );
 
     return (
@@ -31,10 +31,11 @@ export default function Professores({ listaprofessores }) {
                 {filteredProfessores.map((professor, index) => (
                     <TemplateProfessor
                         key={index}
-                        professor={professor.nome}
+                        professor={professor.name}
                         cpf={professor.cpf}
-                        phone={professor.phone}
+                        phone={professor.telefone}
                         email={professor.email}
+                        role={professor.role}
                     />
                 ))}
             </div>

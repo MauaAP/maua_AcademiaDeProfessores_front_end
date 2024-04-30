@@ -3,9 +3,12 @@ import './navbar.css';
 import { FaUserCircle } from "react-icons/fa";
 import { IoMenu } from "react-icons/io5";
 import { Link } from 'react-router-dom';
+import axios from 'axios';
 
-export default function NavBar({ cargo, nome, itensMenu, cor }) {
+export default function NavBar({itensMenu, cor }) {
     const [menuAberto, setMenuAberto] = useState(false);
+    const [nomeUsuario, setNomeUsuario] = useState('');
+    const [cargo, setCargo] = useState('');
     const menuRef = useRef(null);
 
     const toggleMenu = () => {
@@ -31,12 +34,49 @@ export default function NavBar({ cargo, nome, itensMenu, cor }) {
         };
     }, [menuAberto]);
 
+    useEffect(() => {
+        const token = localStorage.getItem('token');
+        if (token) {
+            axios.get('http://168.138.135.69:3000/api/user', {
+                headers: {
+                    Authorization: `Bearer ${token}`
+                }
+            })
+            .then(response => {
+                setNomeUsuario(response.data.name);
+                setCargo(response.data.role);
+            })
+            .catch(error => {
+                console.error('Erro ao buscar o nome do usuário:', error);
+            });
+        }
+    }, []);
+
+    const handleLogout = () => {
+        localStorage.removeItem('token');
+    };
+
+    const getCargoText = (cargo) => {
+        switch (cargo.toUpperCase()) {
+            case 'ADMIN':
+                return 'Administrador';
+            case 'SECRETARY':
+                return 'Secretário';
+            case 'MODERATOR':
+                return 'Moderador';
+            case 'COMMON':
+                return 'Comum';
+            default:
+                return cargo;
+        }
+    };
+
     return (
         <nav className="navbar" style={{ backgroundColor: cor }}>
             <div className="navbar-left">
                 <div className="usuario">
                     <FaUserCircle />
-                    <h1>{cargo} - {nome}</h1>
+                    <h1>{getCargoText(cargo)} - {nomeUsuario}</h1>
                 </div>
             </div>
             <div className="navbar-right">
@@ -50,9 +90,15 @@ export default function NavBar({ cargo, nome, itensMenu, cor }) {
                 <ul>
                     {itensMenu.map((item, index) => (
                         <li key={index}>
-                            <Link to={item.rota} onClick={toggleMenu}>
-                                {item.nome}
-                            </Link>
+                            {item.nome === "Sair" ? (
+                                <Link to={item.rota} onClick={() => { toggleMenu(); handleLogout(); }}>
+                                    {item.nome}
+                                </Link>
+                            ) : (
+                                <Link to={item.rota} onClick={toggleMenu}>
+                                    {item.nome}
+                                </Link>
+                            )}
                         </li>
                     ))}
                 </ul>

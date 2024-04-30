@@ -13,7 +13,7 @@ const certificadosData = [
 export default function RelatoriosMod ({itensMenu}){
     return(
         <body>
-            <NavBar cargo={"Moderador"} nome={"Nome User"} itensMenu={itensMenu} cor={"#006400"}/>
+            <NavBar itensMenu={itensMenu} cor={"#006400"}/>
             <Relatorio certificadosData={certificadosData} showProfessorSearch={false} />
         </body>
     );
