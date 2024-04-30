@@ -26,7 +26,7 @@ export default function SobreMod({ itensMenu }) {
     return (
         <body className="sobre">  
             <NavBar itensMenu={itensMenu} cor={"#006400"}/>
-            {userData && <FormSobre nomeP={userData.name} emailP={userData.email} cpfP={userData.cpf} phone={userData.phone}/>}
+            {userData && <FormSobre nomeP={userData.name} emailP={userData.email} cpfP={userData.cpf} phone={userData.telefone}/>}
         </body>
     );
 }

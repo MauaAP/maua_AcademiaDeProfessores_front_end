@@ -59,11 +59,11 @@ export default function NavBar({itensMenu, cor }) {
     const getCargoText = (cargo) => {
         switch (cargo.toUpperCase()) {
             case 'ADMIN':
-                return 'Administrador';
+                return 'Administrador(a)';
             case 'SECRETARY':
-                return 'Secretário';
+                return 'Secretário(a)';
             case 'MODERATOR':
-                return 'Moderador';
+                return 'Moderador(a)';
             case 'COMMON':
                 return 'Comum';
             default:

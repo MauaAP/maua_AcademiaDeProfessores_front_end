@@ -26,7 +26,7 @@ export default function SobreProf ({itensMenu}){
     return(
         <body className="sobre">  
             <NavBar itensMenu={itensMenu} cor={"#14134F"}/>
-            {userData && <FormSobre nomeP={userData.name} emailP={userData.email} cpfP={userData.cpf} phone={userData.phone}/>}
+            {userData && <FormSobre nomeP={userData.name} emailP={userData.email} cpfP={userData.cpf} phone={userData.telefone}/>}
         </body>
     )
 }

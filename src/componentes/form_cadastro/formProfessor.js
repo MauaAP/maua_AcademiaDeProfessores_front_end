@@ -70,8 +70,7 @@ export default function FormProfCad (){
                         "role": cargoSelecionado.toUpperCase(),
                         "telefone": formData.phone,
                         "cpf": formData.cpf,
-                        "status": "ACTIVE",
-                        "registration": "0-12345"
+                        "status": "ACTIVE"
                     });
 
                     notifySuccess();
