@@ -1,1 +1,3 @@
-Front End do projeto da Academia dos Professores
+Front End do projeto da Academia dos Professores.
+
+Feito com React
