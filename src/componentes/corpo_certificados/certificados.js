@@ -14,7 +14,7 @@ import TemplateCertificado from "../certificado/certificado";
     );
   
     return (
-      <body>
+      <div>
         <div className="titulo_certificados">
           <h2>Certificados</h2>
           <input 
@@ -36,6 +36,6 @@ import TemplateCertificado from "../certificado/certificado";
             />
           ))}
         </div>
-      </body>
+      </div>
     );
   }

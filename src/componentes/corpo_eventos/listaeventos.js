@@ -19,14 +19,12 @@ export default function Eventos({ listaEventos, cadEvento = "", mostrarInputTitu
             <div className="titulo-evento">
                 <h2>Eventos</h2>
                 {cadEvento && <a href={cadEvento}><FaCalendarPlus /> Cadastrar</a>}
-                {mostrarInputTituloEvento && (
-                    <input 
-                        type="text"
-                        placeholder="Procurar..."
-                        value={filtro}
-                        onChange={handleFiltroChange}
-                    />
-                )}
+                <input 
+                    type="text"
+                    placeholder="Procurar..."
+                    value={filtro}
+                    onChange={handleFiltroChange}
+                />
             </div>
 
             <div className="eventos">

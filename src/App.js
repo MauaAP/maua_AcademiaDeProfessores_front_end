@@ -19,7 +19,10 @@ import CadastroEvMod from "./paginas/moderador/CadastroEventoMod";
 import EventoProf from "./paginas/professores/Eventos";
 import "react-toastify/dist/ReactToastify.css";
 import { ToastContainer } from "react-toastify";
-
+import PrivateRoutesAD from "./utils/PrivateRoutesADMIN";
+import PrivateRoutesCO from "./utils/PrivateRoutesCOM";
+import PrivateRoutesMOD from "./utils/PrivateRoutesMOD";
+import ErrorPage from "./paginas/Error";
 
 const itensMenu = [
   { nome: "Meu Perfil", rota: "/perfil" },
@@ -52,23 +55,34 @@ export default function App() {
       <ToastContainer/>
       <BrowserRouter>
         <Routes>
-            <Route path='/' element={<Login/>}></Route>
-            <Route path='/paginaInicial' element={<HomeProfessor itensMenu={itensMenu}/>}></Route>
-            <Route path='/perfil' element={<SobreProf itensMenu={itensMenu}/>}></Route>
-            <Route path='/eventos' element={<EventoProf itensMenu={itensMenu}/>}></Route>
-            <Route path='/perfilADM' element={<SobreADM itensMenu={itensMenuAdm}/>}></Route>
-            <Route path='/paginaInicialADM' element={<HomeADM itensMenu={itensMenuAdm}/>}></Route>
-            <Route path="/listaProfessores" element={<ListaProfessores itensMenu={itensMenuAdm}/>}></Route>
-            <Route path="/listaEventos" element={<ListaEventos itensMenu={itensMenuAdm}/>}></Route>
-            <Route path="/cadastroProfessores" element={<CadastroProfs itensMenu={itensMenuAdm}/>}></Route>
-            <Route path="/cadastroEventos" element={<CadastroEv itensMenu={itensMenuAdm}/>}></Route>
-            <Route path='/relatorios' element={<Relatorios itensMenu={itensMenuAdm}/>}></Route>
-            <Route path='/relatoriosProf' element={<RelatoriosProf itensMenu={itensMenu}/>}></Route>
-            <Route path='/perfilMod' element={<SobreMod itensMenu={itensMenuMod}/>}></Route>
-            <Route path='/paginaInicialMod' element={<HomeMod itensMenu={itensMenuMod}/>}></Route>
-            <Route path='/relatoriosMod' element={<RelatoriosMod itensMenu={itensMenuMod}/>}></Route>
-            <Route path='/listaEventosMod' element={<ListaEventosMod itensMenu={itensMenuMod}/>}></Route>
-            <Route path='/cadastroEventosMod' element={<CadastroEvMod itensMenu={itensMenuMod}/>}></Route>
+            <Route path='/' element={<Login/>}/>
+            <Route path='/error' element={<ErrorPage/>}/>
+
+            <Route element={<PrivateRoutesAD/>}>
+              <Route path='/perfilADM' element={<SobreADM itensMenu={itensMenuAdm}/>}/>
+              <Route path='/paginaInicialADM' element={<HomeADM itensMenu={itensMenuAdm}/>}/>
+              <Route path="/listaProfessores" element={<ListaProfessores itensMenu={itensMenuAdm}/>}/>
+              <Route path="/listaEventos" element={<ListaEventos itensMenu={itensMenuAdm}/>}/>
+              <Route path="/cadastroProfessores" element={<CadastroProfs itensMenu={itensMenuAdm}/>}/>
+              <Route path="/cadastroEventos" element={<CadastroEv itensMenu={itensMenuAdm}/>}/>
+              <Route path='/relatorios' element={<Relatorios itensMenu={itensMenuAdm}/>}/>
+            </Route>
+
+            <Route element={<PrivateRoutesCO/>}>
+              <Route path='/paginaInicial' element={<HomeProfessor itensMenu={itensMenu}/>}/>
+              <Route path='/perfil' element={<SobreProf itensMenu={itensMenu}/>}/>
+              <Route path='/eventos' element={<EventoProf itensMenu={itensMenu}/>}/>
+              <Route path='/relatoriosProf' element={<RelatoriosProf itensMenu={itensMenu}/>}/>
+            </Route>
+
+            <Route element={<PrivateRoutesMOD/>}>
+              <Route path='/perfilMod' element={<SobreMod itensMenu={itensMenuMod}/>}/>
+              <Route path='/paginaInicialMod' element={<HomeMod itensMenu={itensMenuMod}/>}/>
+              <Route path='/relatoriosMod' element={<RelatoriosMod itensMenu={itensMenuMod}/>}/>
+              <Route path='/listaEventosMod' element={<ListaEventosMod itensMenu={itensMenuMod}/>}/>
+              <Route path='/cadastroEventosMod' element={<CadastroEvMod itensMenu={itensMenuMod}/>}/>
+            </Route>
+       
         </Routes>
       </BrowserRouter>
     </div>

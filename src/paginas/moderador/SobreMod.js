@@ -7,21 +7,19 @@ export default function SobreMod({ itensMenu }) {
     const [userData, setUserData] = useState(null);
 
     useEffect(() => {
-        const token = localStorage.getItem('token');
-        if (token) {
-            axios.get('http://54.232.49.136:3000/api/user', {
-                headers: {
-                    Authorization: `Bearer ${token}`
-                }
-            })
-            .then(response => {
-                setUserData(response.data);
-            })
-            .catch(error => {
-                console.error('Erro ao buscar os dados do usuário:', error);
-            });
-        }
-    }, []);
+        axios.get('http://54.232.49.136:3000/api/user', {
+            headers: {
+                Authorization: `Bearer ${localStorage.getItem('token')}`
+            }
+        })
+        .then(response => {
+            setUserData(response.data);
+        })
+        .catch(error => {
+            console.error('Erro ao buscar os dados do usuário:', error);
+        });
+    
+}, []);
 
     return (
         <body className="sobre">  

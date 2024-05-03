@@ -61,24 +61,22 @@ export default function FormsLogin() {
       });
       const tokenData = jwtDecode(response.data.token);
   
-      // Verifica se o status do usuário é "ACTIVE"
-      if (tokenData.status === 'ACTIVE') {
-        switch (tokenData.role) {
-          case 'ADMIN':
-          case 'SECRETARY':
-            navegacao('/paginaInicialADM');
-            break;
-          case 'MODERATOR': 
-            navegacao('/paginaInicialMod');
-            break;
-          default:
-            navegacao('/paginaInicial');
-        }
+      // Verifica se o status do usuário é "ACTIVE" tirei temporariamente
+      
+      switch (tokenData.role) {
+        case 'ADMIN':
+        case 'SECRETARY':
+          navegacao('/paginaInicialADM');
+          break;
+        case 'MODERATOR': 
+          navegacao('/paginaInicialMod');
+          break;
+        default:
+          navegacao('/paginaInicial');
+      }
   
         localStorage.setItem('token', response.data.token);
-      } else {
-        toast.error('Usuário inativo. Entre em contato com o administrador.');
-      }
+      
     } catch (error) {
       notifyError('Erro ao fazer login. Por favor, tente novamente.');
       console.error('Erro ao fazer login:', error);

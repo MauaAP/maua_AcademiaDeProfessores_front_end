@@ -7,11 +7,9 @@ export default function SobreADM ({itensMenu}){
     const [userData, setUserData] = useState(null);
 
     useEffect(() => {
-        const token = localStorage.getItem('token');
-        if (token) {
             axios.get('http://54.232.49.136:3000/api/user', {
                 headers: {
-                    Authorization: `Bearer ${token}`
+                    Authorization: `Bearer ${localStorage.getItem('token')}`
                 }
             })
             .then(response => {
@@ -20,7 +18,7 @@ export default function SobreADM ({itensMenu}){
             .catch(error => {
                 console.error('Erro ao buscar os dados do usuário:', error);
             });
-        }
+        
     }, []);
 
     return(
