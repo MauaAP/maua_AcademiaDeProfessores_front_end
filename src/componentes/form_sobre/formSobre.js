@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import './formSobre.css';
-import { ToastContainer, toast } from 'react-toastify';
+import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import InputMask from "react-input-mask";
 
@@ -95,7 +95,6 @@ export default function FormSobre({ nomeP, emailP, cpfP, phone }) {
                     <button className="bnt-atualizar" type="submit">Atualizar</button>
                 </form>
             </div>
-            <ToastContainer />
         </body>
     )
 }

@@ -4,7 +4,7 @@ import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import { jwtDecode } from "jwt-decode";
 import { FaSpinner } from 'react-icons/fa';
-import { ToastContainer, toast } from 'react-toastify';
+import { toast } from 'react-toastify';
 
 export default function FormsLogin() {
   const navegacao = useNavigate();
@@ -40,42 +40,45 @@ export default function FormsLogin() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-
+  
     if (!validateEmail(email)) {
       setEmailError('Email inválido');
       return;
     }
-
+  
     if (password.trim() === '') {
       alert('Por favor, insira sua senha.');
       return;
     }
-
+  
     setLoading(true);
     const notifyError = (message) => toast.error(message);
-
+  
     try {
-      const response = await axios.post('http://168.138.135.69:3000/api/auth-user', {
+      const response = await axios.post('http://54.232.49.136:3000/api/auth-user', {
         email: email,
         password: password
       });
       const tokenData = jwtDecode(response.data.token);
-
-      switch (tokenData.role) {
-        case 'ADMIN':
-          navegacao('/paginaInicialADM');
-          break;
-        case 'SECRETARY':
-          navegacao('/paginaInicialADM');
-          break;
-        case 'MODERATOR': 
-          navegacao('/paginaInicialMod');
-          break;
-        default:
-          navegacao('/paginaInicial');
+  
+      // Verifica se o status do usuário é "ACTIVE"
+      if (tokenData.status === 'ACTIVE') {
+        switch (tokenData.role) {
+          case 'ADMIN':
+          case 'SECRETARY':
+            navegacao('/paginaInicialADM');
+            break;
+          case 'MODERATOR': 
+            navegacao('/paginaInicialMod');
+            break;
+          default:
+            navegacao('/paginaInicial');
+        }
+  
+        localStorage.setItem('token', response.data.token);
+      } else {
+        toast.error('Usuário inativo. Entre em contato com o administrador.');
       }
-
-      localStorage.setItem('token', response.data.token);
     } catch (error) {
       notifyError('Erro ao fazer login. Por favor, tente novamente.');
       console.error('Erro ao fazer login:', error);
@@ -83,10 +86,10 @@ export default function FormsLogin() {
       setLoading(false);
     }
   };
+  
 
   return (
     <div className="complemento_direita">
-      <ToastContainer/>
       <form className="formulario" onSubmit={handleSubmit}>
         <h2>Portal do Professor</h2>
         <label htmlFor='email'>Email {emailError && <span style={{ color: 'red', fontSize: '8'}}>Email inválido</span>}</label>

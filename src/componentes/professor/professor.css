@@ -32,7 +32,6 @@
 .deletar{
     border: none;
     padding: 10px;
-    background-color: #A12020;
     text-decoration: none;
     color: white;
     border-radius: 5px;
@@ -65,18 +64,6 @@
     padding: 30px 60px;
     border-radius: 5px;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
-}
-
-.close-btn-p {
-    font-size: 30px;
-    position: relative;
-    margin-top: -20%;
-    margin-left: 120%;
-    cursor: pointer;
-}
-
-.close-btn-p:hover {
-    color:#A12020;
 }
 
 .popup-inner-p input {

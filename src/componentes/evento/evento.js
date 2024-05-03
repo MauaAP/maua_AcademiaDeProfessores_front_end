@@ -1,13 +1,14 @@
 import React, { useState } from "react";
 import { MdOutlineEvent } from "react-icons/md";
-import { IoCloseCircle } from "react-icons/io5";
-import { ToastContainer, toast } from 'react-toastify';
+import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import './evento.css';
+import axios from "axios";
+import InputMask from "react-input-mask";
 
-export default function TemplateEvento({ evento, data, local, modalidade, cargaH, profResp, aplicador, emailApli, pbAlvo, tipo, numMax, objt, competencias, link}) {
+export default function TemplateEvento({ eventId, eventName, date, host, manager, duration, hostEmail, hostPhone, local, modality, targetAudience, activityType, goals, contentActivities, developedCompetencies, initTime, finishTime, mostrarOpcoesEsp = true}) {
     const [isEditing, setIsEditing] = useState(false);
-    const [editedData] = useState({ evento, data, local, modalidade, cargaH, profResp, aplicador, emailApli, pbAlvo, tipo, numMax, objt, competencias, link });
+    const [editedData] = useState({ eventId, eventName, date, host, manager, duration, hostEmail, hostPhone, local, modality, targetAudience, activityType, goals, contentActivities, developedCompetencies, initTime, finishTime });
 
     const handleUpdate = () => {
         // implementar a requisição http
@@ -17,61 +18,100 @@ export default function TemplateEvento({ evento, data, local, modalidade, cargaH
     };
 
     const notideletar = () => toast.warning("Evento apagado!");
+    const notierror = () => toast.error("Erro ao apagar evento. Tente novamente!");
     const notiatualizar = () => toast.success("Dados Atualizados!");
+
+    const newAtt = () =>{
+        setIsEditing(true);
+        toast.dismiss();
+    }
+
+    const linkValue = editedData.link ? editedData.link : "Não se aplica";
+
+    const handleDelete = async () => {
+        try {
+            const response = await axios.delete(`http://54.232.49.136:3000/api/delete-event/${eventId}`, {
+                headers: {
+                    Authorization: `Bearer ${localStorage.getItem('token')}`
+                }
+            });
+    
+            if (response.status >= 200 && response.status < 300) {
+                console.log('Evento Apagado!', response.data);
+                notideletar();
+                setTimeout(() => {
+                    window.location.reload();
+                }, 1500);
+            }
+        } catch(error) {
+            console.error('Erro ao deletar evento:', error.message);
+            notierror();
+        }
+    };
+    
 
     return (
         <div>
-            <ToastContainer />
             <div className="evento">
                 <MdOutlineEvent size={32} />
-                <p>{evento}</p>
-                <p>{data}</p>
+                <p>{eventName}</p>
+                <p>{date}</p>
                 <p>{local}</p>
-                <p>{modalidade}</p>
-                <div className="evento-dir">
-                    <button className="atualizar" onClick={() => setIsEditing(true)}>Atualizar</button>
-                    <button className="deletar" onClick={notideletar}>Deletar</button>
-                </div>
-
+                <p>{modality}</p>
+                {mostrarOpcoesEsp && (
+                    <div className="evento-dir">
+                        <button className="atualizar" onClick={newAtt}>Atualizar</button>
+                        <button className="deletar" onClick={handleDelete}>Deletar</button>
+                    </div>   
+                )}
+            
                 {isEditing && (
                     <div className="popup">
                         <div className="popup-inner">
-                            
                             <div className="popup-in">
                                 <div className="popup-side">
-                                    <IoCloseCircle className="close-btn" onClick={() => setIsEditing(false)}/>
-                                    <label>{editedData.evento}</label>
-                                    <input type="text" name="nome" />
-                                    <label>{editedData.data}</label>
-                                    <input type="text" name="data" />
-                                    <label>{editedData.local}</label>
-                                    <input type="text" name="local" />
-                                    <label>{editedData.modalidade}</label>
-                                    <input type="text" name="modalidade" />
-                                    <label>{editedData.cargaH}</label>
-                                    <input type="text" name="cargaH" />
-                                    <label>{editedData.profResp}</label>
-                                    <input type="text" name="profResponsavel" />
-                                    <label>{editedData.aplicador}</label>
-                                    <input type="text" name="Aplicador" />
+                                    <label>{eventName}</label>
+                                    <input type="text" name="eventName" placeholder="Nome do Evento" />
+                                    <label>{new Date(date).toLocaleDateString('pt-BR')}</label>
+                                    <InputMask mask='99/99/9999' placeholder="Data do Evento"/>
+                                    <label>{local}</label>
+                                    <input type="text" name="local" placeholder="Local do Evento"/>
+                                    <label>{modality}</label>
+                                    <input type="text" name="modality" placeholder="Modalidade"/>
+                                    <label>{duration}</label>
+                                    <input type="text" name="duration" placeholder="Duração"/>
+                                    <label>{hostPhone}</label>
+                                    <InputMask mask="(99) 99999-9999" placeholder="Telefone do Aplicador"/>
                                 </div>
                                 <div className="popup-side">
+                                    <label>{manager.join(", ")}</label>
+                                    <input type="text" name="manager" placeholder="Responsável"/>
+                                    <label>{host}</label>
+                                    <input type="text" name="host" placeholder="Aplicador"/>
+                                    <label>{hostEmail.join(", ")}</label>
+                                    <input type="text" name="hostEmail" placeholder="Email do Aplicador"/>
+                                    <label>{targetAudience}</label>
+                                    <input type="text" name="targetAudience" placeholder="Público Alvo"/>
+                                    <label>{activityType}</label>
+                                    <input type="text" name="activityType" placeholder="Tipo de Atividade"/>
+                                    <label>{contentActivities.join(", ")}</label>
+                                    <input type="text" name="contentAtt" placeholder="Atividades Planejadas"/>
                                     
-                                    <label>{editedData.emailApli}</label>
-                                    <input type="text" name="emailAplicador" />
-                                    <label>{editedData.pbAlvo}</label>
-                                    <input type="text" name="publicoAlvo" />
-                                    <label>{editedData.tipo}</label>
-                                    <input type="text" name="tipo" />
-                                    <label>{editedData.numMax}</label>
-                                    <input type="text" name="maximoParticipantes" />
-                                    <label>{editedData.objt}</label>
-                                    <input type="text" name="objetivo" />
-                                    <label>{editedData.competencias}</label>
-                                    <input type="text" name="competencias" />
-                                    <label>{editedData.link}</label>
-                                    <input type="text" name="link" />
-                                    <button className="atualizar" onClick={handleUpdate}>Atualizar</button>
+                                </div>
+                                <div className="popup-side">
+                                    <label>{goals}</label>
+                                    <input type="text" name="goals" placeholder="Objetivos"/>
+                                    <label>{developedCompetencies}</label>
+                                    <input type="text" name="developedCompetencies" placeholder="Competências Desenvolvidas"/>
+                                    <label>{new Date(initTime).toLocaleString('pt-BR')}</label>
+                                    <InputMask mask='99:99' placeholder="Horário de Início"/>
+                                    <label>{new Date(finishTime).toLocaleString('pt-BR')}</label>
+                                    <InputMask mask='99:99' placeholder="Horário de Término"/>
+                                    <label>{linkValue}</label>
+                                    <input type="text" name="link" placeholder="Link do Evento"/>
+                                    
+                                    <button className="atualizar-popup" onClick={handleUpdate}>Atualizar</button>
+                                    <button className="close-btn" onClick={() => setIsEditing(false)}>Cancelar</button>
                                 </div>
                             </div>   
                         </div>

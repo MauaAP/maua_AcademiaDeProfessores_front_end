@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import './formCadastro.css';
-import { ToastContainer, toast } from 'react-toastify';
+import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import InputMask from "react-input-mask";
 import axios from 'axios';
@@ -63,7 +63,7 @@ export default function FormProfCad (){
         if (allFieldsFilled) {
             if (formData.senha === formData.confirSenha) {
                 try {
-                    const response = await axios.post('http://168.138.135.69:3000/api/create-user', {
+                    const response = await axios.post('54.232.49.136:3000/api/create-user', {
                         "name": formData.nome,
                         "email": formData.email,
                         "password": formData.senha,
@@ -77,7 +77,8 @@ export default function FormProfCad (){
                     console.log(response.data); 
                 } catch (error) {
                     console.error('Erro ao cadastrar usuário:', error);
-                    notifyError("Erro.\n Por favor, verifique se os campos estão preenchidos corretamente.");
+                    console.log(formData);
+                    notifyError("Erro. Por favor, verifique se os campos estão preenchidos corretamente.");
                 }
             } else {
                 notifyError("As senhas não coincidem!");
@@ -99,9 +100,9 @@ export default function FormProfCad (){
                         <label>Email: {!emailValido && <span style={{ color: 'red', fontSize: '8'}}>Email inválido</span>}</label>
                         <input type="email" name="email" value={formData.email} onChange={handleInputChange} placeholder="Email"></input>
                         <label>CPF: </label>
-                        <InputMask mask="999.999.999-99" value={formData.cpf} onChange={handleCpfChange} />
+                        <InputMask mask="999.999.999-99" value={formData.cpf} onChange={handleCpfChange} placeholder="CPF"/>
                         <label>Telefone: </label>
-                        <InputMask mask="(99) 99999-9999" value={formData.phone} onChange={handlePhoneChange}/>
+                        <InputMask mask="(99) 99999-9999" value={formData.phone} onChange={handlePhoneChange} placeholder="Telefone"/>
                         <h3>Cargo...</h3>
                         <div className="senhas">
                             <div>
@@ -142,7 +143,6 @@ export default function FormProfCad (){
                     <button className="bnt-cadastrar" type="submit">Cadastrar</button>
                 </form>
             </div>
-            <ToastContainer/>
         </body>
         
     )

@@ -14,10 +14,11 @@ export default function Professores({ listaprofessores }) {
         professor.name.toLowerCase().includes(filtro.toLowerCase())
     );
 
+
     return (
         <div className="professores-container">
             <div className="titulo-professores">
-                <h2>Professores</h2>
+                <h2>Usuários</h2>
                 <a href="/cadastroProfessores">{<FaUserPlus />} Cadastrar</a>
                 <input 
                     type="text"
@@ -31,11 +32,13 @@ export default function Professores({ listaprofessores }) {
                 {filteredProfessores.map((professor, index) => (
                     <TemplateProfessor
                         key={index}
+                        id = {professor.id}
                         professor={professor.name}
                         cpf={professor.cpf}
                         phone={professor.telefone}
                         email={professor.email}
                         role={professor.role}
+                        status = {professor.status}
                     />
                 ))}
             </div>

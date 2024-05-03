@@ -2,30 +2,30 @@ import React, { useState, useEffect } from "react";
 import NavBar from "../../componentes/home/navbar";
 import Professores from "../../componentes/corpo_professores/listaprof";
 import axios from 'axios';
+import { toast } from "react-toastify";
 
 export default function ListaProfessores ({itensMenu}) {
     const [listaProfessores, setListaProfessores] = useState([]);
 
+    const notierror = () => toast.error('Erro ao buscar os eventos!');
+
     useEffect(() => {
-        const token = localStorage.getItem('token');
 
         const fetchUsers = async () => {
             try {
-                const response = await axios.get('http://168.138.135.69:3000/api/users', {
+                const response = await axios.get('http://54.232.49.136:3000/api/users', {
                     headers: {
-                        Authorization: `Bearer ${token}`
+                        Authorization: `Bearer ${localStorage.getItem('token')}`
                     }
                 });
                 setListaProfessores(response.data);
             } catch (error) {
                 console.error('Erro ao buscar usuários:', error);
-                // Trate o erro conforme necessário
+                notierror();
             }
         };
 
-        if (token) {
-            fetchUsers();
-        }
+        fetchUsers();
     }, []); 
 
     return(

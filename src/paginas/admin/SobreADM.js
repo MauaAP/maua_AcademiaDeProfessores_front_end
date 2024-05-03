@@ -9,7 +9,7 @@ export default function SobreADM ({itensMenu}){
     useEffect(() => {
         const token = localStorage.getItem('token');
         if (token) {
-            axios.get('http://168.138.135.69:3000/api/user', {
+            axios.get('http://54.232.49.136:3000/api/user', {
                 headers: {
                     Authorization: `Bearer ${token}`
                 }

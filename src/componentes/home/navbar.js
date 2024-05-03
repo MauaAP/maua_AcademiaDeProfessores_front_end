@@ -35,21 +35,18 @@ export default function NavBar({itensMenu, cor }) {
     }, [menuAberto]);
 
     useEffect(() => {
-        const token = localStorage.getItem('token');
-        if (token) {
-            axios.get('http://168.138.135.69:3000/api/user', {
-                headers: {
-                    Authorization: `Bearer ${token}`
-                }
-            })
-            .then(response => {
-                setNomeUsuario(response.data.name);
-                setCargo(response.data.role);
-            })
-            .catch(error => {
-                console.error('Erro ao buscar o nome do usuário:', error);
-            });
-        }
+        axios.get('http://54.232.49.136:3000/api/user', {
+            headers: {
+                Authorization: `Bearer ${localStorage.getItem('token')}`
+            }
+        })
+        .then(response => {
+            setNomeUsuario(response.data.name);
+            setCargo(response.data.role);
+        })
+        .catch(error => {
+            console.error('Erro ao buscar o nome do usuário:', error);
+        });     
     }, []);
 
     const handleLogout = () => {

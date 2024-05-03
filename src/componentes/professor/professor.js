@@ -1,23 +1,62 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { FaUserCircle } from "react-icons/fa";
-import { IoCloseCircle } from "react-icons/io5";
-import { ToastContainer, toast } from 'react-toastify';
+import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import './professor.css';
+import InputMask from "react-input-mask";
+import axios from "axios";
 
-export default function TemplateProfessor({ professor, cpf, phone, email, role }) {
+export default function TemplateProfessor({ professor, cpf, phone, email, role, status, id }) {
     const [isEditing, setIsEditing] = useState(false);
-    const [editedData] = useState({ professor, cpf, phone, email });
+    const [editedData, setEditedData] = useState({ professor, cpf, phone, email, status, id });
+    const [buttonText, setButtonText] = useState(status === 'ACTIVE' ? 'Inativar' : 'Ativar');
+    const [buttonColor, setButtonColor] = useState(status === 'ACTIVE' ? '#c72d2d' : '#0366d6');
+
+    useEffect(() => {
+        setButtonText(editedData.status === 'ACTIVE' ? 'Inativar' : 'Ativar');
+        setButtonColor(editedData.status === 'ACTIVE' ? '#A12020' : '#4e8bc5');
+    }, [editedData]);
 
     const handleUpdate = () => {
         // implementar a requisição http
         console.log("Dados atualizados:", editedData);
-        setTimeout(notiatualizar, 10); // Chama a função de notificação após um pequeno atraso
+        notiatualizar();
         setIsEditing(false);
     };
 
-    const notiInativar = () => toast.warning("Professor Inativado!");
+    const toggleStatus = () => {
+        const newStatus = editedData.status === 'ACTIVE' ? 'INACTIVE' : 'ACTIVE';
+        setEditedData({ ...editedData, status: newStatus });
+        setButtonText(newStatus === 'ACTIVE' ? 'Inativar' : 'Ativar');
+        setButtonColor(newStatus === 'ACTIVE' ? '#c72d2d' : '#0366d6');
+    };
+
+    const notiInativar = () => {
+        toast.dismiss();
+        axios.put('http://54.232.49.136:3000/api/update-status', {
+            id: editedData.id,
+            status: editedData.status === 'ACTIVE' ? 'INACTIVE' : 'ACTIVE'
+        }, {
+            headers: {
+                'Authorization': `Bearer ${localStorage.getItem('token')}`
+            }
+        })
+        .then(response => {
+            console.log(response.data);
+            toast.warning("Status alterado com sucesso!");
+        })
+        .catch(error => {
+            console.error('Erro ao alterar o status:', error);
+            toast.error("Erro ao alterar o status!");
+        });
+    };
+
     const notiatualizar = () => toast.success("Dados Atualizados!");
+
+    const newAtt = () => {
+        setIsEditing(true);
+        toast.dismiss();
+    };
 
     const getRoleText = (role) => {
         switch (role.toUpperCase()) {
@@ -36,7 +75,7 @@ export default function TemplateProfessor({ professor, cpf, phone, email, role }
 
     return (
         <div>
-            <ToastContainer />
+            
             <div className="professor">
                 <FaUserCircle size={32} />
                 <p>{professor}</p>
@@ -44,23 +83,26 @@ export default function TemplateProfessor({ professor, cpf, phone, email, role }
                 <p>{cpf}</p>
                 <p>{phone}</p>
                 <div className="professor-dir">
-                    <button className="atualizar" onClick={() => setIsEditing(true)}>Atualizar</button>
-                    <button className="deletar" onClick={notiInativar}>Inativar</button>
+                    <button className="atualizar" onClick={newAtt}>Atualizar</button>
+                    <button className="deletar" style={{ backgroundColor: buttonColor }} onClick={() => {
+                        toggleStatus();
+                        notiInativar();
+                    }}>{buttonText}</button>
                 </div>
 
                 {isEditing && (
                     <div className="popup">
                         <div className="popup-inner-p">
-                            <IoCloseCircle className="close-btn-p" onClick={() => setIsEditing(false)}/>
                             <label>{editedData.professor}</label>
-                            <input type="text" name="nome" />
+                            <input type="text" name="nome" placeholder="Nome"/>
                             <label>{editedData.cpf}</label>
-                            <input type="text" name="cpf" />
+                            <InputMask mask="999.999.999-99" placeholder="CPF"/>
                             <label>{editedData.phone}</label>
-                            <input type="text" name="telefone" />
+                            <InputMask mask="(99) 99999-9999" placeholder="Telefone"/>
                             <label>{editedData.email}</label>
-                            <input type="email" name="email"/>
+                            <input type="email" name="email" placeholder="Email"/>
                             <button className="atualizar" onClick={handleUpdate}>Atualizar</button>
+                            <button className="deletar" onClick={() => setIsEditing(false)}>Cancelar</button>
                         </div>
                     </div>
                 )}
