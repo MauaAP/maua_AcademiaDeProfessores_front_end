@@ -4,12 +4,11 @@ import {jwtDecode} from "jwt-decode";
 
 export default function PrivateRoutesCO () {
     const token = localStorage.getItem('token');
-    //adicicionar a verificação do status
     
     try {
         const tokenData = jwtDecode(token);
 
-        if (token && (tokenData.role === "COMMON")) {
+        if (token && (tokenData.role === "COMMON") && (tokenData.status === "ACTIVE")) {
             return <Outlet />;
         } else {
             return <Navigate to='/error' />;

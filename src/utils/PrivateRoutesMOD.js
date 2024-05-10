@@ -5,11 +5,12 @@ import {jwtDecode} from "jwt-decode";
 export default function PrivateRoutesMOD () {
     const token = localStorage.getItem('token');
     //adicionar a verificação do status
+    //&& (tokenData.status === "ACTIVE")
 
     try {
         const tokenData = jwtDecode(token);
 
-        if (token && (tokenData.role === "MODERATOR")) {
+        if (token && (tokenData.role === "MODERATOR") && (tokenData.status === "ACTIVE")) {
             return <Outlet />;
         } else {
             return <Navigate to='/error' />;

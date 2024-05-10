@@ -23,6 +23,7 @@ import PrivateRoutesAD from "./utils/PrivateRoutesADMIN";
 import PrivateRoutesCO from "./utils/PrivateRoutesCOM";
 import PrivateRoutesMOD from "./utils/PrivateRoutesMOD";
 import ErrorPage from "./paginas/Error";
+import Certificacao from "./paginas/certificacoes/certificados";
 
 const itensMenu = [
   { nome: "Meu Perfil", rota: "/perfil" },
@@ -57,6 +58,7 @@ export default function App() {
         <Routes>
             <Route path='/' element={<Login/>}/>
             <Route path='/error' element={<ErrorPage/>}/>
+            <Route path="/certificacao" element={<Certificacao/>}/>
 
             <Route element={<PrivateRoutesAD/>}>
               <Route path='/perfilADM' element={<SobreADM itensMenu={itensMenuAdm}/>}/>

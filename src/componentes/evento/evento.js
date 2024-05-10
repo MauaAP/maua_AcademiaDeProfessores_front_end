@@ -5,10 +5,33 @@ import 'react-toastify/dist/ReactToastify.css';
 import './evento.css';
 import axios from "axios";
 import InputMask from "react-input-mask";
+import QRCode from 'qrcode.react';
 
-export default function TemplateEvento({ eventId, eventName, date, host, manager, duration, hostEmail, hostPhone, local, modality, targetAudience, activityType, goals, contentActivities, developedCompetencies, initTime, finishTime, mostrarOpcoesEsp = true}) {
+
+export default function TemplateEvento({ eventId, eventName, date, host, manager, duration, hostEmail, hostPhone, local, modality, targetAudience, activityType, goals, contentActivities, developedCompetencies, initTime, finishTime, mostrarOpcoesEsp = true }) {
     const [isEditing, setIsEditing] = useState(false);
-    const [editedData] = useState({ eventId, eventName, date, host, manager, duration, hostEmail, hostPhone, local, modality, targetAudience, activityType, goals, contentActivities, developedCompetencies, initTime, finishTime });
+    const [isQrCode, setQtCode] = useState(false);
+    const [qrCodeValue, setQrCodeValue] = useState('');
+
+    const editedData = {
+        eventId,
+        eventName,
+        date,
+        host,
+        manager,
+        duration,
+        hostEmail,
+        hostPhone,
+        local,
+        modality,
+        targetAudience,
+        activityType,
+        goals,
+        contentActivities,
+        developedCompetencies,
+        initTime,
+        finishTime
+    };
 
     const handleUpdate = () => {
         // implementar a requisição http
@@ -21,7 +44,7 @@ export default function TemplateEvento({ eventId, eventName, date, host, manager
     const notierror = () => toast.error("Erro ao apagar evento. Tente novamente!");
     const notiatualizar = () => toast.success("Dados Atualizados!");
 
-    const newAtt = () =>{
+    const newAtt = () => {
         setIsEditing(true);
         toast.dismiss();
     }
@@ -35,7 +58,7 @@ export default function TemplateEvento({ eventId, eventName, date, host, manager
                     Authorization: `Bearer ${localStorage.getItem('token')}`
                 }
             });
-    
+
             if (response.status >= 200 && response.status < 300) {
                 console.log('Evento Apagado!', response.data);
                 notideletar();
@@ -43,12 +66,17 @@ export default function TemplateEvento({ eventId, eventName, date, host, manager
                     window.location.reload();
                 }, 1500);
             }
-        } catch(error) {
+        } catch (error) {
             console.error('Erro ao deletar evento:', error.message);
             notierror();
         }
     };
-    
+
+    const handleGerarQRCode = () => {
+        const url = `/certificacao?eventId=${eventId}`;
+        setQrCodeValue(url);
+        setQtCode(true)
+    };
 
     return (
         <div>
@@ -60,11 +88,12 @@ export default function TemplateEvento({ eventId, eventName, date, host, manager
                 <p>{modality}</p>
                 {mostrarOpcoesEsp && (
                     <div className="evento-dir">
-                        <button className="atualizar" onClick={newAtt}>Atualizar</button>
+                        <button className="gerador" onClick={handleGerarQRCode}>Gerar QR Code</button>
+                        <button className="atualizar" onClick={newAtt}>Sobre</button>
                         <button className="deletar" onClick={handleDelete}>Deletar</button>
-                    </div>   
+                    </div>
                 )}
-            
+
                 {isEditing && (
                     <div className="popup">
                         <div className="popup-inner">
@@ -73,53 +102,60 @@ export default function TemplateEvento({ eventId, eventName, date, host, manager
                                     <label>{eventName}</label>
                                     <input type="text" name="eventName" placeholder="Nome do Evento" />
                                     <label>{new Date(date).toLocaleDateString('pt-BR')}</label>
-                                    <InputMask mask='99/99/9999' placeholder="Data do Evento"/>
+                                    <InputMask mask='99/99/9999' placeholder="Data do Evento" />
                                     <label>{local}</label>
-                                    <input type="text" name="local" placeholder="Local do Evento"/>
+                                    <input type="text" name="local" placeholder="Local do Evento" />
                                     <label>{modality}</label>
-                                    <input type="text" name="modality" placeholder="Modalidade"/>
+                                    <input type="text" name="modality" placeholder="Modalidade" />
                                     <label>{duration}</label>
-                                    <input type="text" name="duration" placeholder="Duração"/>
+                                    <input type="text" name="duration" placeholder="Duração" />
                                     <label>{hostPhone}</label>
-                                    <InputMask mask="(99) 99999-9999" placeholder="Telefone do Aplicador"/>
-                                </div>
-                                <div className="popup-side">
+                                    <InputMask mask="(99) 99999-9999" placeholder="Telefone do Aplicador" />
                                     <label>{manager.join(", ")}</label>
-                                    <input type="text" name="manager" placeholder="Responsável"/>
-                                    <label>{host}</label>
-                                    <input type="text" name="host" placeholder="Aplicador"/>
-                                    <label>{hostEmail.join(", ")}</label>
-                                    <input type="text" name="hostEmail" placeholder="Email do Aplicador"/>
-                                    <label>{targetAudience}</label>
-                                    <input type="text" name="targetAudience" placeholder="Público Alvo"/>
-                                    <label>{activityType}</label>
-                                    <input type="text" name="activityType" placeholder="Tipo de Atividade"/>
-                                    <label>{contentActivities.join(", ")}</label>
-                                    <input type="text" name="contentAtt" placeholder="Atividades Planejadas"/>
-                                    
+                                    <input type="text" name="manager" placeholder="Responsável" />
                                 </div>
                                 <div className="popup-side">
+                                    <label>{host}</label>
+                                    <input type="text" name="host" placeholder="Aplicador" />
+                                    <label>{hostEmail.join(", ")}</label>
+                                    <input type="text" name="hostEmail" placeholder="Email do Aplicador" />
+                                    <label>{targetAudience}</label>
+                                    <input type="text" name="targetAudience" placeholder="Público Alvo" />
+                                    <label>{activityType}</label>
+                                    <input type="text" name="activityType" placeholder="Tipo de Atividade" />
+                                    <label>{contentActivities.join(", ")}</label>
+                                    <input type="text" name="contentAtt" placeholder="Atividades Planejadas" />
                                     <label>{goals}</label>
-                                    <input type="text" name="goals" placeholder="Objetivos"/>
+                                    <input type="text" name="goals" placeholder="Objetivos" />
+                                </div>
+                                <div className="popup-side">
                                     <label>{developedCompetencies}</label>
-                                    <input type="text" name="developedCompetencies" placeholder="Competências Desenvolvidas"/>
+                                    <input type="text" name="developedCompetencies" placeholder="Competências Desenvolvidas" />
                                     <label>{new Date(initTime).toLocaleString('pt-BR')}</label>
-                                    <InputMask mask='99:99' placeholder="Horário de Início"/>
+                                    <InputMask mask='99:99' placeholder="Horário de Início" />
                                     <label>{new Date(finishTime).toLocaleString('pt-BR')}</label>
-                                    <InputMask mask='99:99' placeholder="Horário de Término"/>
+                                    <InputMask mask='99:99' placeholder="Horário de Término" />
                                     <label>{linkValue}</label>
-                                    <input type="text" name="link" placeholder="Link do Evento"/>
-                                    
+                                    <input type="text" name="link" placeholder="Link do Evento" />
                                     <button className="atualizar-popup" onClick={handleUpdate}>Atualizar</button>
                                     <button className="close-btn" onClick={() => setIsEditing(false)}>Cancelar</button>
                                 </div>
-                            </div>   
+                            </div>
                         </div>
                     </div>
                 )}
-                
+
+                {isQrCode && (
+                    <div className="popup-qr">
+                        <div className="popup-inner-qr">
+                            <QRCode size={500} value={qrCodeValue} />
+                            <button className="close-btn" onClick={() => setQtCode(false)}>Fechar</button>
+                        </div>
+                    </div>
+                )}
+
             </div>
         </div>
-        
+
     );
 }

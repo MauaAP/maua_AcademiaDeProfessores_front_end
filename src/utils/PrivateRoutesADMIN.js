@@ -9,7 +9,7 @@ export default function PrivateRoutesAD () {
     try {
         const tokenData = jwtDecode(token);
 
-        if (token && (tokenData.role === "ADMIN" || tokenData.role === "SECRETARY")) {
+        if (token && (tokenData.role === "ADMIN" || tokenData.role === "SECRETARY") && (tokenData.status === "ACTIVE")) {
             return <Outlet />;
         } else {
             return <Navigate to='/error' />;
