@@ -4,8 +4,6 @@ import {jwtDecode} from "jwt-decode";
 
 export default function PrivateRoutesMOD () {
     const token = localStorage.getItem('token');
-    //adicionar a verificação do status
-    //&& (tokenData.status === "ACTIVE")
 
     try {
         const tokenData = jwtDecode(token);

@@ -1,5 +1,5 @@
 import React from "react";
-import NavBar from "../../componentes/home/navbar";
+import NavBar from "../../componentes/navbar/navbar";
 import FormProfCad from "../../componentes/form_cadastro/formProfessor";
 
 export default function CadastroProfs ({itensMenu}){

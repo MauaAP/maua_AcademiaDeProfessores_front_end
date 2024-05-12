@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import FormSobre from "../../componentes/form_sobre/formSobre";
-import NavBar from "../../componentes/home/navbar";
+import NavBar from "../../componentes/navbar/navbar";
 import axios from 'axios';
 
 export default function SobreADM ({itensMenu}){

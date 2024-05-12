@@ -1,5 +1,5 @@
 import React from "react";
-import NavBar from "../../componentes/home/navbar";
+import NavBar from "../../componentes/navbar/navbar";
 import Certificados from "../../componentes/corpo_certificados/certificados";
 
 //definir a roquisção HTTP

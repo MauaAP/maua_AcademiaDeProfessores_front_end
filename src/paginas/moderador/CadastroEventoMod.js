@@ -1,5 +1,5 @@
 import React from "react";
-import NavBar from "../../componentes/home/navbar";
+import NavBar from "../../componentes/navbar/navbar";
 import FormEvCad from "../../componentes/form_cadastro/formEvento";
 
 export default function CadastroEvMod ({itensMenu}){
