@@ -1,5 +1,5 @@
 import React from "react";
-import FormsLogin from "../componentes/form_login/formlogin";
+import FormsLogin from "../../componentes/form_login/formlogin";
 import './Login.css'
 
 export default function Login() {

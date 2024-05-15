@@ -10,14 +10,8 @@ export default function Certificacao() {
     const urlParams = new URLSearchParams(window.location.search);
     const eventId = urlParams.get('eventId');
 
-    const token = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjJhOTkwNDM0LTk5ZDktNGEwYS1iOTczLTg1ODBjNjhiYjE0YSIsImVtYWlsIjoicGVkcmFvMUBnbWFpbC5jb20iLCJyb2xlIjoiU0VDUkVUQVJZIiwic3RhdHVzIjoiQUNUSVZFIiwiaWF0IjoxNzE1Njk4ODUzLCJleHAiOjE3MTU3ODUyNTN9.mUuMB6I_OD42wxyKwCI0HBXLidjvV87GPh1Glc8yaQM'
-
     useEffect(() => {
-        axios.get(`http://18.228.10.97:3000/api/events/${eventId}`, {
-            headers: {
-                Authorization: `Bearer ${token}`
-            }
-        })
+        axios.get(`http://18.228.10.97:3000/api/events/${eventId}`)
         .then(response => {
             setEvento(response.data);
         })
@@ -28,7 +22,6 @@ export default function Certificacao() {
     }, []);
 
     useEffect(() => {
-
         const fetchUsers = async () => {
             try {
                 const response = await axios.get('http://18.228.10.97:3000/api/users-list');
@@ -40,10 +33,10 @@ export default function Certificacao() {
 
         fetchUsers();
     }, []); 
-
+    
     return (
         <div>
-            <Cabecalho nome={evento.eventName} data={evento.date} horario={evento.initTime} descEv={evento.goals} />
+            <Cabecalho nome={evento.eventName} horario={new Date(evento.initTime).toLocaleString('pt-BR')} descEv={evento.goals} />
             <CorpoCerti lista={lista} eventId={eventId}/>
         </div>
     )

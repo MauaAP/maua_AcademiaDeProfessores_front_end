@@ -78,14 +78,20 @@ export default function Relatorio({ certificadosData, showProfessorSearch }) {
       </div>
 
       <div className="certificados">
-        {filteredCertificados.map((certificado, index) => (
-          <TemplateCertificado
-            key={index}
-            curso={certificado.curso}
-            professor={certificado.professor}
-            data={certificado.data}
-          />
-        ))}
+        {filteredCertificados.length === 0 ? (
+            <p>Não há nenhum registro de certificados!</p>
+          ) : (
+            filteredCertificados.map((certificado, index) => (
+              <TemplateCertificado
+                key={index}
+                certificadoId={certificado.presenceId}
+                cursoId={certificado.eventId}
+                professorId={certificado.userId}
+                data={new Date(certificado.date).toLocaleDateString('pt-BR')}
+                showDelete={showProfessorSearch}
+              />
+            ))
+          )}
       </div>
     </div>
   );

@@ -1,8 +1,8 @@
 import React, { useState } from "react";
-import './certificados.css'
+import './certificados.css';
 import TemplateCertificado from "../certificado/certificado";
 
-export default function Certificados({ certificadosData, mostrarBusca = true}) {
+export default function Certificados({ certificadosData, mostrarBusca = true }) {
   const [filtroCurso, setFiltroCurso] = useState('');
   const [filtroProfessor, setFiltroProfessor] = useState('');
 
@@ -29,26 +29,31 @@ export default function Certificados({ certificadosData, mostrarBusca = true}) {
           value={filtroCurso} 
           onChange={handleFiltroCursoChange} 
         />
-        { mostrarBusca &&
+        {mostrarBusca && (
           <input 
             type="text" 
             placeholder="Procurar por professor..." 
             value={filtroProfessor} 
             onChange={handleFiltroProfessorChange} 
           />
-        }
-        
+        )}
       </div>
 
       <div className="certificados">
-        {filteredCertificados.map((certificado, index) => (
-          <TemplateCertificado
-            key={index}
-            curso={certificado.curso}
-            professor={certificado.professor}
-            data={certificado.data}
-          />
-        ))}
+        {filteredCertificados.length === 0 ? (
+          <p>Não há nenhum registro de certificados!</p>
+        ) : (
+          filteredCertificados.map((certificado, index) => (
+            <TemplateCertificado
+              key={index}
+              certificadoId={certificado.presenceId}
+              cursoId={certificado.eventId}
+              professorId={certificado.userId}
+              data={new Date(certificado.date).toLocaleDateString('pt-BR')}
+              showDelete={mostrarBusca}
+            />
+          ))
+        )}
       </div>
     </div>
   );

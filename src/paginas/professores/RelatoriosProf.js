@@ -1,20 +1,44 @@
 import React from "react";
 import NavBar from "../../componentes/navbar/navbar";
 import Relatorio from "../../componentes/corpo_relatorio/relatorio";
+import axios from "axios";
+import jwt_decode from "jwt-decode";
+import { toast } from 'react-toastify';
 
-//colocar a requisição http
-const certificadosData = [
-    { curso: "Aprendizado de Máquina", professor: "João Silva", data: new Date("01/01/2022") },
-    { curso: "Desenvolvimento Web", professor: "João Silva", data: new Date("05/02/2023") },
-    { curso: "Inteligência Artificial", professor: "João Silva", data: new Date("10/03/2022") },
-    { curso: "Desenvolvimento Web", professor: "João Silva", data: new Date("05/02/2022") },
-  ];
- 
 export default function RelatoriosProf ({itensMenu}){
+    const [certificadosData, setCertificadosData] = useState([]);
+    const [userId, setUserId] = useState(null);
+
+    const notierror = () => toast.error('Erro ao buscar os eventos!');
+
+    useEffect(() => {
+        const fetchCertificados = async () => {
+            try {
+                const decodedToken = jwt_decode(localStorage.getItem("token"));
+                setUserId(decodedToken.id);
+
+                const response = await axios.get("http://18.228.10.97:3000/api/presences", {
+                    headers: {
+                        Authorization: `Bearer ${localStorage.getItem("token")}`
+                    }
+                });
+
+                setCertificadosData(response.data.certificados);
+            } catch (error) {
+                console.error("Erro ao buscar eventos:", error);
+                notierror();
+            }
+        };
+
+        fetchCertificados();
+    }, []);
+
+    const filteredCertificados = certificadosData.filter(certificado => certificado.userId === userId);
+
     return(
         <body>
             <NavBar itensMenu={itensMenu} cor={"#14134F"}/>
-            <Relatorio certificadosData={certificadosData} showProfessorSearch={false} />
+            <Relatorio certificadosData={filteredCertificados} showProfessorSearch={false} />
         </body>
     );
 } 

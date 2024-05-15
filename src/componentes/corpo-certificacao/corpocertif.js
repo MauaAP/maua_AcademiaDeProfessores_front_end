@@ -1,18 +1,38 @@
 import React, { useState } from "react";
 import { FaUserCircle } from "react-icons/fa";
 import { useNavigate } from 'react-router-dom';
+import axios from 'axios';
 import './corpocertif.css';
 
-export default function CorpoCerti({ lista, eventId}) {
+export default function CorpoCerti({ lista, eventId }) {
     const navegacao = useNavigate();
     const [filtro, setFiltro] = useState('');
     const [checkboxSelecionado, setCheckboxSelecionado] = useState(null);
     const [idSelecionado, setIdSelecionado] = useState(null);
 
-    const handleSubmit = (pessoaId) => {
-        console.log("Id selecionado:", pessoaId);
-        navegacao("/end");
-    }
+    const handleSubmit = async (pessoaId) => {
+        if (!pessoaId) {
+            alert("Por favor, selecione um nome antes de confirmar.");
+            return;
+        }
+
+        try {
+            const response = await axios.post("http://18.228.10.97:3000/api/create-presence", {
+                userid: pessoaId,
+                eventid: eventId
+            }, {
+                headers: {
+                    Authorization: `Bearer ${localStorage.getItem("token")}`
+                }
+            });
+
+            console.log("Presença criada com sucesso:", response.data);
+            navegacao("/end");
+        } catch (error) {
+            console.error("Erro ao criar presença:", error);
+            alert("Houve um erro ao confirmar sua presença. Tente novamente.");
+        }
+    };
 
     const handleFiltroChange = (event) => {
         setFiltro(event.target.value);
@@ -21,20 +41,20 @@ export default function CorpoCerti({ lista, eventId}) {
     const handleCheckboxChange = (pessoaId) => {
         if (checkboxSelecionado === pessoaId) {
             setCheckboxSelecionado(null);
-            setIdSelecionado(null); 
+            setIdSelecionado(null);
         } else {
-            setCheckboxSelecionado(pessoaId); 
-            setIdSelecionado(pessoaId); 
+            setCheckboxSelecionado(pessoaId);
+            setIdSelecionado(pessoaId);
         }
     };
 
     const handleTopicClick = (pessoaId) => {
         if (checkboxSelecionado === pessoaId) {
             setCheckboxSelecionado(null);
-            setIdSelecionado(null); 
+            setIdSelecionado(null);
         } else {
-            setCheckboxSelecionado(pessoaId); 
-            setIdSelecionado(pessoaId); 
+            setCheckboxSelecionado(pessoaId);
+            setIdSelecionado(pessoaId);
         }
     };
 
@@ -65,7 +85,7 @@ export default function CorpoCerti({ lista, eventId}) {
                         </div>
                         <input
                             type="checkbox"
-                            checked={checkboxSelecionado === pessoa.id} 
+                            checked={checkboxSelecionado === pessoa.id}
                             onChange={() => handleCheckboxChange(pessoa.id)}
                         />
                     </div>

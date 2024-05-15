@@ -3,7 +3,7 @@ import './cabecalho.css';
 import { PiCertificateFill } from "react-icons/pi";
 import { FaCalendarDay } from "react-icons/fa6";
 
-export default function Cabecalho ({nome, data, horario, descEv}){
+export default function Cabecalho ({nome, horario, descEv}){
     return(
         <div className="cabecalho">
             <div className="cabecalho-top">
@@ -14,8 +14,6 @@ export default function Cabecalho ({nome, data, horario, descEv}){
             <h3>{nome}</h3>
             <div className="cabecalho-btt">
                 <FaCalendarDay className="icone" size={15}/>
-                <h3>{data}</h3>
-                <h3>-</h3>
                 <h3>{horario}</h3>
             </div>
             <p>{descEv}</p>

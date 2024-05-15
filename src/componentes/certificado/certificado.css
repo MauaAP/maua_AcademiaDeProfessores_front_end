@@ -8,15 +8,30 @@
     margin-bottom: 20px;
 }
 
-.certificado a{
+.baixar{
+    border: none;
     padding: 10px;
     background-color: #69A120;
-    text-decoration: none;
     color: white;
     border-radius: 5px;
+    margin: 5px;
 }
 
-.certificado a:hover{
+.baixar:hover{
     cursor: pointer;
     background-color: #517e17;
+}
+
+.deletar{
+    border: none;
+    padding: 10px;
+    background-color: #A12020;
+    color: white;
+    border-radius: 5px;
+    margin: 5px;
+}
+
+.deletar:hover{
+    cursor: pointer;
+    background-color: #7c1a1a;
 }
