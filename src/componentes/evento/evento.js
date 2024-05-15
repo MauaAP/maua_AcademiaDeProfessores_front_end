@@ -53,7 +53,7 @@ export default function TemplateEvento({ eventId, eventName, date, host, manager
 
     const handleDelete = async () => {
         try {
-            const response = await axios.delete(`http://54.232.49.136:3000/api/delete-event/${eventId}`, {
+            const response = await axios.delete(`http://18.228.10.97:3000/api/delete-event/${eventId}`, {
                 headers: {
                     Authorization: `Bearer ${localStorage.getItem('token')}`
                 }
@@ -64,7 +64,7 @@ export default function TemplateEvento({ eventId, eventName, date, host, manager
                 notideletar();
                 setTimeout(() => {
                     window.location.reload();
-                }, 1500);
+                }, 1000);
             }
         } catch (error) {
             console.error('Erro ao deletar evento:', error.message);

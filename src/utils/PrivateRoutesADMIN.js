@@ -4,7 +4,6 @@ import {jwtDecode} from "jwt-decode";
 
 export default function PrivateRoutesAD () {
     const token = localStorage.getItem('token');
-    //adicionar a verificacao dos status
 
     try {
         const tokenData = jwtDecode(token);
@@ -14,6 +13,7 @@ export default function PrivateRoutesAD () {
         } else {
             return <Navigate to='/error' />;
         }
+
     } catch (error) {
         console.error('Erro ao decodificar o token:', error);
         return <Navigate to='/' />;

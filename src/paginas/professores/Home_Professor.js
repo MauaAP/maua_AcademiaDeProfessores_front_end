@@ -13,7 +13,7 @@ export default function HomeProfessor({itensMenu}) {
     return(
         <div>
             <NavBar itensMenu={itensMenu} cor={"#14134F"}/>
-            <Certificados certificadosData={certificadosData}/>
+            <Certificados certificadosData={certificadosData} mostrarBusca={false}/>
         </div>
     )
 }

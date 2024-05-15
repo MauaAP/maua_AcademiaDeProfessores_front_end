@@ -90,7 +90,7 @@ export default function FormEvCad() {
         const allFieldsFilled = Object.values(formData).every(value => value !== '' && value !== null && value !== '');
         if (allFieldsFilled) {
             try {
-                const response = await axios.post("http://54.232.49.136:3000/api/create-event", {
+                const response = await axios.post("http://18.228.10.97:3000/api/create-event", {
                     "eventName": formData.eventName,
                     "date": formData.date,
                     "host": formData.host,

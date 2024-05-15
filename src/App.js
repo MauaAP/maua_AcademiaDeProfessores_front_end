@@ -22,7 +22,7 @@ import { ToastContainer } from "react-toastify";
 import PrivateRoutesAD from "./utils/PrivateRoutesADMIN";
 import PrivateRoutesCO from "./utils/PrivateRoutesCOM";
 import PrivateRoutesMOD from "./utils/PrivateRoutesMOD";
-import ErrorPage from "./paginas/error";
+import ErrorPage from "./paginas/certificacoes/error";
 import Certificacao from "./paginas/certificacoes/certificados";
 import EndPage from "./paginas/certificacoes/finalizacao";
 

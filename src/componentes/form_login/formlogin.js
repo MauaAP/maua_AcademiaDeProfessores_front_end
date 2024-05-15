@@ -46,23 +46,16 @@ export default function FormsLogin() {
       return;
     }
   
-    if (password.trim() === '') {
-      alert('Por favor, insira sua senha.');
-      return;
-    }
-  
     setLoading(true);
     const notifyError = (message) => toast.error(message);
   
     try {
-      const response = await axios.post('http://54.232.49.136:3000/api/auth-user', {
+      const response = await axios.post('http://18.228.10.97:3000/api/auth-user', {
         email: email,
         password: password
       });
       const tokenData = jwtDecode(response.data.token);
   
-      // Verifica se o status do usuário é "ACTIVE" tirei temporariamente
-      
       switch (tokenData.role) {
         case 'ADMIN':
         case 'SECRETARY':

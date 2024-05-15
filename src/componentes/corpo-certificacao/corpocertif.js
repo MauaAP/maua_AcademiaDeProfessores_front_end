@@ -3,15 +3,15 @@ import { FaUserCircle } from "react-icons/fa";
 import { useNavigate } from 'react-router-dom';
 import './corpocertif.css';
 
-export default function CorpoCerti({ lista }) {
+export default function CorpoCerti({ lista, eventId}) {
     const navegacao = useNavigate();
     const [filtro, setFiltro] = useState('');
     const [checkboxSelecionado, setCheckboxSelecionado] = useState(null);
     const [idSelecionado, setIdSelecionado] = useState(null);
 
-    const  handleSubmit = (pessoaId) =>{
-        console.log("Id selecionado:", pessoaId)
-        navegacao("/end")
+    const handleSubmit = (pessoaId) => {
+        console.log("Id selecionado:", pessoaId);
+        navegacao("/end");
     }
 
     const handleFiltroChange = (event) => {
@@ -39,8 +39,17 @@ export default function CorpoCerti({ lista }) {
     };
 
     const filteredList = lista.filter(pessoa =>
-        pessoa.nome.toLowerCase().includes(filtro.toLowerCase())
+        pessoa.name.toLowerCase().includes(filtro.toLowerCase())
     );
+
+    const censorEmail = (email) => {
+        const [user, domain] = email.split('@');
+        const censoredUser = user.slice(0, 2) + '****' + user.slice(-1);
+        const censoredDomain = domain.split('.').map((part, index) => {
+            return index === 0 ? part.slice(0, 1) + '***' + part.slice(-1) : part;
+        }).join('.');
+        return `${censoredUser}@${censoredDomain}`;
+    };
 
     return (
         <div className="corpo-certificacao">
@@ -50,7 +59,10 @@ export default function CorpoCerti({ lista }) {
                 {filteredList.map((pessoa) => (
                     <div className="topicos" key={pessoa.id} onClick={() => handleTopicClick(pessoa.id)}>
                         <FaUserCircle size={30} />
-                        <p>{pessoa.nome}</p>
+                        <div>
+                            <p>{pessoa.name}</p>
+                            <p>{censorEmail(pessoa.email)}</p>
+                        </div>
                         <input
                             type="checkbox"
                             checked={checkboxSelecionado === pessoa.id} 
@@ -59,7 +71,7 @@ export default function CorpoCerti({ lista }) {
                     </div>
                 ))}
             </div>
-            <button className="botao" onClick={() =>  handleSubmit(idSelecionado)}>Confirmar Presença</button>
+            <button className="botao" onClick={() => handleSubmit(idSelecionado)}>Confirmar Presença</button>
         </div>
     );
 }

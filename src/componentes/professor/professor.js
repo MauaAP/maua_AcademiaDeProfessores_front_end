@@ -9,16 +9,20 @@ import axios from "axios";
 export default function TemplateProfessor({ professor, cpf, phone, email, role, status, id }) {
     const [isEditing, setIsEditing] = useState(false);
     const [editedData, setEditedData] = useState({ professor, cpf, phone, email, status, id });
-    const [buttonText, setButtonText] = useState(status === 'ACTIVE' ? 'Inativar' : 'Ativar');
-    const [buttonColor, setButtonColor] = useState(status === 'ACTIVE' ? '#c72d2d' : '#0366d6');
+    const [buttonText, setButtonText] = useState('');
+    const [buttonColor, setButtonColor] = useState('');
+
+    useEffect(() => {
+        setEditedData({ professor, cpf, phone, email, status, id });
+    }, [professor, cpf, phone, email, status, id]);
 
     useEffect(() => {
         setButtonText(editedData.status === 'ACTIVE' ? 'Inativar' : 'Ativar');
         setButtonColor(editedData.status === 'ACTIVE' ? '#A12020' : '#4e8bc5');
-    }, [editedData]);
+    }, [editedData.status]);
 
     const handleUpdate = () => {
-        // implementar a requisição http
+        // Implementar a requisição HTTP
         console.log("Dados atualizados:", editedData);
         notiatualizar();
         setIsEditing(false);
@@ -33,7 +37,7 @@ export default function TemplateProfessor({ professor, cpf, phone, email, role, 
 
     const notiInativar = () => {
         toast.dismiss();
-        axios.put('http://54.232.49.136:3000/api/update-status', {
+        axios.put('http://18.228.10.97:3000/api/update-status', {
             id: editedData.id,
             status: editedData.status === 'ACTIVE' ? 'INACTIVE' : 'ACTIVE'
         }, {
@@ -43,6 +47,9 @@ export default function TemplateProfessor({ professor, cpf, phone, email, role, 
         })
         .then(response => {
             console.log(response.data);
+            setTimeout(() => {
+                window.location.reload();
+            }, 1000);
             toast.warning("Status alterado com sucesso!");
         })
         .catch(error => {
@@ -75,7 +82,6 @@ export default function TemplateProfessor({ professor, cpf, phone, email, role, 
 
     return (
         <div>
-            
             <div className="professor">
                 <FaUserCircle size={32} />
                 <p>{professor}</p>
@@ -106,9 +112,7 @@ export default function TemplateProfessor({ professor, cpf, phone, email, role, 
                         </div>
                     </div>
                 )}
-                
             </div>
         </div>
-        
     );
 }
