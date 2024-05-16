@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { FaUserCircle } from "react-icons/fa";
+import { AiOutlineLoading } from "react-icons/ai"; // Importa o ícone de carregamento
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import './corpocertif.css';
@@ -9,6 +10,7 @@ export default function CorpoCerti({ lista, eventId }) {
     const [filtro, setFiltro] = useState('');
     const [checkboxSelecionado, setCheckboxSelecionado] = useState(null);
     const [idSelecionado, setIdSelecionado] = useState(null);
+    const [loading, setLoading] = useState(false);
 
     const handleSubmit = async (pessoaId) => {
         if (!pessoaId) {
@@ -17,13 +19,10 @@ export default function CorpoCerti({ lista, eventId }) {
         }
 
         try {
+            setLoading(true);
             const response = await axios.post("http://18.228.10.97:3000/api/create-presence", {
                 userid: pessoaId,
                 eventid: eventId
-            }, {
-                headers: {
-                    Authorization: `Bearer ${localStorage.getItem("token")}`
-                }
             });
 
             console.log("Presença criada com sucesso:", response.data);
@@ -31,6 +30,8 @@ export default function CorpoCerti({ lista, eventId }) {
         } catch (error) {
             console.error("Erro ao criar presença:", error);
             alert("Houve um erro ao confirmar sua presença. Tente novamente.");
+        } finally {
+            setLoading(false);
         }
     };
 
@@ -91,7 +92,9 @@ export default function CorpoCerti({ lista, eventId }) {
                     </div>
                 ))}
             </div>
-            <button className="botao" onClick={() => handleSubmit(idSelecionado)}>Confirmar Presença</button>
+            <button className="botao" onClick={() => handleSubmit(idSelecionado)}>
+                {loading ? <AiOutlineLoading className="loading-icon" size={20} /> : "Confirmar Presença"}
+            </button>
         </div>
     );
 }

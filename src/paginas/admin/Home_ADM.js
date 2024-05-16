@@ -7,16 +7,13 @@ import { toast } from 'react-toastify';
 export default function HomeADM ({itensMenu}){
     const [certificadosData, setCertificadosData] = useState([]);
 
-    const notierror = () => toast.error('Erro ao buscar os eventos!');
+    const notierror = () => toast.error('Erro ao buscar os certificados!');
 
     useEffect(() => {
         const fetchCertificados = async () => {
         try {
-            const response = await axios.get("http://18.228.10.97:3000/api/presences", {
-            headers: {
-                Authorization: `Bearer ${localStorage.getItem("token")}`
-            }
-            });
+            const response = await axios.get("http://18.228.10.97:3000/api/presences");
+            
             setCertificadosData(response.data);
         } catch (error) {
             console.error("Erro ao buscar eventos:", error);
@@ -28,9 +25,9 @@ export default function HomeADM ({itensMenu}){
     }, []);
 
     return(
-        <body>
+        <div>
             <NavBar itensMenu={itensMenu} cor={"#4F1313"}/>
             <Certificados certificadosData={certificadosData}/>
-        </body>
+        </div>
     );
 }

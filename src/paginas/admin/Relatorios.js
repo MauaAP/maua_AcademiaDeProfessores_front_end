@@ -12,11 +12,8 @@ export default function Relatorios ({itensMenu}){
     useEffect(() => {
         const fetchCertificados = async () => {
         try {
-            const response = await axios.get("http://18.228.10.97:3000/api/presences", {
-            headers: {
-                Authorization: `Bearer ${localStorage.getItem("token")}`
-            }
-            });
+            const response = await axios.get("http://18.228.10.97:3000/api/presences");
+            
             setCertificadosData(response.data);
         } catch (error) {
             console.error("Erro ao buscar eventos:", error);

@@ -1,6 +1,6 @@
 import React from "react";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
-import Login from "./paginas/Login";
+import Login from "./paginas/login/Login";
 import HomeProfessor from "./paginas/professores/Home_Professor";
 import HomeADM from "./paginas/admin/Home_ADM";
 import SobreProf from "./paginas/professores/Sobre";

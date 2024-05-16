@@ -35,3 +35,8 @@
     cursor: pointer;
     background-color: #7c1a1a;
 }
+
+.side{
+    display: flex;
+    flex-direction: column;
+}

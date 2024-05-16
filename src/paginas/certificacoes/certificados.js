@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import Cabecalho from "../../componentes/cabecalho_certificacao/cabecalho";
-import CorpoCerti from "../../componentes/corpo-certificacao/corpocertif";
+import CorpoCerti from "../../componentes/corpo_certificacao/corpocertif";
 import axios from "axios";
 
 export default function Certificacao() {
@@ -19,7 +19,7 @@ export default function Certificacao() {
             console.error('Erro ao buscar os dados do evento:', error);
         });
     
-    }, []);
+    }, [eventId]);
 
     useEffect(() => {
         const fetchUsers = async () => {
@@ -36,7 +36,7 @@ export default function Certificacao() {
     
     return (
         <div>
-            <Cabecalho nome={evento.eventName} horario={new Date(evento.initTime).toLocaleString('pt-BR')} descEv={evento.goals} />
+            <Cabecalho nome={evento.eventName} horario={new Date(evento.initTime).toLocaleString()} descEv={evento.goals} />
             <CorpoCerti lista={lista} eventId={eventId}/>
         </div>
     )

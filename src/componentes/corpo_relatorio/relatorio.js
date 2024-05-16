@@ -1,15 +1,51 @@
-import React, { useState } from "react";
-import DatePicker from "react-datepicker";
-import "react-datepicker/dist/react-datepicker.css";
+import React, { useState, useEffect } from "react";
 import './relatorio.css';
 import TemplateCertificado from "../certificado/certificado";
 import { IoIosDownload } from "react-icons/io";
+import axios from "axios";
+import DatePicker from "react-datepicker";
+import "react-datepicker/dist/react-datepicker.css";
 
 export default function Relatorio({ certificadosData, showProfessorSearch }) {
   const [filtroProfessor, setFiltroProfessor] = useState('');
   const [filtroCurso, setFiltroCurso] = useState('');
   const [dataInicio, setDataInicio] = useState(null);
   const [dataFim, setDataFim] = useState(null);
+  const [filteredCertificados, setFilteredCertificados] = useState([]);
+  const [carregando, setCarregando] = useState(true);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const certificadosCompletos = await Promise.all(certificadosData.map(async (certificado) => {
+          try {
+            const professorResponse = await axios.get(`http://18.228.10.97:3000/api/user-id/${certificado.userId}`);
+            const nomeProfessor = professorResponse.data.name;
+
+            const eventoResponse = await axios.get(`http://18.228.10.97:3000/api/events/${certificado.eventId}`);
+            const nomeEvento = eventoResponse.data.eventName;
+
+            return {
+              ...certificado,
+              nomeProfessor,
+              nomeEvento
+            };
+          } catch (error) {
+            console.error("Erro ao buscar informações do certificado:", error);
+            return null;
+          }
+        }));
+
+        const certificadosFiltrados = certificadosCompletos.filter(certificado => certificado !== null);
+        setFilteredCertificados(certificadosFiltrados);
+      } catch (error) {
+        console.error("Erro ao buscar certificados:", error);
+        setCarregando(false);
+      }
+    };
+
+    fetchData();
+  }, [certificadosData]);
 
   const handleFiltroProfessorChange = (event) => {
     setFiltroProfessor(event.target.value);
@@ -27,13 +63,14 @@ export default function Relatorio({ certificadosData, showProfessorSearch }) {
     setDataFim(date);
   };
 
-  const filteredCertificados = certificadosData.filter(certificado => {
-    const dataCertificado = new Date(certificado.data);
-    return certificado.professor.toLowerCase().includes(filtroProfessor.toLowerCase()) &&
-      certificado.curso.toLowerCase().includes(filtroCurso.toLowerCase()) &&
-      (!dataInicio || dataCertificado >= dataInicio) &&
-      (!dataFim || dataCertificado <= dataFim);
-  });
+  const filteredCertificadosToShow = filteredCertificados.filter(certificado =>
+    certificado.nomeEvento.toLowerCase().includes(filtroCurso.toLowerCase()) &&
+    certificado.nomeProfessor.toLowerCase().includes(filtroProfessor.toLowerCase())
+  );
+
+  setTimeout(() => {
+    setCarregando(false);
+  }, 4000);
 
   return (
     <div>
@@ -78,15 +115,15 @@ export default function Relatorio({ certificadosData, showProfessorSearch }) {
       </div>
 
       <div className="certificados">
-        {filteredCertificados.length === 0 ? (
-            <p>Não há nenhum registro de certificados!</p>
+        {filteredCertificadosToShow.length === 0 ? (
+            <p>{carregando ? "Carregando..." : "Não há nenhum registro de certificados!"}</p>
           ) : (
-            filteredCertificados.map((certificado, index) => (
+            filteredCertificadosToShow.map((certificado, index) => (
               <TemplateCertificado
                 key={index}
                 certificadoId={certificado.presenceId}
-                cursoId={certificado.eventId}
-                professorId={certificado.userId}
+                evento={certificado.nomeEvento}
+                professor={certificado.nomeProfessor}
                 data={new Date(certificado.date).toLocaleDateString('pt-BR')}
                 showDelete={showProfessorSearch}
               />
