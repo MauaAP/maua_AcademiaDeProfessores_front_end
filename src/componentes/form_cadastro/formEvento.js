@@ -1,11 +1,20 @@
 import React, { useState } from "react";
 import './formCadastro.css';
 import { toast } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css';
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import axios from "axios";
 import InputMask from "react-input-mask";
+
+const competenciasDisponiveis = [
+    "Comunicação",
+    "Trabalho em Equipe",
+    "Liderança",
+    "Resolução de Problemas",
+    "Pensamento Crítico",
+    "Gestão do Tempo",
+    "Adaptabilidade"
+];
 
 export default function FormEvCad() {
     const [formData, setFormData] = useState({
@@ -29,6 +38,7 @@ export default function FormEvCad() {
         link: ''
     });
 
+    const [selectedCompetencies, setSelectedCompetencies] = useState([]);
     const [emailValido, setEmailValido] = useState(true);
 
     const notifySuccess = () => toast.success("Evento Cadastrado com sucesso!");
@@ -53,6 +63,17 @@ export default function FormEvCad() {
         if (name === "hostEmail") {
             setEmailValido(isValidEmail(value));
         }
+    };
+
+    const handleCompetencyChange = (event) => {
+        const { value, checked } = event.target;
+        setSelectedCompetencies((prevSelected) => {
+            if (checked) {
+                return [...prevSelected, value];
+            } else {
+                return prevSelected.filter((competency) => competency !== value);
+            }
+        });
     };
 
     const isValidEmail = (email) => {
@@ -83,32 +104,16 @@ export default function FormEvCad() {
             numberMaxParticipants: parsedValue
         });
     };
-    
 
     const handleSubmit = async (event) => {
         event.preventDefault();
+
         const allFieldsFilled = Object.values(formData).every(value => value !== '' && value !== null && value !== '');
         if (allFieldsFilled) {
             try {
                 const response = await axios.post("http://18.228.10.97:3000/api/create-event", {
-                    "eventName": formData.eventName,
-                    "date": formData.date,
-                    "host": formData.host,
-                    "manager": formData.manager,
-                    "duration": formData.duration,
-                    "hostEmail": formData.hostEmail,
-                    "hostPhone": formData.hostPhone,
-                    "local": formData.local,
-                    "modality": formData.modality,
-                    "targetAudience": formData.targetAudience,
-                    "activityType": formData.activityType,
-                    "numberMaxParticipants": formData.numberMaxParticipants,
-                    "goals": formData.goals,
-                    "contentActivities": formData.contentActivities,
-                    "developedCompetencies": formData.developedCompetencies,
-                    "initTime": formData.initTime,
-                    "finishTime": formData.finishTime,
-                    "link": formData.link
+                    ...formData,
+                    developedCompetencies: selectedCompetencies.join(', ')
                 }, {
                     headers: {
                         Authorization: `Bearer ${localStorage.getItem("token")}`
@@ -120,7 +125,7 @@ export default function FormEvCad() {
                 }
             } catch (error) {
                 console.error("Erro ao cadastrar o evento:", error);
-                console.log(formData)
+                console.log(formData);
                 notifyError1();
             }
         } else {
@@ -128,7 +133,6 @@ export default function FormEvCad() {
             notifyError();
         }
     };
-    
 
     return (
         <body>
@@ -215,7 +219,19 @@ export default function FormEvCad() {
                     <input type="text" name="contentActivities" value={formData.contentActivities.join(", ")} onChange={handleInputChange} placeholder="Atividades Planejadas" />
 
                     <label>Competências Desenvolvidas:</label>
-                    <input type="text" name="developedCompetencies" value={formData.developedCompetencies} onChange={handleInputChange} placeholder="Competências Desenvolvidas" />
+                    <div>
+                        {competenciasDisponiveis.map((competency, index) => (
+                            <div key={index}>
+                                <input 
+                                    type="checkbox" 
+                                    value={competency} 
+                                    checked={selectedCompetencies.includes(competency)}
+                                    onChange={handleCompetencyChange} 
+                                />
+                                {competency}
+                            </div>
+                        ))}
+                    </div>
 
                     <label>Link da Reunião (se for remoto):</label>
                     <input type="text" name="link" value={formData.link} onChange={handleInputChange} placeholder="Link da Reunião (se for remoto)" />

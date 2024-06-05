@@ -29,7 +29,7 @@
     color: red;
 }
 
-.corpo-cad button {
+.bnt-cadastrar {
     margin-left: 85%;
     margin-top: 15px; 
     padding: 12px; 
@@ -39,10 +39,22 @@
     color: white;
 }
 
-.corpo-cad button:hover {
+.bnt-cadastrar:hover {
     cursor: pointer;
     font-weight: bold;
     background-color: #517e17;
 }
 
-  
+.deletar{
+    border: none;
+    padding: 10px;
+    background-color: #A12020;
+    color: white;
+    border-radius: 5px;
+    margin: 5px;
+}
+
+.deletar:hover{
+    cursor: pointer;
+    background-color: #7c1a1a;
+}

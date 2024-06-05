@@ -1,15 +1,13 @@
 import React from "react";
 import './certificado.css';
 import { IoIosPaper } from "react-icons/io";
-import { useNavigate } from 'react-router-dom';
 import { IoIosDownload } from "react-icons/io";
 import axios from 'axios';
-import {toast} from 'react-toastify';
+import { toast } from 'react-toastify';
 
-export default function TemplateCertificado ({ certificadoId, evento, professor, data, showDelete=true}) {
+export default function TemplateCertificado ({ certificadoId, evento, professor, data, showDelete=true }) {
     const notierror = (message) => toast.error(message);
-    const notisucess = (message) => toast.warning(message);
-    const navegacao = useNavigate();
+    const notisucess = (message) => toast.success(message);
     
     const handleDelete = async () => {
         try {
@@ -26,24 +24,24 @@ export default function TemplateCertificado ({ certificadoId, evento, professor,
 
         } catch (error) {
             console.error("Erro ao deletar certificado:", error);
-            notierror("Erro ao detelar o certififcado!");
+            notierror("Erro ao deletar o certificado!");
         }
     };
 
     const handleDownload = async () => {
-        try{
-            const data = await axios.get(`http://18.228.10.97:3000/api/create-certificate/${certificadoId}`, {
+        try {
+            const response = await axios.get(`http://18.228.10.97:3000/api/create-certificate/${certificadoId}`, {
                 headers: {
                     Authorization: `Bearer ${localStorage.getItem("token")}`
                 }
             });
-            const url = data.data.certificateUrl;
-            navegacao(url);
+            const url = response.data.certificateUrl;
+            window.open(url, '_blank');  // Abre a URL em uma nova guia
         } catch (error) {
-            console.error("Erro ao deletar certificado:", error);
+            console.error("Erro ao fazer o download do certificado:", error);
             notierror("Erro ao fazer o download!");
         }
-    }
+    };
 
     return (
         <div className="certificado">
