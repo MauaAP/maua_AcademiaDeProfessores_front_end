@@ -10,6 +10,7 @@ export default function HomeADM ({itensMenu}){
     const notierror = () => toast.error('Erro ao buscar os certificados!');
 
     useEffect(() => {
+        
         const fetchCertificados = async () => {
         try {
             const response = await axios.get("http://18.228.10.97:3000/api/presences");
