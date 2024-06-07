@@ -12,7 +12,7 @@ export default function ListaEventosMod({ itensMenu }) {
   useEffect(() => {
     const fetchEventos = async () => {
       try {
-        const response = await axios.get("http://18.228.10.97:3000/api/events/", {
+        const response = await axios.get("https://gmerola.com.br/ap/api/events/", {
           headers: {
             Authorization: `Bearer ${localStorage.getItem("token")}`
           }
