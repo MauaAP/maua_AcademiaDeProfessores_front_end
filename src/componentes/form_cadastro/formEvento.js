@@ -111,7 +111,7 @@ export default function FormEvCad() {
         const allFieldsFilled = Object.values(formData).every(value => value !== '' && value !== null && value !== '');
         if (allFieldsFilled) {
             try {
-                const response = await axios.post("http://18.228.10.97:3000/api/create-event", {
+                const response = await axios.post("https://gmerola.com.br/ap/api/create-event", {
                     ...formData,
                     developedCompetencies: selectedCompetencies.join(', ')
                 }, {
