@@ -12,7 +12,7 @@ export default function Relatorios ({itensMenu}){
     useEffect(() => {
         const fetchCertificados = async () => {
         try {
-            const response = await axios.get("http://18.228.10.97:3000/api/presences");
+            const response = await axios.get("https://gmerola.com.br/ap/api/presences");
             
             setCertificadosData(response.data);
         } catch (error) {
