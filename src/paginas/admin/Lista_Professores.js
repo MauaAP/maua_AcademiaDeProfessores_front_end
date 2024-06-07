@@ -13,7 +13,7 @@ export default function ListaProfessores ({itensMenu}) {
 
         const fetchUsers = async () => {
             try {
-                const response = await axios.get('http://18.228.10.97:3000/api/users', {
+                const response = await axios.get('https://gmerola.com.br/ap/api/users', {
                     headers: {
                         Authorization: `Bearer ${localStorage.getItem('token')}`
                     }
