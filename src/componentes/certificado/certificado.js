@@ -30,7 +30,7 @@ export default function TemplateCertificado ({ certificadoId, evento, professor,
 
     const handleDownload = async () => {
         try {
-            const response = await axios.get(`https://gmerola.com.br/ap/api/create-certificate/${certificadoId}`, {
+            const response = await axios.get(`https://serene-mountain-65884-1b703ae41d98.herokuapp.com/api/create-certificate/${certificadoId}`, {
                 headers: {
                     Authorization: `Bearer ${localStorage.getItem("token")}`
                 }
