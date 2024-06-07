@@ -50,7 +50,7 @@ export default function FormsLogin() {
     const notifyError = (message) => toast.error(message);
   
     try {
-      const response = await axios.post('http://18.228.10.97:3000/api/auth-user', {
+      const response = await axios.post('https://gmerola.com.br/ap/api/auth-user', {
         email: email,
         password: password
       });
