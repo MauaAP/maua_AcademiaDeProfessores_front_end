@@ -50,7 +50,7 @@ export default function FormsLogin() {
     const notifyError = (message) => toast.error(message);
   
     try {
-      const response = await axios.post('https://gmerola.com.br/ap/api/auth-user', {
+      const response = await axios.post('https://serene-mountain-65884-1b703ae41d98.herokuapp.com/api/auth-user', {
         email: email,
         password: password
       });
