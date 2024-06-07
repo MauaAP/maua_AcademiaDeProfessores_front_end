@@ -66,14 +66,16 @@ export default function FormEvCad() {
     };
 
     const handleCompetencyChange = (event) => {
+        console.log(event.target.checked)
         const { value, checked } = event.target;
-        setSelectedCompetencies((prevSelected) => {
-            if (checked) {
-                return [...prevSelected, value];
-            } else {
-                return prevSelected.filter((competency) => competency !== value);
-            }
-        });
+        if(event.target.checked){
+            console.log(event.target.value)
+        }
+        if(checked){
+            setSelectedCompetencies([...selectedCompetencies, value]);
+        } else {
+            setSelectedCompetencies(selectedCompetencies.filter((competency) => competency !== value));
+        }
     };
 
     const isValidEmail = (email) => {
@@ -107,30 +109,22 @@ export default function FormEvCad() {
 
     const handleSubmit = async (event) => {
         event.preventDefault();
-
-        const allFieldsFilled = Object.values(formData).every(value => value !== '' && value !== null && value !== '');
-        if (allFieldsFilled) {
-            try {
-                const response = await axios.post("https://gmerola.com.br/ap/api/create-event", {
-                    ...formData,
-                    developedCompetencies: selectedCompetencies.join(', ')
-                }, {
-                    headers: {
-                        Authorization: `Bearer ${localStorage.getItem("token")}`
-                    }
-                });
-                if (response.status === 201) {
-                    notifySuccess();
-                    console.log("Evento Cadastrado com sucesso:", response.data);
+        formData.developedCompetencies = selectedCompetencies.join(', ');
+        console.log(formData)
+        try {
+            const response = await axios.post("https://gmerola.com.br/ap/api/create-event", formData, {
+                headers: {
+                    Authorization: `Bearer ${localStorage.getItem("token")}`
                 }
-            } catch (error) {
-                console.error("Erro ao cadastrar o evento:", error);
-                console.log(formData);
-                notifyError1();
+            });
+            if (response.status === 201) {
+                notifySuccess();
+                console.log("Evento Cadastrado com sucesso:", response.data);
             }
-        } else {
+        } catch (error) {
+            console.error("Erro ao cadastrar o evento:", error);
             console.log(formData);
-            notifyError();
+            notifyError1();
         }
     };
 
@@ -225,7 +219,6 @@ export default function FormEvCad() {
                                 <input 
                                     type="checkbox" 
                                     value={competency} 
-                                    checked={selectedCompetencies.includes(competency)}
                                     onChange={handleCompetencyChange} 
                                 />
                                 {competency}
