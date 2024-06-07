@@ -7,7 +7,7 @@ export default function SobreProf ({itensMenu}){
     const [userData, setUserData] = useState(null);
 
     useEffect(() => {
-        axios.get('http://18.228.10.97:3000/api/user', {
+        axios.get('https://gmerola.com.br/ap/api/user', {
             headers: {
                 Authorization: `Bearer ${localStorage.getItem('token')}`
             }
