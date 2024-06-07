@@ -53,7 +53,7 @@ export default function TemplateEvento({ eventId, eventName, date, host, manager
 
     const handleDelete = async () => {
         try {
-            const response = await axios.delete(`http://18.228.10.97:3000/api/delete-event/${eventId}`, {
+            const response = await axios.delete(`https://gmerola.com.br/ap/api/delete-event/${eventId}`, {
                 headers: {
                     Authorization: `Bearer ${localStorage.getItem('token')}`
                 }
