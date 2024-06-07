@@ -17,10 +17,9 @@ export default function CorpoCerti({ lista, eventId }) {
             alert("Por favor, selecione um nome antes de confirmar.");
             return;
         }
-
         try {
             setLoading(true);
-            const response = await axios.post("http://18.228.10.97:3000/api/create-presence", {
+            const response = await axios.post("https://gmerola.com.br/ap/api/create-presence", {
                 userid: pessoaId,
                 eventid: eventId
             });
