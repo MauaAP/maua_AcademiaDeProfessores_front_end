@@ -37,7 +37,7 @@ export default function TemplateProfessor({ professor, cpf, phone, email, role, 
 
     const notiInativar = () => {
         toast.dismiss();
-        axios.put('http://18.228.10.97:3000/api/update-status', {
+        axios.put('https://gmerola.com.br/ap/api/update-status', {
             id: editedData.id,
             status: editedData.status === 'ACTIVE' ? 'INACTIVE' : 'ACTIVE'
         }, {
