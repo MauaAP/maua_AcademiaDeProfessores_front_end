@@ -11,7 +11,7 @@ export default function Certificacao() {
     const eventId = urlParams.get('eventId');
 
     useEffect(() => {
-        axios.get(`http://18.228.10.97:3000/api/events/${eventId}`)
+        axios.get(`https://gmerola.com.br/ap/api/events/${eventId}`)
         .then(response => {
             setEvento(response.data);
         })
@@ -24,7 +24,7 @@ export default function Certificacao() {
     useEffect(() => {
         const fetchUsers = async () => {
             try {
-                const response = await axios.get('http://18.228.10.97:3000/api/users-list');
+                const response = await axios.get('https://gmerola.com.br/ap/api/users-list');
                 setLista(response.data);
             } catch (error) {
                 console.error('Erro ao buscar usuários:', error);
