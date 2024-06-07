@@ -148,6 +148,7 @@ export default function TemplateEvento({ eventId, eventName, date, host, manager
                 {isQrCode && (
                     <div className="popup-qr">
                         <div className="popup-inner-qr">
+                            <label>{eventName}</label>
                             <QRCode size={500} value={qrCodeValue} />
                             <button className="close-btn" onClick={() => setQtCode(false)}>Fechar</button>
                         </div>
