@@ -11,7 +11,7 @@ export default function TemplateCertificado ({ certificadoId, evento, professor,
     
     const handleDelete = async () => {
         try {
-            await axios.delete(`http://18.228.10.97:3000/api/presence/${certificadoId}`, {
+            await axios.delete(`https://gmerola.com.br/ap/api/presence/${certificadoId}`, {
                 headers: {
                     Authorization: `Bearer ${localStorage.getItem("token")}`
                 }
@@ -30,7 +30,7 @@ export default function TemplateCertificado ({ certificadoId, evento, professor,
 
     const handleDownload = async () => {
         try {
-            const response = await axios.get(`http://18.228.10.97:3000/api/create-certificate/${certificadoId}`, {
+            const response = await axios.get(`https://gmerola.com.br/ap/api/create-certificate/${certificadoId}`, {
                 headers: {
                     Authorization: `Bearer ${localStorage.getItem("token")}`
                 }
