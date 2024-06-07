@@ -19,10 +19,10 @@ export default function Relatorio({ certificadosData, showProfessorSearch }) {
       try {
         const certificadosCompletos = await Promise.all(certificadosData.map(async (certificado) => {
           try {
-            const professorResponse = await axios.get(`http://18.228.10.97:3000/api/user-id/${certificado.userId}`);
+            const professorResponse = await axios.get(`https://gmerola.com.br/ap/api/user-id/${certificado.userId}`);
             const nomeProfessor = professorResponse.data.name;
 
-            const eventoResponse = await axios.get(`http://18.228.10.97:3000/api/events/${certificado.eventId}`);
+            const eventoResponse = await axios.get(`https://gmerola.com.br/ap/api/events/${certificado.eventId}`);
             const nomeEvento = eventoResponse.data.eventName;
 
             return {
