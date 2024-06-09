@@ -14,11 +14,13 @@
 
 .info label{
     margin-bottom: 5px;
+    margin-top: 10px;
 }
 
 .info input{
-    margin-bottom: 10px;
-    padding: 5px; 
+    margin-top: 15px;
+    margin-bottom: 15px;
+    padding: 9px; 
     border-radius: 5px;
     border: none;
     box-shadow: 0px 0px 5px 0px rgba(0, 0, 0, 0.5);
@@ -57,4 +59,10 @@
 .deletar:hover{
     cursor: pointer;
     background-color: #7c1a1a;
+}
+
+.escolhas {
+    padding: 10px;
+    background-color: lightgrey;
+    border-radius: 10px;
 }
