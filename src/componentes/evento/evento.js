@@ -111,6 +111,8 @@ export default function TemplateEvento({ eventId, eventName, date, host, manager
                                     <InputMask mask="(99) 99999-9999" placeholder="Telefone do Aplicador" />
                                     <label>{manager.join(", ")}</label>
                                     <input type="text" name="manager" placeholder="Responsável" />
+                                    <label>{period}</label>
+                                    <input type="text" name="period" placeholder="Período" />
                                 </div>
                                 <div className="popup-side">
                                     <label>{host}</label>
@@ -124,9 +126,7 @@ export default function TemplateEvento({ eventId, eventName, date, host, manager
                                     <label>{contentActivities.join(", ")}</label>
                                     <input type="text" name="contentAtt" placeholder="Atividades Planejadas" />
                                     <label>{goals}</label>
-                                    <input type="text" name="goals" placeholder="Objetivos" />
-                                    <label>{period}</label>
-                                    <input type="text" name="period" placeholder="Período" />
+                                    <input type="text" name="goals" placeholder="Objetivos" />  
                                 </div>
                                 <div className="popup-side">
                                     <label>{developedCompetencies}</label>
