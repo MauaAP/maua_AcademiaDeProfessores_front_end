@@ -65,7 +65,7 @@ export default function FormEvCad() {
         initTime: null,
         finishTime: null,
         link: '',
-        duration: "nulo"
+        duration: 'não se aplica'
     });
 
     const [selectedCompetencies, setSelectedCompetencies] = useState([]);
@@ -159,23 +159,57 @@ export default function FormEvCad() {
         event.preventDefault();
         formData.developedCompetencies = selectedCompetencies.join(', ');
         console.log(formData)
-        try {
-            const response = await axios.post("https://gmerola.com.br/ap/api/create-event", formData, {
-                headers: {
-                    Authorization: `Bearer ${localStorage.getItem("token")}`
+        const allFieldsFilled = Object.values(formData).every(value => value !== '' && value !== null && value !== '');
+        
+        if (formData.link === '') {
+            formData.link = 'Não se Aplica';
+        } else if (allFieldsFilled) {
+            
+            try {
+                const response = await axios.post("https://gmerola.com.br/ap/api/create-event", formData, {
+                    headers: {
+                        Authorization: `Bearer ${localStorage.getItem("token")}`
+                    }
+                });
+                if (response.status === 201) {
+                    notifySuccess();
+                    console.log("Evento Cadastrado com sucesso:", response.data);
+                    clearForm();
                 }
-            });
-            if (response.status === 201) {
-                notifySuccess();
-                console.log("Evento Cadastrado com sucesso:", response.data);
-            } else{
-                notifyError();
+            } catch (error) {
+                console.error("Erro ao cadastrar o evento:", error);
+                console.log(formData);
+                notifyError1();
             }
-        } catch (error) {
-            console.error("Erro ao cadastrar o evento:", error);
+        } else {
             console.log(formData);
-            notifyError1();
+            notifyError();
         }
+    };
+
+    const clearForm = () => {
+        setFormData({
+            eventName: '',
+            date: null,
+            host: '',
+            manager: [],
+            hostEmail: [],
+            hostPhone: [],
+            local: '',
+            modality: '',
+            targetAudience: '',
+            activityType: '',
+            numberMaxParticipants: null,
+            goals: '',
+            period: '',
+            contentActivities: [],
+            developedCompetencies: '',
+            initTime: null,
+            finishTime: null,
+            link: ''
+        });
+        setSelectedCompetencies([]);
+        setSelectedModality('');
     };
 
     return (
