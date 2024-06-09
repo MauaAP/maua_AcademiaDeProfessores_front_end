@@ -8,7 +8,7 @@ import InputMask from "react-input-mask";
 import QRCode from 'qrcode.react';
 
 
-export default function TemplateEvento({ eventId, eventName, date, host, manager, duration, hostEmail, hostPhone, local, modality, targetAudience, activityType, goals, contentActivities, developedCompetencies, initTime, finishTime, mostrarOpcoesEsp = true }) {
+export default function TemplateEvento({ eventId, eventName, date, host, manager, period, hostEmail, hostPhone, local, modality, targetAudience, activityType, goals, contentActivities, developedCompetencies, initTime, finishTime, mostrarOpcoesEsp = true }) {
     const [isEditing, setIsEditing] = useState(false);
     const [isQrCode, setQtCode] = useState(false);
     const [qrCodeValue, setQrCodeValue] = useState('');
@@ -19,7 +19,7 @@ export default function TemplateEvento({ eventId, eventName, date, host, manager
         date,
         host,
         manager,
-        duration,
+        period,
         hostEmail,
         hostPhone,
         local,
@@ -73,7 +73,7 @@ export default function TemplateEvento({ eventId, eventName, date, host, manager
     };
 
     const handleGerarQRCode = () => {
-        const url = `https://main.d3ox2o8vvrjgn9.amplifyapp.com/certificacao?eventId=${eventId}`;
+        const url = `/certificacao?eventId=${eventId}`;
         setQrCodeValue(url);
         setQtCode(true)
     };
@@ -107,8 +107,6 @@ export default function TemplateEvento({ eventId, eventName, date, host, manager
                                     <input type="text" name="local" placeholder="Local do Evento" />
                                     <label>{modality}</label>
                                     <input type="text" name="modality" placeholder="Modalidade" />
-                                    <label>{duration}</label>
-                                    <input type="text" name="duration" placeholder="Duração" />
                                     <label>{hostPhone}</label>
                                     <InputMask mask="(99) 99999-9999" placeholder="Telefone do Aplicador" />
                                     <label>{manager.join(", ")}</label>
@@ -127,6 +125,8 @@ export default function TemplateEvento({ eventId, eventName, date, host, manager
                                     <input type="text" name="contentAtt" placeholder="Atividades Planejadas" />
                                     <label>{goals}</label>
                                     <input type="text" name="goals" placeholder="Objetivos" />
+                                    <label>{period}</label>
+                                    <input type="text" name="period" placeholder="Período" />
                                 </div>
                                 <div className="popup-side">
                                     <label>{developedCompetencies}</label>
