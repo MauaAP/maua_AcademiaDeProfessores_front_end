@@ -8,7 +8,7 @@ import { toast } from 'react-toastify';
 export default function RelatoriosProf ({itensMenu}){
     const [certificadosData, setCertificadosData] = useState([]);
 
-    const notierror = () => toast.error('Erro ao buscar os eventos!');
+    const notierror = () => toast.error('Erro ao buscar os certificados!');
 
     const decodedToken = jwtDecode(localStorage.getItem("token"));
 
