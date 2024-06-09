@@ -7,7 +7,7 @@ import { toast } from 'react-toastify';
 export default function Relatorios ({itensMenu}){
     const [certificadosData, setCertificadosData] = useState([]);
 
-    const notierror = () => toast.error('Erro ao buscar os eventos!');
+    const notierror = () => toast.error('Erro ao buscar os certificados!');
 
     useEffect(() => {
         const fetchCertificados = async () => {
