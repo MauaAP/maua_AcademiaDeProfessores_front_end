@@ -11,7 +11,7 @@ export default function TemplateCertificado ({ certificadoId, evento, professor,
     
     const handleDelete = async () => {
         try {
-            await axios.delete(`https://gmerola.com.br/ap/api/presence/${certificadoId}`, {
+            await axios.delete(`https://serene-mountain-65884-1b703ae41d98.herokuapp.com/api/presence/${certificadoId}`, {
                 headers: {
                     Authorization: `Bearer ${localStorage.getItem("token")}`
                 }

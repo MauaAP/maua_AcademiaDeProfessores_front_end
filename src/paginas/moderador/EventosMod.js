@@ -12,7 +12,7 @@ export default function ListaEventosMod({ itensMenu }) {
   useEffect(() => {
     const fetchEventos = async () => {
       try {
-        const response = await axios.get("https://gmerola.com.br/ap/api/events/", {
+        const response = await axios.get("https://serene-mountain-65884-1b703ae41d98.herokuapp.com/api/events/", {
           headers: {
             Authorization: `Bearer ${localStorage.getItem("token")}`
           }

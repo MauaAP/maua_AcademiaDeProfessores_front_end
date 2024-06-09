@@ -19,7 +19,7 @@ export default function CorpoCerti({ lista, eventId }) {
         }
         try {
             setLoading(true);
-            const response = await axios.post("https://gmerola.com.br/ap/api/create-presence", {
+            const response = await axios.post("https://serene-mountain-65884-1b703ae41d98.herokuapp.com/api/create-presence", {
                 userid: pessoaId,
                 eventid: eventId
             });

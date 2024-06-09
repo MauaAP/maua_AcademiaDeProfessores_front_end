@@ -15,7 +15,7 @@ export default function HomeMod({ itensMenu }) {
     useEffect(() => {
         const fetchCertificados = async () => {
             try {
-                const response = await axios.get("https://gmerola.com.br/ap/api/presences");
+                const response = await axios.get("https://serene-mountain-65884-1b703ae41d98.herokuapp.com/api/presences");
 
                 setCertificadosData(response.data);
             } catch (error) {

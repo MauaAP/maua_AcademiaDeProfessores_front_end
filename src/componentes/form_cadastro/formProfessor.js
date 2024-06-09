@@ -63,7 +63,7 @@ export default function FormProfCad (){
         if (allFieldsFilled) {
             if (formData.senha === formData.confirSenha) {
                 try {
-                    const response = await axios.post('https://gmerola.com.br/ap/api/create-user', {
+                    const response = await axios.post('https://serene-mountain-65884-1b703ae41d98.herokuapp.com/api/create-user', {
                         "name": formData.nome,
                         "email": formData.email,
                         "password": formData.senha,

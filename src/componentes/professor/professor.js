@@ -37,7 +37,7 @@ export default function TemplateProfessor({ professor, cpf, phone, email, role, 
 
     const notiInativar = () => {
         toast.dismiss();
-        axios.put('https://gmerola.com.br/ap/api/update-status', {
+        axios.put('https://serene-mountain-65884-1b703ae41d98.herokuapp.com/api/update-status', {
             id: editedData.id,
             status: editedData.status === 'ACTIVE' ? 'INACTIVE' : 'ACTIVE'
         }, {

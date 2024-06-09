@@ -166,7 +166,7 @@ export default function FormEvCad() {
         } else if (allFieldsFilled) {
             
             try {
-                const response = await axios.post("https://gmerola.com.br/ap/api/create-event", formData, {
+                const response = await axios.post("https://serene-mountain-65884-1b703ae41d98.herokuapp.com/api/create-event", formData, {
                     headers: {
                         Authorization: `Bearer ${localStorage.getItem("token")}`
                     }

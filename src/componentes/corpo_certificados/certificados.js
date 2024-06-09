@@ -14,10 +14,10 @@ export default function Certificados({ certificadosData, mostrarBusca = true }) 
       try {
         const certificadosCompletos = await Promise.all(certificadosData.map(async (certificado) => {
           try {
-            const professorResponse = await axios.get(`https://gmerola.com.br/ap/api/user-id/${certificado.userId}`);
+            const professorResponse = await axios.get(`https://serene-mountain-65884-1b703ae41d98.herokuapp.com/api/user-id/${certificado.userId}`);
             const nomeProfessor = professorResponse.data.name;
 
-            const eventoResponse = await axios.get(`https://gmerola.com.br/ap/api/events/${certificado.eventId}`);
+            const eventoResponse = await axios.get(`https://serene-mountain-65884-1b703ae41d98.herokuapp.com/api/events/${certificado.eventId}`);
             const nomeEvento = eventoResponse.data.eventName;
 
             return {
