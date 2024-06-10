@@ -45,6 +45,73 @@ const periodosDisponiveis = [
     "Outro"
 ];
 
+function ResponsibleInput({ formData, handleInputChange }) {
+    const [manager, setManager] = useState(formData.manager.join(", "));
+  
+    const handleChange = (event) => {
+      const value = event.target.value;
+      setManager(value);
+      handleInputChange(event);
+    };
+  
+    return (
+      <>
+        <input
+          type="text"
+          name="manager"
+          value={manager}
+          onChange={handleChange}
+          placeholder="Responsável"
+        />
+      </>
+    );
+  }
+
+// Adicionar essa função posteriormente para permitir multiplos emails, mas é necessário retirar a verificação de email para funcionar corretamente :D
+//   function HostEmailInput({ formData, handleInputChange, emailValido }) {
+//     const [hostEmail, setHostEmail] = useState(formData.hostEmail.join(", "));
+  
+//     const handleChange = (event) => {
+//       const value = event.target.value;
+//       setHostEmail(value);
+//       handleInputChange(event);
+//     };
+  
+//     return (
+//       <>
+//         <input
+//           type="text"
+//           name="hostEmail"
+//           value={hostEmail}
+//           onChange={handleChange}
+//           placeholder="Email do Aplicador"
+//         />
+//       </>
+//     );
+//   }
+  
+  function ContentActivitiesInput({ formData, handleInputChange }) {
+    const [contentActivities, setContentActivities] = useState(formData.contentActivities.join(", "));
+  
+    const handleChange = (event) => {
+      const value = event.target.value;
+      setContentActivities(value);
+      handleInputChange(event);
+    };
+  
+    return (
+      <>
+        <input
+          type="text"
+          name="contentActivities"
+          value={contentActivities}
+          onChange={handleChange}
+          placeholder="Atividades Planejadas"
+        />
+      </>
+    );
+  }
+
 export default function FormEvCad() {
     const [formData, setFormData] = useState({
         eventName: '',
@@ -133,7 +200,7 @@ export default function FormEvCad() {
     const handleDateChange = (date, field) => {
         setFormData({
             ...formData,
-            [field]: new Date(date).getTime()
+            [field]: date
         });
     };
 
@@ -277,7 +344,7 @@ export default function FormEvCad() {
                         </div>
                     
                         <label>Responsável:</label>
-                        <input type="text" name="manager" value={formData.manager.join(", ")} onChange={handleInputChange} placeholder="Responsável" />
+                        <ResponsibleInput formData={formData} handleInputChange={handleInputChange} />
 
                         <label>Aplicador:</label>
                         <input type="text" name="host" value={formData.host} onChange={handleInputChange} placeholder="Aplicador" />     
@@ -320,7 +387,7 @@ export default function FormEvCad() {
                         <input type="text" name="goals" value={formData.goals} onChange={handleInputChange} placeholder="Objetivos" />
 
                         <label>Atividades Planejadas:</label>
-                        <input type="text" name="contentActivities" value={formData.contentActivities.join(", ")} onChange={handleInputChange} placeholder="Atividades Planejadas" />
+                        <ContentActivitiesInput formData={formData} handleInputChange={handleInputChange} />
 
                         <label>Competências Desenvolvidas:</label>
                         <div className="escolhas">
