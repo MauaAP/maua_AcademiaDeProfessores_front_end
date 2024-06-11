@@ -200,7 +200,7 @@ export default function FormEvCad() {
     const handleDateChange = (date, field) => {
         setFormData({
             ...formData,
-            [field]: date
+            [field]: date ? new Date(date).getTime() : null
         });
     };
 
@@ -293,7 +293,7 @@ export default function FormEvCad() {
                             <div className="info">
                                 <label>Data do Evento:</label>
                                 <DatePicker
-                                    selected={formData.date}
+                                    selected={formData.date ? new Date(formData.date) : null}
                                     onChange={(date) => handleDateChange(date, "date")}
                                     dateFormat="dd/MM/yyyy"
                                     placeholderText="Data do Evento"
@@ -302,7 +302,7 @@ export default function FormEvCad() {
                             <div className="info">
                                 <label>Horário de Início:</label>
                                 <DatePicker
-                                    selected={formData.initTime}
+                                    selected={formData.initTime ? new Date(formData.initTime) : null}
                                     onChange={(date) => handleDateChange(date, "initTime")}
                                     showTimeSelect
                                     showTimeSelectOnly
@@ -315,7 +315,7 @@ export default function FormEvCad() {
                             <div className="info">
                                 <label>Horário de Término:</label>
                                 <DatePicker
-                                    selected={formData.finishTime}
+                                    selected={formData.finishTime ? new Date(formData.finishTime) : null}
                                     onChange={(date) => handleDateChange(date, "finishTime")}
                                     showTimeSelect
                                     showTimeSelectOnly
