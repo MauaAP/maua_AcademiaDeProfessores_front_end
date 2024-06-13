@@ -107,7 +107,7 @@ export default function FormProfCad (){
                         <div className="senhas">
                             <div>
                                 <div>
-                                    <input type="checkbox" checked={cargoSelecionado === 'common'} onChange={() => handleCargoChange('common')}></input>
+                                    <input type="checkbox" checked={cargoSelecionado === 'professor'} onChange={() => handleCargoChange('professor')}></input>
                                     <label>É professor</label>
                                 </div>
                                 <div>
