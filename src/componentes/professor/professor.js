@@ -73,8 +73,8 @@ export default function TemplateProfessor({ professor, cpf, phone, email, role, 
                 return 'Secretário';
             case 'MODERATOR':
                 return 'Moderador';
-            case 'COMMON':
-                return 'Comum';
+            case 'PROFESSOR':
+                return 'Professor';
             default:
                 return role;
         }
