@@ -61,8 +61,8 @@ export default function NavBar({itensMenu, cor }) {
                 return 'Secretário(a)';
             case 'MODERATOR':
                 return 'Moderador(a)';
-            case 'COMMON':
-                return 'Comum';
+            case 'PROFESSOR':
+                return 'Professor(a)';
             default:
                 return cargo;
         }
