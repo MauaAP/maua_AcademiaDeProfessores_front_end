@@ -8,7 +8,7 @@ export default function PrivateRoutesCO () {
     try {
         const tokenData = jwtDecode(token);
 
-        if (token && (tokenData.role === "COMMON") && (tokenData.status === "ACTIVE")) {
+        if (token && (tokenData.role === "PROFESSOR") && (tokenData.status === "ACTIVE")) {
             return <Outlet />;
         } else {
             return <Navigate to='/error' />;
