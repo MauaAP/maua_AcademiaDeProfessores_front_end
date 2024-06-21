@@ -101,7 +101,7 @@ export default function TemplateEvento({ eventId, eventName, date, host, manager
                                 <div className="popup-side">
                                     <label>{eventName}</label>
                                     <input type="text" name="eventName" placeholder="Nome do Evento" />
-                                    <label>{new Date(date).toLocaleDateString('pt-BR')}</label>
+                                    <label>{date}</label>
                                     <InputMask mask='99/99/9999' placeholder="Data do Evento" />
                                     <label>{local}</label>
                                     <input type="text" name="local" placeholder="Local do Evento" />
