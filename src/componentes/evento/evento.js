@@ -131,9 +131,9 @@ export default function TemplateEvento({ eventId, eventName, date, host, manager
                                 <div className="popup-side">
                                     <label>{developedCompetencies}</label>
                                     <input type="text" name="developedCompetencies" placeholder="Competências Desenvolvidas" />
-                                    <label>{new Date(initTime).toLocaleString('pt-BR')}</label>
+                                    <label>{initTime}</label>
                                     <InputMask mask='99:99' placeholder="Horário de Início" />
-                                    <label>{new Date(finishTime).toLocaleString('pt-BR')}</label>
+                                    <label>{finishTime}</label>
                                     <InputMask mask='99:99' placeholder="Horário de Término" />
                                     <label>{linkValue}</label>
                                     <input type="text" name="link" placeholder="Link do Evento" />
