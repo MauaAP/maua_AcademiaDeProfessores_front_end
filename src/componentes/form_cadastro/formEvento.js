@@ -67,30 +67,7 @@ function ResponsibleInput({ formData, handleInputChange }) {
     );
   }
 
-// Adicionar essa função posteriormente para permitir multiplos emails, mas é necessário retirar a verificação de email para funcionar corretamente :D
-//   function HostEmailInput({ formData, handleInputChange, emailValido }) {
-//     const [hostEmail, setHostEmail] = useState(formData.hostEmail.join(", "));
-  
-//     const handleChange = (event) => {
-//       const value = event.target.value;
-//       setHostEmail(value);
-//       handleInputChange(event);
-//     };
-  
-//     return (
-//       <>
-//         <input
-//           type="text"
-//           name="hostEmail"
-//           value={hostEmail}
-//           onChange={handleChange}
-//           placeholder="Email do Aplicador"
-//         />
-//       </>
-//     );
-//   }
-  
-  function ContentActivitiesInput({ formData, handleInputChange }) {
+function ContentActivitiesInput({ formData, handleInputChange }) {
     const [contentActivities, setContentActivities] = useState(formData.contentActivities.join(", "));
   
     const handleChange = (event) => {
@@ -204,6 +181,23 @@ export default function FormEvCad() {
         });
     };
 
+    const handleTimeChange = (time, field) => {
+        const { date } = formData;
+        if (date) {
+            const updatedDateTime = new Date(date);
+            updatedDateTime.setHours(time.getHours(), time.getMinutes());
+            setFormData({
+                ...formData,
+                [field]: updatedDateTime.getTime()
+            });
+        } else {
+            setFormData({
+                ...formData,
+                [field]: time ? time.getTime() : null
+            });
+        }
+    };
+
     const handlePhoneChange = (event) => {
         setFormData({
             ...formData,
@@ -303,7 +297,7 @@ export default function FormEvCad() {
                                 <label>Horário de Início:</label>
                                 <DatePicker
                                     selected={formData.initTime ? new Date(formData.initTime) : null}
-                                    onChange={(date) => handleDateChange(date, "initTime")}
+                                    onChange={(time) => handleTimeChange(time, "initTime")}
                                     showTimeSelect
                                     showTimeSelectOnly
                                     timeIntervals={15}
@@ -316,7 +310,7 @@ export default function FormEvCad() {
                                 <label>Horário de Término:</label>
                                 <DatePicker
                                     selected={formData.finishTime ? new Date(formData.finishTime) : null}
-                                    onChange={(date) => handleDateChange(date, "finishTime")}
+                                    onChange={(time) => handleTimeChange(time, "finishTime")}
                                     showTimeSelect
                                     showTimeSelectOnly
                                     timeIntervals={15}
