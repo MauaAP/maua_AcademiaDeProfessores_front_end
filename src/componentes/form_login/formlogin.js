@@ -82,7 +82,7 @@ export default function FormsLogin() {
   return (
     <div className="complemento_direita">
       <form className="formulario" onSubmit={handleSubmit}>
-        <h2>Portal do Professor</h2>
+        <h2 className="font-bold text-xl">Portal do Professor</h2>
         <label htmlFor='email'>Email {emailError && <span style={{ color: 'red', fontSize: '8'}}>Email inválido</span>}</label>
         <input 
           type='email' 
@@ -99,7 +99,7 @@ export default function FormsLogin() {
           value={password} 
           onChange={handlePasswordChange}
         />
-        <button type="submit" className={`btn ${loading ? 'loading' : ''}`} disabled={submitButtonDisabled || loading}>
+        <button type="submit" className={`btn ${loading ? 'loading flex items-center gap-2' : ''}`} disabled={submitButtonDisabled || loading}>
           {loading ? <>Carregando...<FaSpinner className="spin" /></>  : 'Entrar'}
         </button>
       </form>

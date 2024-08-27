@@ -86,7 +86,7 @@ export default function App() {
               <Route path='/listaEventosMod' element={<ListaEventosMod itensMenu={itensMenuMod}/>}/>
               <Route path='/cadastroEventosMod' element={<CadastroEvMod itensMenu={itensMenuMod}/>}/>
             </Route>
-       
+        
         </Routes>
       </BrowserRouter>
     </div>

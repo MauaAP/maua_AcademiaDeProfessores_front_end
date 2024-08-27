@@ -50,7 +50,7 @@ export default function TemplateCertificado ({ certificadoId, evento, professor,
             <p>{professor}</p>
             <p>{data}</p>
             <div className="side">
-                <button className="baixar" onClick={handleDownload}>Baixar <IoIosDownload size={15} /></button>
+                <button className="baixar flex items-center gap-2" onClick={handleDownload}>Baixar <IoIosDownload size={15} /></button>
                 {showDelete &&
                     <button className="deletar" onClick={handleDelete}>Deletar</button>
                 }

@@ -1,62 +1,70 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from 'react';
 import './certificados.css';
 import TemplateCertificado from "../certificado/certificado";
-import axios from "axios";
+import { FaSpinner } from "react-icons/fa6";
 
 export default function Certificados({ certificadosData, mostrarBusca = true }) {
-  const [filtroCurso, setFiltroCurso] = useState('');
-  const [filtroProfessor, setFiltroProfessor] = useState('');
-  const [filteredCertificados, setFilteredCertificados] = useState([]);
-  const [carregando, setCarregando] = useState(true);
+  const [currentPage, setCurrentPage] = useState(1);
+  const itemsPerPage = 20;
+  const indexOfLastItem = currentPage * itemsPerPage;
+  const indexOfFirstItem = indexOfLastItem - itemsPerPage;
+  const currentItems = certificadosData.slice(indexOfFirstItem, indexOfLastItem);
+  const totalPages = Math.ceil(certificadosData.length / itemsPerPage);
+  const paginate = (pageNumber) => setCurrentPage(pageNumber);
 
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const certificadosCompletos = await Promise.all(certificadosData.map(async (certificado) => {
-          try {
-            const professorResponse = await axios.get(`https://serene-mountain-65884-1b703ae41d98.herokuapp.com/api/user-id/${certificado.userId}`);
-            const nomeProfessor = professorResponse.data.name;
+  const renderPaginationButtons = () => {
+    const pageButtons = [];
+    const maxVisiblePages = 3;
 
-            const eventoResponse = await axios.get(`https://serene-mountain-65884-1b703ae41d98.herokuapp.com/api/events/${certificado.eventId}`);
-            const nomeEvento = eventoResponse.data.eventName;
+    if (currentPage > 1) {
+      pageButtons.push(
+        <button
+          key={1}
+          onClick={() => paginate(1)}
+          className={`pagination-button ${currentPage === 1 ? 'active' : ''}`}
+        >
+          1
+        </button>
+      );
+    }
 
-            return {
-              ...certificado,
-              nomeProfessor,
-              nomeEvento,
-            };
-          } catch (error) {
-            console.error("Erro ao buscar informações do certificado:", error);
-            setCarregando(false);
-          }
-        }));
+    if (currentPage > maxVisiblePages + 1) {
+      pageButtons.push(<span key="before-dots">...</span>);
+    }
 
-        const certificadosFiltrados = certificadosCompletos.filter(certificado => certificado !== null);
-        setFilteredCertificados(certificadosFiltrados);
-      } catch (error) {
-        console.error("Erro ao buscar certificados:", error);
-      }
-    };
+    const startPage = Math.max(currentPage - Math.floor(maxVisiblePages / 2), 2);
+    const endPage = Math.min(currentPage + Math.floor(maxVisiblePages / 2), totalPages - 1);
 
-    fetchData();
-  }, [certificadosData]);
+    for (let i = startPage; i <= endPage; i++) {
+      pageButtons.push(
+        <button
+          key={i}
+          onClick={() => paginate(i)}
+          className={`pagination-button ${currentPage === i ? 'active' : ''}`}
+        >
+          {i}
+        </button>
+      );
+    }
 
-  const handleFiltroCursoChange = (event) => {
-    setFiltroCurso(event.target.value);
+    if (currentPage < totalPages - maxVisiblePages) {
+      pageButtons.push(<span key="after-dots">...</span>);
+    }
+
+    if (currentPage < totalPages) {
+      pageButtons.push(
+        <button
+          key={totalPages}
+          onClick={() => paginate(totalPages)}
+          className={`pagination-button ${currentPage === totalPages ? 'active' : ''}`}
+        >
+          {totalPages}
+        </button>
+      );
+    }
+
+    return pageButtons;
   };
-
-  const handleFiltroProfessorChange = (event) => {
-    setFiltroProfessor(event.target.value);
-  };
-
-  const filteredCertificadosToShow = filteredCertificados.filter(certificado =>
-    certificado.nomeEvento.toLowerCase().includes(filtroCurso.toLowerCase()) &&
-    certificado.nomeProfessor.toLowerCase().includes(filtroProfessor.toLowerCase())
-  );
-
-  setTimeout(() => {
-      setCarregando(false);
-  }, 3000); 
 
   return (
     <div>
@@ -65,37 +73,42 @@ export default function Certificados({ certificadosData, mostrarBusca = true }) 
         <input 
           type="text" 
           placeholder="Procurar por evento..." 
-          value={filtroCurso} 
-          onChange={handleFiltroCursoChange} 
         />
         {mostrarBusca && (
           <input 
             type="text" 
             placeholder="Procurar por professor..." 
-            value={filtroProfessor} 
-            onChange={handleFiltroProfessorChange} 
           />
         )}
       </div>
 
-      {(
-        <div className="certificados">
-          {filteredCertificadosToShow.length === 0 ? ( carregando ? (
-              <p>Carregando...</p> ) :  <p>Não há nenhum registro de certificados!</p>
-          ) : (
-            filteredCertificadosToShow.map((certificado, index) => (
-              <TemplateCertificado
-                key={index}
-                certificadoId={certificado.presenceId}
-                evento={certificado.nomeEvento}
-                professor={certificado.nomeProfessor}
-                data={new Date(certificado.date).toLocaleDateString('pt-BR')}
-                showDelete={mostrarBusca}
-              />
-            ))
-          )}
-        </div>
-      )}
+      <div className="certificados">
+        {certificadosData.length === 0 ? (
+          <p className="flex items-center justify-center text-4xl">
+            <FaSpinner className="animate-spin" />
+          </p>
+        ) : (
+          <>
+            {currentItems.length === 0 ? (
+              <p>Não há nenhum registro de certificados!</p>
+            ) : (
+              currentItems.map((certificado, index) => (
+                <TemplateCertificado
+                  key={index}
+                  certificadoId={certificado.presenceId}
+                  evento={certificado.eventName}
+                  professor={certificado.userName}
+                  data={new Date(certificado.date).toLocaleDateString('pt-BR')}
+                  showDelete={mostrarBusca}
+                />
+              ))
+            )}
+            <div className="flex justify-center">
+              {renderPaginationButtons()}
+            </div>
+          </>
+        )}
+      </div>
     </div>
   );
 }
