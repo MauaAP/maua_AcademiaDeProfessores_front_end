@@ -1,6 +1,6 @@
 import React from "react";
-import './certificado.css';
 import { IoIosPaper } from "react-icons/io";
+import { IoIosTrash } from "react-icons/io";
 import { IoIosDownload } from "react-icons/io";
 import axios from 'axios';
 import { toast } from 'react-toastify';
@@ -44,15 +44,17 @@ export default function TemplateCertificado ({ certificadoId, evento, professor,
     };
 
     return (
-        <div className="certificado">
-            <IoIosPaper size={32} />
-            <p>{evento}</p>
-            <p>{professor}</p>
-            <p>{data}</p>
-            <div className="side">
-                <button className="baixar flex items-center gap-2" onClick={handleDownload}>Baixar <IoIosDownload size={15} /></button>
+        <div className="flex items-center gap-8 w-full bg-gray-300 mb-4 p-4 rounded-xl shadow-md max-md:flex-col">
+            <div className="bg-gray-400 p-2 rounded-md">
+                <IoIosPaper size={32} />
+            </div>
+            <p className="flex-[3] max-md:text-center">{evento}</p>
+            <p className="flex-[3] max-md:text-center">{professor}</p>
+            <p className="flex-[2] max-md:text-center">{data}</p>
+            <div className="flex flex-col gap-2 max-md:w-full">
+                <button className="flex items-center justify-between gap-2 bg-[#69A120] text-white p-2 rounded-lg duration-100 hover:bg-[#517e17] max-md:justify-center" onClick={handleDownload}>Baixar <IoIosDownload size={16} /></button>
                 {showDelete &&
-                    <button className="deletar" onClick={handleDelete}>Deletar</button>
+                    <button className="flex items-center justify-between gap-2 bg-[#A12020] text-white p-2 rounded-lg duration-100 hover:bg-[#7c1a1a] max-md:justify-center" onClick={handleDelete}>Deletar <IoIosTrash size={16}/></button>
                 }
             </div>
         </div>

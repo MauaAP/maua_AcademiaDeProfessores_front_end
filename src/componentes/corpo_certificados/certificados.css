@@ -2,7 +2,6 @@
     display: flex;
     justify-content: space-between;
     align-items: center;
-    margin: 5%;
 }
 
 .titulo_certificados input{
@@ -17,7 +16,6 @@
 .certificados{
     display: flex;
     flex-direction: column;
-    margin: 5%;
 }
 
 .pagination {
