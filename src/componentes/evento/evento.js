@@ -80,14 +80,16 @@ export default function TemplateEvento({ eventId, eventName, date, host, manager
 
     return (
         <div>
-            <div className="evento">
-                <MdOutlineEvent size={32} />
-                <p>{eventName}</p>
-                <p>{date}</p>
-                <p>{local}</p>
-                <p>{modality}</p>
+            <div className="flex items-center gap-8 w-full bg-gray-300 mb-4 p-4 rounded-xl shadow-md max-md:flex-col">
+                <div className="bg-gray-400 p-2 rounded-md">
+                    <MdOutlineEvent size={32} />
+                </div>
+                <p className="flex-[3] max-md:text-center">{eventName}</p>
+                <p className="flex-[3] max-md:text-center">{date}</p>
+                <p className="flex-[3] max-md:text-center">{local}</p>
+                <p className="flex-[3] max-md:text-center">{modality}</p>
                 {mostrarOpcoesEsp && (
-                    <div className="evento-dir">
+                    <div className="flex flex-col max-md:w-full">
                         <button className="gerador" onClick={handleGerarQRCode}>Gerar QR Code</button>
                         <button className="atualizar" onClick={newAtt}>Sobre</button>
                         <button className="deletar" onClick={handleDelete}>Deletar</button>

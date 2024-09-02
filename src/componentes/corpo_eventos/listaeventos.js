@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import './listaeventos.css';
 import { FaCalendarPlus } from "react-icons/fa6";
+import { FaSpinner } from "react-icons/fa";
 import TemplateEvento from "../evento/evento";
 
 export default function Eventos({ listaEventos, cadEvento = "", mostrarInputTituloEvento = true }) {
@@ -81,20 +82,23 @@ export default function Eventos({ listaEventos, cadEvento = "", mostrarInputTitu
 
     return (
         <div className="evento-container">
-            <div className="titulo-evento">
-                <h2>Eventos</h2>
-                {cadEvento && <a href={cadEvento}><FaCalendarPlus /> Cadastrar</a>}
+            <div className="flex m-12 justify-between gap-4 max-md:flex-col">
+                <h2 className="text-2xl font-semibold text-[#4F1313] max-lg:text-center">Eventos</h2>
                 <input 
+                    className="border-2 border-gray-400 p-2 rounded-md shadow-xl w-72 max-md:w-full"
                     type="text"
                     placeholder="Procurar..."
                     value={filtro}
                     onChange={handleFiltroChange}
                 />
+                {cadEvento && <a className="flex items-center gap-4 p-2 rounded-lg duration-100 text-white bg-[#69A120] hover:bg-[#517e17]" href={cadEvento}><FaCalendarPlus /> Cadastrar</a>}
             </div>
 
-            <div className="eventos">
+            <div className="m-12">
                 {currentItems.length === 0 ? (
-                    <p className='text-center'>Nenhum evento encontrado.</p>
+                    <p className="flex items-center justify-center text-4xl">
+                        <FaSpinner className="animate-spin" />
+                    </p>
                 ) : (
                     currentItems.map((evento, index) => (
                         <TemplateEvento

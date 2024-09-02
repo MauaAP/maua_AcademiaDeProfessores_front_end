@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import './listaprof.css';
-import { FaUserPlus } from "react-icons/fa";
+import { FaSpinner, FaUserPlus } from "react-icons/fa";
 import TemplateProfessor from "../professor/professor";
 
 export default function Professores({ listaprofessores }) {
@@ -30,7 +30,11 @@ export default function Professores({ listaprofessores }) {
             </div>
 
             <div className="m-12">
-                {filteredProfessores.map((professor, index) => (
+                {filteredProfessores.length === 0 ?
+                    <p className="flex items-center justify-center text-4xl">
+                        <FaSpinner className="animate-spin" />
+                    </p>
+                : filteredProfessores.map((professor, index) => (
                     <TemplateProfessor
                         key={index}
                         id = {professor.id}
