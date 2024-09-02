@@ -140,7 +140,7 @@ export default function Relatorio({ certificadosData, showProfessorSearch = true
         <button className="flex items-center justify-between gap-2 bg-[#69A120] text-white p-2 rounded-lg duration-100 hover:bg-[#517e17] max-md:justify-center">Baixar Relatório <IoIosDownload size={16}/></button>
       </div>
 
-      <div className="certificados">
+      <div className="mt-12">
         {certificadosData.length === 0 ? (
           carregando ? (
             <p className="flex items-center justify-center text-4xl">
