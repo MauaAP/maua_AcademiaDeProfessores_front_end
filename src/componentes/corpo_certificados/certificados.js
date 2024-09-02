@@ -1,15 +1,23 @@
-import React, { useState } from 'react';
 import './certificados.css';
+import React, { useState } from 'react';
 import TemplateCertificado from "../certificado/certificado";
 import { FaSpinner } from "react-icons/fa6";
 
 export default function Certificados({ certificadosData, mostrarBusca = true }) {
   const [currentPage, setCurrentPage] = useState(1);
+  const [searchTerm, setSearchTerm] = useState('');
   const itemsPerPage = 20;
+
+  const filteredCertificados = certificadosData.filter(certificado =>
+    certificado.eventName.toLowerCase().includes(searchTerm.toLowerCase()) ||
+    certificado.userName.toLowerCase().includes(searchTerm.toLowerCase())
+  );
+
   const indexOfLastItem = currentPage * itemsPerPage;
   const indexOfFirstItem = indexOfLastItem - itemsPerPage;
-  const currentItems = certificadosData.slice(indexOfFirstItem, indexOfLastItem);
-  const totalPages = Math.ceil(certificadosData.length / itemsPerPage);
+  const currentItems = filteredCertificados.slice(indexOfFirstItem, indexOfLastItem);
+  const totalPages = Math.ceil(filteredCertificados.length / itemsPerPage);
+
   const paginate = (pageNumber) => setCurrentPage(pageNumber);
 
   const renderPaginationButtons = () => {
@@ -67,22 +75,22 @@ export default function Certificados({ certificadosData, mostrarBusca = true }) 
   };
 
   return (
-    <div>
-      <div className="titulo_certificados">
-        <h2>Certificados</h2>
+    <main className='p-24 max-md:p-8'>
+      <div className="flex justify-between items-center mb-8 max-md:flex-col">
+        <h2 className="text-2xl font-semibold text-[#4F1313]">Certificados</h2>
         <input 
+          className="w-72 p-2 rounded-md shadow-xl border-2 border-gray-400 max-md:w-full"
           type="text" 
-          placeholder="Procurar por evento..." 
+          placeholder="Procurar por evento ou professor..." 
+          value={searchTerm}
+          onChange={(e) => {
+            setSearchTerm(e.target.value);
+            setCurrentPage(1); // Resetar para a primeira página ao fazer uma nova busca
+          }}
         />
-        {mostrarBusca && (
-          <input 
-            type="text" 
-            placeholder="Procurar por professor..." 
-          />
-        )}
       </div>
 
-      <div className="certificados">
+      <div className="">
         {certificadosData.length === 0 ? (
           <p className="flex items-center justify-center text-4xl">
             <FaSpinner className="animate-spin" />
@@ -90,25 +98,25 @@ export default function Certificados({ certificadosData, mostrarBusca = true }) 
         ) : (
           <>
             {currentItems.length === 0 ? (
-              <p>Não há nenhum registro de certificados!</p>
+              <p className='text-center text-xl'>Não há nenhum registro de certificados!</p>
             ) : (
-              currentItems.map((certificado, index) => (
-                <TemplateCertificado
-                  key={index}
-                  certificadoId={certificado.presenceId}
-                  evento={certificado.eventName}
-                  professor={certificado.userName}
-                  data={new Date(certificado.date).toLocaleDateString('pt-BR')}
-                  showDelete={mostrarBusca}
-                />
-              ))
-            )}
+                currentItems.map((certificado, index) => (
+                  <TemplateCertificado
+                    key={index}
+                    certificadoId={certificado.presenceId}
+                    evento={certificado.eventName}
+                    professor={certificado.userName}
+                    data={new Date(certificado.date).toLocaleDateString('pt-BR')}
+                    showDelete={mostrarBusca}
+                    />
+                ))
+              )}
             <div className="flex justify-center">
               {renderPaginationButtons()}
             </div>
           </>
         )}
       </div>
-    </div>
+    </main>
   );
 }
