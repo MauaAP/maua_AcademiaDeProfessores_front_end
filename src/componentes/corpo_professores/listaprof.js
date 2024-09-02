@@ -17,18 +17,19 @@ export default function Professores({ listaprofessores }) {
 
     return (
         <div className="professores-container">
-            <div className="titulo-professores">
-                <h2>Usuários</h2>
-                <a href="/cadastroProfessores">{<FaUserPlus />} Cadastrar</a>
+            <div className="flex m-12 justify-between gap-4 max-md:flex-col">
+                <h2 className="text-2xl font-semibold text-[#4F1313] max-lg:text-center">Usuários</h2>
                 <input 
+                    className="border-2 border-gray-400 p-2 rounded-md shadow-xl w-72 max-md:w-full"
                     type="text"
                     placeholder="Procurar..."
                     value={filtro}
                     onChange={handleFiltroChange}
                 />
+                <a className="flex items-center gap-4 p-2 rounded-lg duration-100 text-white bg-[#69A120] hover:bg-[#517e17]" href="/cadastroProfessores">{<FaUserPlus />} Cadastrar</a>
             </div>
 
-            <div className="professores">
+            <div className="m-12">
                 {filteredProfessores.map((professor, index) => (
                     <TemplateProfessor
                         key={index}

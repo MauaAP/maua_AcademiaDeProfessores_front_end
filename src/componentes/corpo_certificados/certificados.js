@@ -90,7 +90,7 @@ export default function Certificados({ certificadosData, mostrarBusca = true }) 
         />
       </div>
 
-      <div className="">
+      <div>
         {certificadosData.length === 0 ? (
           <p className="flex items-center justify-center text-4xl">
             <FaSpinner className="animate-spin" />

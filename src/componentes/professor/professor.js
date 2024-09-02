@@ -82,13 +82,15 @@ export default function TemplateProfessor({ professor, cpf, phone, email, role, 
 
     return (
         <div>
-            <div className="professor">
-                <FaUserCircle size={32} />
-                <p>{professor}</p>
-                <p>Usuário {getRoleText(role)}</p>
-                <p>{cpf}</p>
-                <p>{phone}</p>
-                <div className="professor-dir">
+            <div className="flex items-center gap-8 w-full bg-gray-300 mb-4 p-4 rounded-xl shadow-md max-md:flex-col">
+                <div className="bg-gray-400 p-2 rounded-md">
+                    <FaUserCircle size={32} />
+                </div>
+                <p className="flex-[3] max-md:text-center">{professor}</p>
+                <p className="flex-[3] max-md:text-center">Usuário {getRoleText(role)}</p>
+                <p className="flex-[3] max-md:text-center">{cpf}</p>
+                <p className="flex-[3] max-md:text-center">{phone}</p>
+                <div className="flex flex-col max-md:flex-row">
                     <button className="atualizar" onClick={newAtt}>Atualizar</button>
                     <button className="deletar" style={{ backgroundColor: buttonColor }} onClick={() => {
                         toggleStatus();
