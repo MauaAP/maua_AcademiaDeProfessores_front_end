@@ -80,8 +80,8 @@ export default function FormsLogin() {
   
 
   return (
-    <div className="complemento_direita">
-      <form className="formulario" onSubmit={handleSubmit}>
+    <section className="absolute top-0 right-0 w-1/2 min-h-screen flex flex-col items-center justify-center bg-white max-md:w-full max-md:bg-transparent">
+      <form className="formulario p-8 max-md:shadow-lg max-md:bg-white max-md:rounded-xl" onSubmit={handleSubmit}>
         <h2 className="font-bold text-xl">Portal do Professor</h2>
         <label htmlFor='email'>Email {emailError && <span style={{ color: 'red', fontSize: '8'}}>Email inválido</span>}</label>
         <input 
@@ -102,8 +102,10 @@ export default function FormsLogin() {
         <button type="submit" className={`btn ${loading ? 'loading flex items-center gap-2' : ''}`} disabled={submitButtonDisabled || loading}>
           {loading ? <>Carregando...<FaSpinner className="spin" /></>  : 'Entrar'}
         </button>
+        <div className="flex justify-center mt-4">
+          <a className="w-32" href="https://maua.br"><img src="./imagens/logo_maua.png" alt="logo maua"/></a>
+        </div>
       </form>
-      <a className="logo_maua" href="https://maua.br"><img src="./imagens/logo_maua.png" alt="logo maua"/></a>
-    </div>
+    </section>
   );
 }
