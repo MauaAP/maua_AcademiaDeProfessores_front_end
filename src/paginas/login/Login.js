@@ -4,8 +4,8 @@ import './Login.css'
 
 export default function Login() {
     return(
-        <div className="login">
-            <img className='imagem_fundo' src="/imagens/fundo.png" alt="campus da mauá"/>
+        <div className="flex items-center">
+            <img className='w-full h-screen object-cover' src="/imagens/fundo.png" alt="campus da mauá"/>
             <FormsLogin/>
         </div>
     )
