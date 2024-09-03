@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import './listaprof.css';
-import { FaSpinner, FaUserPlus } from "react-icons/fa";
+import { FaSpinner, FaListAlt, FaUserPlus } from "react-icons/fa";
 import TemplateProfessor from "../professor/professor";
 
 export default function Professores({ listaprofessores }) {
@@ -14,7 +14,6 @@ export default function Professores({ listaprofessores }) {
         professor.name.toLowerCase().includes(filtro.toLowerCase())
     );
 
-
     return (
         <div className="professores-container">
             <div className="flex m-12 justify-between gap-4 max-md:flex-col">
@@ -26,7 +25,10 @@ export default function Professores({ listaprofessores }) {
                     value={filtro}
                     onChange={handleFiltroChange}
                 />
-                <a className="flex items-center gap-4 p-2 rounded-lg duration-100 text-white bg-[#69A120] hover:bg-[#517e17]" href="/cadastroProfessores">{<FaUserPlus />} Cadastrar</a>
+                <div className="flex items-center gap-4 justify-center">
+                    <a href="https://serene-mountain-65884-1b703ae41d98.herokuapp.com/api/download-users" className="flex items-center gap-4 p-2 rounded-lg duration-100 text-white bg-[#69A120] hover:bg-[#517e17]">{<FaListAlt />} Baixar Usuários</a>
+                    <a className="flex items-center gap-4 p-2 rounded-lg duration-100 text-white bg-[#69A120] hover:bg-[#517e17]" href="/cadastroProfessores">{<FaUserPlus />} Cadastrar</a>
+                </div>
             </div>
 
             <div className="m-12">
