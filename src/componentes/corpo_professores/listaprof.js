@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import './listaprof.css';
 import { FaSpinner, FaListAlt, FaUserPlus } from "react-icons/fa";
 import TemplateProfessor from "../professor/professor";
+import axios from "axios";
 
 export default function Professores({ listaprofessores }) {
     const [filtro, setFiltro] = useState('');
@@ -13,6 +14,27 @@ export default function Professores({ listaprofessores }) {
     const filteredProfessores = listaprofessores.filter(professor =>
         professor.name.toLowerCase().includes(filtro.toLowerCase())
     );
+
+    const handleDownloadUsers = async () => {
+        try {
+            const response = await axios.get('https://serene-mountain-65884-1b703ae41d98.herokuapp.com/api/download-users', {
+              headers: {
+                Authorization: `Bearer ${localStorage.getItem('token')}`
+              },
+              responseType: 'blob', // Adiciona o tipo de resposta como blob
+            });
+      
+            const url = window.URL.createObjectURL(new Blob([response.data])); // Cria uma URL com o arquivo blob
+            const link = document.createElement('a');
+            link.href = url;
+            link.setAttribute('download', 'users.csv'); // Substitua pelo nome do arquivo desejado
+            document.body.appendChild(link);
+            link.click();
+            link.remove(); // Remove o link após o clique
+          } catch (error) {
+            console.error('Erro ao baixar usuários:', error);
+          }
+    };
 
     return (
         <div className="professores-container">
@@ -26,7 +48,12 @@ export default function Professores({ listaprofessores }) {
                     onChange={handleFiltroChange}
                 />
                 <div className="flex items-center gap-4 justify-center">
-                    <a href="https://serene-mountain-65884-1b703ae41d98.herokuapp.com/api/download-users" className="flex items-center gap-4 p-2 rounded-lg duration-100 text-white bg-[#69A120] hover:bg-[#517e17]">{<FaListAlt />} Baixar Usuários</a>
+                    <button
+                        onClick={handleDownloadUsers}
+                        className="flex items-center gap-4 p-2 rounded-lg duration-100 text-white bg-[#69A120] hover:bg-[#517e17]"
+                    >
+                        <FaListAlt /> Baixar Usuários
+                    </button>
                     <a className="flex items-center gap-4 p-2 rounded-lg duration-100 text-white bg-[#69A120] hover:bg-[#517e17]" href="/cadastroProfessores">{<FaUserPlus />} Cadastrar</a>
                 </div>
             </div>
