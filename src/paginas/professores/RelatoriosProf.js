@@ -15,7 +15,11 @@ export default function RelatoriosProf ({itensMenu}){
     useEffect(() => {
         const fetchCertificados = async () => {
             try {
-                const response = await axios.get("https://serene-mountain-65884-1b703ae41d98.herokuapp.com/api/presences");
+                const response = await axios.get("https://serene-mountain-65884-1b703ae41d98.herokuapp.com/api/presences", {
+                    headers: {
+                        Authorization: `Bearer ${localStorage.getItem("token")}`
+                    }
+                });
 
                 setCertificadosData(response.data);
             } catch (error) {
