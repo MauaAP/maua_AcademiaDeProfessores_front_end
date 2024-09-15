@@ -1,9 +1,10 @@
 import './certificados.css';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import TemplateCertificado from "../certificado/certificado";
 import { FaSpinner } from "react-icons/fa6";
 
 export default function Certificados({ certificadosData, mostrarBusca = true }) {
+  const [timer, setTimer] = useState(false)
   const [currentPage, setCurrentPage] = useState(1);
   const [searchTerm, setSearchTerm] = useState('');
   const itemsPerPage = 20;
@@ -74,6 +75,12 @@ export default function Certificados({ certificadosData, mostrarBusca = true }) 
     return pageButtons;
   };
 
+  useEffect(() => {
+    setTimeout(() => {
+      setTimer(true)
+    }, 3000)
+  }, [])
+
   return (
     <main className='p-24 max-md:p-8'>
       <div className="flex justify-between items-center mb-8 max-md:flex-col">
@@ -91,10 +98,12 @@ export default function Certificados({ certificadosData, mostrarBusca = true }) 
       </div>
 
       <div>
-        {certificadosData.length === 0 ? (
-          <p className="flex items-center justify-center text-4xl">
-            <FaSpinner className="animate-spin" />
-          </p>
+        {certificadosData.length === 0 ? timer ? (
+            <p className='text-center text-xl'>Não há nenhum registro de certificados!</p>
+        ) : (
+            <p className="flex items-center justify-center text-4xl">
+              <FaSpinner className="animate-spin" />
+            </p>
         ) : (
           <>
             {currentItems.length === 0 ? (
