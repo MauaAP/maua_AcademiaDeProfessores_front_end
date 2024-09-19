@@ -91,6 +91,12 @@ export default function CorpoCerti({ lista, eventId }) {
                     </div>
                 ))}
             </div>
+            <br />
+            <h2 className="text-center text-3xl">Usuário Externo</h2>
+            <div className="flex gap-4 items-center justify-center">
+                <input type="text" className="shadow-sm border-2 border-orange-900 rounded-lg p-2" placeholder="insira seu nome..."/>
+                <input type="email" className="shadow-sm border-2 border-orange-900 rounded-lg p-2" placeholder="insira seu email..."/>
+            </div>
             <button className="botao" onClick={() => handleSubmit(idSelecionado)}>
                 {loading ? <AiOutlineLoading className="loading-icon" size={20} /> : "Confirmar Presença"}
             </button>
