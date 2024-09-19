@@ -17,14 +17,7 @@ export default function EventoProf({ itensMenu }) {
             Authorization: `Bearer ${localStorage.getItem("token")}`,
           },
         });
-
-        const eventosFiltrados = response.data.filter((evento) => {
-          const dataEvento = new Date(evento.date);
-          const dataAtual = new Date();
-          return dataEvento.getTime() > dataAtual.getTime();
-        });
-
-        setListaEventos(eventosFiltrados);
+        setListaEventos(response.data);
       } catch (error) {
         console.error("Erro ao buscar eventos:", error);
         notierror();
