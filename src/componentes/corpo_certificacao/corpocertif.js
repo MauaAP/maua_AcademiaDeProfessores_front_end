@@ -11,11 +11,31 @@ export default function CorpoCerti({ lista, eventId }) {
     const [checkboxSelecionado, setCheckboxSelecionado] = useState(null);
     const [idSelecionado, setIdSelecionado] = useState(null);
     const [loading, setLoading] = useState(false);
+    const [name, setName] = useState('');
+    const [email, setEmail] = useState('');
 
     const handleSubmit = async (pessoaId) => {
         if (!pessoaId) {
-            alert("Por favor, selecione um nome antes de confirmar.");
-            return;
+            if (!name || !email) {
+                alert("Por favor, preencha os campos de nome e email ou selecione um nome antes de confirmar.");
+                return;
+            } else {
+                try {
+                    setLoading(true);
+                    const response = await axios.post("https://serene-mountain-65884-1b703ae41d98.herokuapp.com/api/create-external-presence", {
+                        name: name,
+                        email: email,
+                        eventId: eventId
+                    });
+                    console.log('presença criada com sucesso:', response.data);
+                    navegacao("/end");
+                    return;
+                } catch (error) {
+                    console.error("Erro ao criar usuário:", error);
+                    alert("Houve um erro ao adicionar presença externa. Tente novamente.");
+                    return;
+                }
+            }
         }
         try {
             setLoading(true);
@@ -94,8 +114,8 @@ export default function CorpoCerti({ lista, eventId }) {
             <br />
             <h2 className="text-center text-3xl">Usuário Externo</h2>
             <div className="flex gap-4 items-center justify-center">
-                <input type="text" className="shadow-sm border-2 border-orange-900 rounded-lg p-2" placeholder="insira seu nome..."/>
-                <input type="email" className="shadow-sm border-2 border-orange-900 rounded-lg p-2" placeholder="insira seu email..."/>
+                <input onChange={(e) => setName(e.target.value)} type="text" className="shadow-sm border-2 border-orange-900 rounded-lg p-2" placeholder="insira seu nome..."/>
+                <input onChange={(e) => setEmail(e.target.value)} type="email" className="shadow-sm border-2 border-orange-900 rounded-lg p-2" placeholder="insira seu email..."/>
             </div>
             <button className="botao" onClick={() => handleSubmit(idSelecionado)}>
                 {loading ? <AiOutlineLoading className="loading-icon" size={20} /> : "Confirmar Presença"}
