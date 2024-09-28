@@ -6,6 +6,7 @@ export default function Relatorios ({itensMenu}){
     return(
         <body>
             <NavBar itensMenu={itensMenu} cor={"#4F1313"}/>
+            {/* TELA ANTIGA */}
             {/* <Relatorio certificadosData={certificadosData} showProfessorSearch={true} /> */}
             <CorpoDownloadRelatorio/>
         </body>
