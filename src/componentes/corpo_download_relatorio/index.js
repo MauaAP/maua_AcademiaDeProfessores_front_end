@@ -53,6 +53,28 @@ export function CorpoDownloadRelatorio({ professor }) {
         }
     }
 
+    async function relatorioReitoria() {
+        try {
+            await axios.get(`https://serene-mountain-65884-1b703ae41d98.herokuapp.com/api/reitoria-report`, {
+                headers: {
+                    Authorization: `Bearer ${localStorage.getItem("token")}`
+                }
+            }).then((response) => {
+                const reportUrl = response.data.reportUrl;
+                // Cria um link para download sem abrir o arquivo
+                const link = document.createElement('a');
+                link.href = reportUrl;
+                link.setAttribute('download', `RelatorioReitoria.pdf`); // Nome do arquivo de download
+                document.body.appendChild(link);
+                link.style.display = 'none'; // Esconde o link
+                link.click(); // Dispara o click para baixar o arquivo
+                document.body.removeChild(link);
+            })
+        } catch (error) {
+            console.error("erro ao buscar relatorio do professor: ", error)
+        }
+    }
+
     async function relatorioProfUnico() {
         try {
             await axios.get(`https://serene-mountain-65884-1b703ae41d98.herokuapp.com/api/professor-report`, {
@@ -106,6 +128,14 @@ export function CorpoDownloadRelatorio({ professor }) {
                         <p className="text-sm text-[#4F1313]">Baixe o relatório de certificados em CSV.</p>
                     </div>
                     <button onClick={relatorioGeral} className="flex items-center justify-between gap-2 bg-[#69A120] text-white p-2 rounded-lg duration-100 hover:bg-[#517e17] max-md:justify-center">Baixar <IoIosDownload size={16} /></button>
+                </div>
+                
+                <div className={`${professor ? "hidden" : "flex"} items-center justify-between p-8 bg-gray-300 w-1/2 rounded-xl shadow-md max-md:flex-col max-md:w-full`}>
+                    <div>
+                        <h3 className="text-lg font-semibold text-[#4F1313]">Download Relatório da Reitoria</h3>
+                        <p className="text-sm text-[#4F1313]">Baixe o relatório de certificados em PDF.</p>
+                    </div>
+                    <button onClick={relatorioReitoria} className="flex items-center justify-between gap-2 bg-[#69A120] text-white p-2 rounded-lg duration-100 hover:bg-[#517e17] max-md:justify-center">Baixar <IoIosDownload size={16} /></button>
                 </div>
 
                 <div className={`${professor ? "hidden" : "flex"} items-center justify-between p-8 bg-gray-300 w-1/2 rounded-xl shadow-md max-md:flex-col max-md:w-full`}>
