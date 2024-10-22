@@ -9,7 +9,7 @@ export function CorpoDownloadRelatorio({ professor }) {
 
     async function relatorioGeral() {
         try {
-            await axios.get("https://serene-mountain-65884-1b703ae41d98.herokuapp.com/api/download-events", {
+            await axios.get("https://6ymi3mpnkb.us-east-1.awsapprunner.com/api/download-events", {
                 headers: {
                     Authorization: `Bearer ${localStorage.getItem("token")}`
                 }
@@ -33,7 +33,7 @@ export function CorpoDownloadRelatorio({ professor }) {
                 alert("professor nao encontrado")
                 return
             }
-            await axios.get(`https://serene-mountain-65884-1b703ae41d98.herokuapp.com/api/professor-report/${idProfessor}`, {
+            await axios.get(`https://6ymi3mpnkb.us-east-1.awsapprunner.com/api/professor-report/${idProfessor}`, {
                 headers: {
                     Authorization: `Bearer ${localStorage.getItem("token")}`
                 }
@@ -55,7 +55,7 @@ export function CorpoDownloadRelatorio({ professor }) {
 
     async function relatorioReitoria() {
         try {
-            await axios.get(`https://serene-mountain-65884-1b703ae41d98.herokuapp.com/api/reitoria-report`, {
+            await axios.get(`https://6ymi3mpnkb.us-east-1.awsapprunner.com/api/reitoria-report`, {
                 headers: {
                     Authorization: `Bearer ${localStorage.getItem("token")}`
                 }
@@ -77,7 +77,7 @@ export function CorpoDownloadRelatorio({ professor }) {
 
     async function relatorioProfUnico() {
         try {
-            await axios.get(`https://serene-mountain-65884-1b703ae41d98.herokuapp.com/api/professor-report`, {
+            await axios.get(`https://6ymi3mpnkb.us-east-1.awsapprunner.com/api/professor-report`, {
                 headers: {
                     Authorization: `Bearer ${localStorage.getItem("token")}`
                 }
@@ -99,7 +99,7 @@ export function CorpoDownloadRelatorio({ professor }) {
 
     async function allUsers() {
         try {
-            await axios.get("https://serene-mountain-65884-1b703ae41d98.herokuapp.com/api/users", {
+            await axios.get("https://6ymi3mpnkb.us-east-1.awsapprunner.com/api/users", {
                 headers: {
                     Authorization: `Bearer ${localStorage.getItem("token")}`
                 }
