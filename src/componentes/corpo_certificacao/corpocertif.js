@@ -22,7 +22,7 @@ export default function CorpoCerti({ lista, eventId }) {
             } else {
                 try {
                     setLoading(true);
-                    const response = await axios.post("https://6ymi3mpnkb.us-east-1.awsapprunner.com/api/create-external-presence", {
+                    const response = await axios.post("https://serene-mountain-65884-1b703ae41d98.herokuapp.com/api/create-external-presence", {
                         name: name,
                         email: email,
                         eventId: eventId
@@ -39,7 +39,7 @@ export default function CorpoCerti({ lista, eventId }) {
         }
         try {
             setLoading(true);
-            const response = await axios.post("https://6ymi3mpnkb.us-east-1.awsapprunner.com/api/create-presence", {
+            const response = await axios.post("https://serene-mountain-65884-1b703ae41d98.herokuapp.com/api/create-presence", {
                 userid: pessoaId,
                 eventid: eventId
             });

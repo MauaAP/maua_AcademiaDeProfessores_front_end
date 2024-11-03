@@ -7,7 +7,7 @@ export default function SobreADM ({itensMenu}){
     const [userData, setUserData] = useState(null);
 
     useEffect(() => {
-            axios.get('https://6ymi3mpnkb.us-east-1.awsapprunner.com/api/user', {
+            axios.get('https://serene-mountain-65884-1b703ae41d98.herokuapp.com/api/user', {
                 headers: {
                     Authorization: `Bearer ${localStorage.getItem('token')}`
                 }

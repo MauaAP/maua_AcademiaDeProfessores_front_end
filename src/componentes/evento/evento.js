@@ -53,7 +53,7 @@ export default function TemplateEvento({ eventId, eventName, date, host, manager
 
     const handleDelete = async () => {
         try {
-            const response = await axios.delete(`https://6ymi3mpnkb.us-east-1.awsapprunner.com/api/delete-event/${eventId}`, {
+            const response = await axios.delete(`https://serene-mountain-65884-1b703ae41d98.herokuapp.com/api/delete-event/${eventId}`, {
                 headers: {
                     Authorization: `Bearer ${localStorage.getItem('token')}`
                 }

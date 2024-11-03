@@ -13,7 +13,7 @@ export default function ListaProfessores ({itensMenu}) {
 
         const fetchUsers = async () => {
             try {
-                const response = await axios.get('https://6ymi3mpnkb.us-east-1.awsapprunner.com/api/users', {
+                const response = await axios.get('https://serene-mountain-65884-1b703ae41d98.herokuapp.com/api/users', {
                     headers: {
                         Authorization: `Bearer ${localStorage.getItem('token')}`
                     }

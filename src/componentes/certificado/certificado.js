@@ -11,7 +11,7 @@ export default function TemplateCertificado ({ certificadoId, evento, professor,
     
     const handleDelete = async () => {
         try {
-            await axios.delete(`https://6ymi3mpnkb.us-east-1.awsapprunner.com/api/presence/${certificadoId}`, {
+            await axios.delete(`https://serene-mountain-65884-1b703ae41d98.herokuapp.com/api/presence/${certificadoId}`, {
                 headers: {
                     Authorization: `Bearer ${localStorage.getItem("token")}`
                 }
@@ -30,7 +30,7 @@ export default function TemplateCertificado ({ certificadoId, evento, professor,
 
     const handleDownload = async () => {
         try {
-            const response = await axios.get(`https://6ymi3mpnkb.us-east-1.awsapprunner.com/api/create-certificate/${certificadoId}`, {
+            const response = await axios.get(`https://serene-mountain-65884-1b703ae41d98.herokuapp.com/api/create-certificate/${certificadoId}`, {
                 headers: {
                     Authorization: `Bearer ${localStorage.getItem("token")}`
                 }
