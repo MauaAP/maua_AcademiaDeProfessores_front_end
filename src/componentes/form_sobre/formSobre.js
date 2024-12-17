@@ -3,6 +3,7 @@ import './formSobre.css';
 import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import InputMask from "react-input-mask";
+import axios from "axios";
 
 export default function FormSobre({ nomeP, emailP, cpfP, phone }) {
     const [formData, setFormData] = useState({
@@ -50,12 +51,17 @@ export default function FormSobre({ nomeP, emailP, cpfP, phone }) {
         });
     };
 
-    const handleSubmit = (event) => {
+    const handleSubmit = async (event) => {
         event.preventDefault();
         const filledFields = Object.values(formData).some(value => value !== '');
         if (filledFields) {
             notifySuccess();
             // manda pro banco
+            const response = await axios.put('https://pdghaebgjd.us-east-1.awsapprunner.com/api/update-user', formData, {
+                headers: {
+                    Authorization: `Bearer ${localStorage.getItem('token')}`
+                }
+            })
             console.log(formData);
         } else {
             notifyError();
