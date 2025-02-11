@@ -227,7 +227,7 @@ export default function FormEvCad() {
         } else if (allFieldsFilled) {
             
             try {
-                const response = await axios.post("https://pdghaebgjd.us-east-1.awsapprunner.com/api/create-event", formData, {
+                const response = await axios.post("https://maua-ap-back-end.onrender.com/api/create-event", formData, {
                     headers: {
                         Authorization: `Bearer ${localStorage.getItem("token")}`
                     }

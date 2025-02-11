@@ -57,12 +57,12 @@ export default function FormSobre({ nomeP, emailP, cpfP, phone }) {
         if (filledFields) {
             notifySuccess();
             // manda pro banco
-            const response = await axios.put('https://pdghaebgjd.us-east-1.awsapprunner.com/api/update-user', formData, {
+            await axios.put('https://maua-ap-back-end.onrender.com/api/update-user', formData, {
                 headers: {
                     Authorization: `Bearer ${localStorage.getItem('token')}`
                 }
             })
-            console.log(formData);
+            // console.log(formData);
         } else {
             notifyError();
         }

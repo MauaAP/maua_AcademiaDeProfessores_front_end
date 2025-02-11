@@ -12,7 +12,7 @@ export default function HomeADM ({itensMenu}){
     useEffect(() => {
         const fetchCertificados = async () => {
         try {
-            const response = await axios.get("https://pdghaebgjd.us-east-1.awsapprunner.com/api/presences", {
+            const response = await axios.get("https://maua-ap-back-end.onrender.com/api/presences", {
                 headers: {
                     Authorization: `Bearer ${localStorage.getItem("token")}`
                 }

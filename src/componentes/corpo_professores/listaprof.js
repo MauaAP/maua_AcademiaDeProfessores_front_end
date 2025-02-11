@@ -17,7 +17,7 @@ export default function Professores({ listaprofessores }) {
 
     const handleDownloadUsers = async () => {
         try {
-            const response = await axios.get('https://pdghaebgjd.us-east-1.awsapprunner.com/api/download-users', {
+            const response = await axios.get('https://maua-ap-back-end.onrender.com/api/download-users', {
               headers: {
                 Authorization: `Bearer ${localStorage.getItem('token')}`
               },
