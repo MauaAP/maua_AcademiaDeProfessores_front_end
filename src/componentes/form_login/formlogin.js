@@ -50,7 +50,7 @@ export default function FormsLogin() {
     const notifyError = (message) => toast.error(message);
   
     try {
-      const response = await axios.post('https://maua-ap-back-end.onrender.com/api/auth-user', {
+      const response = await axios.post('https://6mv3jcpmik.us-east-1.awsapprunner.com/api/auth-user', {
         email: email,
         password: password
       });

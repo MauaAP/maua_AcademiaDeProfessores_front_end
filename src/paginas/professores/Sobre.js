@@ -7,7 +7,7 @@ export default function SobreProf ({itensMenu}){
     const [userData, setUserData] = useState(null);
 
     useEffect(() => {
-        axios.get('https://maua-ap-back-end.onrender.com/api/user', {
+        axios.get('https://6mv3jcpmik.us-east-1.awsapprunner.com/api/user', {
             headers: {
                 Authorization: `Bearer ${localStorage.getItem('token')}`
             }

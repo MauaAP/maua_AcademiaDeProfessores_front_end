@@ -12,7 +12,7 @@ export default function EventoProf({ itensMenu }) {
   useEffect(() => {
     const fetchEventos = async () => {
       try {
-        const response = await axios.get("https://maua-ap-back-end.onrender.com/api/events/", {
+        const response = await axios.get("https://6mv3jcpmik.us-east-1.awsapprunner.com/api/events/", {
           headers: {
             Authorization: `Bearer ${localStorage.getItem("token")}`,
           },

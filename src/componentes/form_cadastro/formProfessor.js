@@ -63,7 +63,7 @@ export default function FormProfCad (){
         if (allFieldsFilled) {
             if (formData.senha === formData.confirSenha) {
                 try {
-                    const response = await axios.post('https://maua-ap-back-end.onrender.com/api/create-user', {
+                    const response = await axios.post('https://6mv3jcpmik.us-east-1.awsapprunner.com/api/create-user', {
                         "name": formData.nome,
                         "email": formData.email,
                         "password": formData.senha,
