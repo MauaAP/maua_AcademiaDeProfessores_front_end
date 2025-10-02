@@ -1,5 +1,4 @@
 import React, { useState } from "react";
-import './formCadastro.css';
 import { toast } from 'react-toastify';
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
@@ -55,15 +54,15 @@ function ResponsibleInput({ formData, handleInputChange }) {
     };
   
     return (
-      <>
-        <input
-          type="text"
-          name="manager"
-          value={manager}
-          onChange={handleChange}
-          placeholder="Responsável"
-        />
-      </>
+      <input
+        type="text"
+        name="manager"
+        value={manager}
+        onChange={handleChange}
+        placeholder="Nome do responsável"
+        className="w-full px-4 py-3 rounded-xl border-2 border-gray-200 focus:border-maua-blue focus:outline-none transition-colors"
+        required
+      />
     );
   }
 
@@ -77,15 +76,15 @@ function ContentActivitiesInput({ formData, handleInputChange }) {
     };
   
     return (
-      <>
-        <input
-          type="text"
-          name="contentActivities"
-          value={contentActivities}
-          onChange={handleChange}
-          placeholder="Atividades Planejadas"
-        />
-      </>
+      <textarea
+        name="contentActivities"
+        value={contentActivities}
+        onChange={handleChange}
+        placeholder="Descreva as atividades planejadas para o evento"
+        rows={3}
+        className="w-full px-4 py-3 rounded-xl border-2 border-gray-200 focus:border-maua-blue focus:outline-none transition-colors resize-none"
+        required
+      />
     );
   }
 
@@ -274,137 +273,297 @@ export default function FormEvCad() {
     };
 
     return (
-        <body>
-            <div className="corpo-cad">
-                <form className="corpo-cad" onSubmit={handleSubmit}>
-                    <h3>Cadastro de Evento</h3>
-                    
-                    <div className="info">
-                        <label>Nome do Evento:</label>
-                        <input type="text" name="eventName" value={formData.eventName} onChange={handleInputChange} placeholder="Nome do Evento" />
-                        
-                        <div className="senhas">
-                            <div className="info">
-                                <label>Data do Evento:</label>
-                                <DatePicker
-                                    selected={formData.date ? new Date(formData.date) : null}
-                                    onChange={(date) => handleDateChange(date, "date")}
-                                    dateFormat="dd/MM/yyyy"
-                                    placeholderText="Data do Evento"
-                                />
-                            </div>
-                            <div className="info">
-                                <label>Horário de Início:</label>
-                                <DatePicker
-                                    selected={formData.initTime ? new Date(formData.initTime) : null}
-                                    onChange={(time) => handleTimeChange(time, "initTime")}
-                                    showTimeSelect
-                                    showTimeSelectOnly
-                                    timeIntervals={15}
-                                    timeCaption="Hora"
-                                    dateFormat="HH:mm"
-                                    placeholderText="Horário de Início"
-                                />
-                            </div>
-                            <div className="info">
-                                <label>Horário de Término:</label>
-                                <DatePicker
-                                    selected={formData.finishTime ? new Date(formData.finishTime) : null}
-                                    onChange={(time) => handleTimeChange(time, "finishTime")}
-                                    showTimeSelect
-                                    showTimeSelectOnly
-                                    timeIntervals={15}
-                                    timeCaption="Hora"
-                                    dateFormat="HH:mm"
-                                    placeholderText="Horário de Término"
-                                />
-                            </div>
-                        </div>
-
-                        <label>Período:</label>
-                        <div className="escolhas">
-                            {periodosDisponiveis.map((period, index) => (
-                                <div key={index}>
-                                    <input 
-                                        type="checkbox" 
-                                        name="modality"
-                                        value={period} 
-                                        checked={selectedPeriod === period}
-                                        onChange={handlePeriodChange} 
-                                    />
-                                    {period}
-                                </div>
-                            ))}
-                        </div>
-                    
-                        <label>Responsável:</label>
-                        <ResponsibleInput formData={formData} handleInputChange={handleInputChange} />
-
-                        <label>Aplicador:</label>
-                        <input type="text" name="host" value={formData.host} onChange={handleInputChange} placeholder="Aplicador" />     
-
-                        <label>Email do Aplicador: {!emailValido && <span style={{ color: 'red', fontSize: '8'}}>Email inválido</span>}</label>
-                        <input type="text" name="hostEmail" value={formData.hostEmail.join(", ")} onChange={handleInputChange} placeholder="Email do Aplicador" />
-
-                        <label>Telefone do Aplicador: </label>
-                        <InputMask mask="(99) 99999-9999" value={formData.hostPhone} onChange={handlePhoneChange} placeholder="Telefone do Aplicador"/>
-
-                        <label>Local do Evento:</label>
-                        <input type="text" name="local" value={formData.local} onChange={handleInputChange} placeholder="Local do Evento" />
-
-                        <label>Modalidade:</label>
-                        <div className="escolhas">
-                            {modalidadeDisponiveis.map((modality, index) => (
-                                <div key={index}>
-                                    <input 
-                                        type="checkbox" 
-                                        name="modality"
-                                        value={modality} 
-                                        checked={selectedModality === modality}
-                                        onChange={handleModalityChange} 
-                                    />
-                                    {modality}
-                                </div>
-                            ))}
-                        </div>
-
-                        <label>Público-Alvo:</label>
-                        <input type="text" name="targetAudience" value={formData.targetAudience} onChange={handleInputChange} placeholder="Público-Alvo, exemplo: 'Comunidade IMT'" />
-
-                        <label>Tipo de Atividade:</label>
-                        <input type="text" name="activityType" value={formData.activityType} onChange={handleInputChange} placeholder="Tipo de Atividade" />
-
-                        <label>Número Máximo de Participantes:</label>
-                        <input type="number" min="0" name="numberMaxParticipants" value={formData.numberMaxParticipants} onChange={handleMaxParticipantsChange} placeholder="Número Máximo de Participantes" />
-
-                        <label>Objetivos:</label>
-                        <input type="text" name="goals" value={formData.goals} onChange={handleInputChange} placeholder="Objetivos" />
-
-                        <label>Atividades Planejadas:</label>
-                        <ContentActivitiesInput formData={formData} handleInputChange={handleInputChange} />
-
-                        <label>Competências Desenvolvidas:</label>
-                        <div className="escolhas">
-                            {competenciasDisponiveis.map((competency, index) => (
-                                <div key={index}>
-                                    <input 
-                                        type="checkbox" 
-                                        value={competency} 
-                                        checked={selectedCompetencies.includes(competency)}
-                                        onChange={handleCompetencyChange} 
-                                    />
-                                    {competency}
-                                </div>
-                            ))}
-                        </div>
-
-                        <label>Link da Reunião (se for remoto):</label>
-                        <input type="text" name="link" value={formData.link} onChange={handleInputChange} placeholder="Link da Reunião (se for remoto)" />
+        <div className="min-h-screen bg-gradient-to-br from-gray-50 to-gray-100 py-8">
+            <div className="max-w-4xl mx-auto px-4">
+                <div className="bg-white rounded-2xl shadow-xl border border-gray-100 overflow-hidden">
+                    <div className="bg-gradient-to-r from-maua-blue to-maua-light-blue px-8 py-6">
+                        <h2 className="text-2xl font-bold text-white">Cadastro de Evento</h2>
+                        <p className="text-blue-100 mt-2">Preencha os dados do evento para cadastrá-lo no sistema</p>
                     </div>
-                    <button className="bnt-cadastrar" type="submit">Cadastrar</button>
-                </form>
+                    
+                    <form className="p-8 space-y-8" onSubmit={handleSubmit}>
+                        {/* Informações Básicas */}
+                        <div className="space-y-6">
+                            <h3 className="text-lg font-semibold text-gray-800 border-b border-gray-200 pb-2">Informações Básicas</h3>
+                            
+                            <div>
+                                <label className="block text-sm font-medium text-gray-700 mb-2">Nome do Evento *</label>
+                                <input 
+                                    type="text" 
+                                    name="eventName" 
+                                    value={formData.eventName} 
+                                    onChange={handleInputChange} 
+                                    placeholder="Digite o nome do evento" 
+                                    className="w-full px-4 py-3 rounded-xl border-2 border-gray-200 focus:border-maua-blue focus:outline-none transition-colors"
+                                    required
+                                />
+                            </div>
+                            
+                            <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+                                <div>
+                                    <label className="block text-sm font-medium text-gray-700 mb-2">Data do Evento *</label>
+                                    <DatePicker
+                                        selected={formData.date ? new Date(formData.date) : null}
+                                        onChange={(date) => handleDateChange(date, "date")}
+                                        dateFormat="dd/MM/yyyy"
+                                        placeholderText="Selecione a data"
+                                        className="w-full px-4 py-3 rounded-xl border-2 border-gray-200 focus:border-maua-blue focus:outline-none transition-colors"
+                                        required
+                                    />
+                                </div>
+                                <div>
+                                    <label className="block text-sm font-medium text-gray-700 mb-2">Horário de Início *</label>
+                                    <DatePicker
+                                        selected={formData.initTime ? new Date(formData.initTime) : null}
+                                        onChange={(time) => handleTimeChange(time, "initTime")}
+                                        showTimeSelect
+                                        showTimeSelectOnly
+                                        timeIntervals={15}
+                                        timeCaption="Hora"
+                                        dateFormat="HH:mm"
+                                        placeholderText="00:00"
+                                        className="w-full px-4 py-3 rounded-xl border-2 border-gray-200 focus:border-maua-blue focus:outline-none transition-colors"
+                                        required
+                                    />
+                                </div>
+                                <div>
+                                    <label className="block text-sm font-medium text-gray-700 mb-2">Horário de Término *</label>
+                                    <DatePicker
+                                        selected={formData.finishTime ? new Date(formData.finishTime) : null}
+                                        onChange={(time) => handleTimeChange(time, "finishTime")}
+                                        showTimeSelect
+                                        showTimeSelectOnly
+                                        timeIntervals={15}
+                                        timeCaption="Hora"
+                                        dateFormat="HH:mm"
+                                        placeholderText="00:00"
+                                        className="w-full px-4 py-3 rounded-xl border-2 border-gray-200 focus:border-maua-blue focus:outline-none transition-colors"
+                                        required
+                                    />
+                                </div>
+                            </div>
+                        </div>
 
+                        {/* Período e Organização */}
+                        <div className="space-y-6">
+                            <h3 className="text-lg font-semibold text-gray-800 border-b border-gray-200 pb-2">Período e Organização</h3>
+                            
+                            <div>
+                                <label className="block text-sm font-medium text-gray-700 mb-3">Período do Evento *</label>
+                                <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
+                                    {periodosDisponiveis.map((period, index) => (
+                                        <label key={index} className="flex items-center p-3 rounded-lg border-2 border-gray-200 hover:border-maua-blue cursor-pointer transition-colors">
+                                            <input 
+                                                type="radio" 
+                                                name="period"
+                                                value={period} 
+                                                checked={selectedPeriod === period}
+                                                onChange={handlePeriodChange}
+                                                className="mr-3 text-maua-blue focus:ring-maua-blue"
+                                            />
+                                            <span className="text-sm text-gray-700">{period}</span>
+                                        </label>
+                                    ))}
+                                </div>
+                            </div>
+                            
+                            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                                <div>
+                                    <label className="block text-sm font-medium text-gray-700 mb-2">Responsável *</label>
+                                    <ResponsibleInput formData={formData} handleInputChange={handleInputChange} />
+                                </div>
+                                <div>
+                                    <label className="block text-sm font-medium text-gray-700 mb-2">Aplicador *</label>
+                                    <input 
+                                        type="text" 
+                                        name="host" 
+                                        value={formData.host} 
+                                        onChange={handleInputChange} 
+                                        placeholder="Nome do aplicador" 
+                                        className="w-full px-4 py-3 rounded-xl border-2 border-gray-200 focus:border-maua-blue focus:outline-none transition-colors"
+                                        required
+                                    />
+                                </div>
+                            </div>
+                            
+                            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                                <div>
+                                    <label className="block text-sm font-medium text-gray-700 mb-2">
+                                        Email do Aplicador *
+                                        {!emailValido && <span className="text-red-500 text-xs ml-2">• Email inválido</span>}
+                                    </label>
+                                    <input 
+                                        type="email" 
+                                        name="hostEmail" 
+                                        value={formData.hostEmail.join(", ")} 
+                                        onChange={handleInputChange} 
+                                        placeholder="email@exemplo.com" 
+                                        className={`w-full px-4 py-3 rounded-xl border-2 focus:outline-none transition-colors ${
+                                            !emailValido ? 'border-red-300 bg-red-50' : 'border-gray-200 focus:border-maua-blue'
+                                        }`}
+                                        required
+                                    />
+                                </div>
+                                <div>
+                                    <label className="block text-sm font-medium text-gray-700 mb-2">Telefone do Aplicador *</label>
+                                    <InputMask 
+                                        mask="(99) 99999-9999" 
+                                        value={formData.hostPhone} 
+                                        onChange={handlePhoneChange} 
+                                        placeholder="(00) 00000-0000" 
+                                        className="w-full px-4 py-3 rounded-xl border-2 border-gray-200 focus:border-maua-blue focus:outline-none transition-colors"
+                                        required
+                                    />
+                                </div>
+                            </div>
+                            
+                            <div>
+                                <label className="block text-sm font-medium text-gray-700 mb-2">Local do Evento *</label>
+                                <input 
+                                    type="text" 
+                                    name="local" 
+                                    value={formData.local} 
+                                    onChange={handleInputChange} 
+                                    placeholder="Local onde será realizado o evento" 
+                                    className="w-full px-4 py-3 rounded-xl border-2 border-gray-200 focus:border-maua-blue focus:outline-none transition-colors"
+                                    required
+                                />
+                            </div>
+                        </div>
+
+                        {/* Modalidade e Público-Alvo */}
+                        <div className="space-y-6">
+                            <h3 className="text-lg font-semibold text-gray-800 border-b border-gray-200 pb-2">Modalidade e Público-Alvo</h3>
+
+                            <div>
+                                <label className="block text-sm font-medium text-gray-700 mb-3">Modalidade *</label>
+                                <div className="grid grid-cols-1 md:grid-cols-3 gap-3">
+                                    {modalidadeDisponiveis.map((modality, index) => (
+                                        <label key={index} className="flex items-center p-3 rounded-lg border-2 border-gray-200 hover:border-maua-blue cursor-pointer transition-colors">
+                                            <input 
+                                                type="radio" 
+                                                name="modality"
+                                                value={modality} 
+                                                checked={selectedModality === modality}
+                                                onChange={handleModalityChange} 
+                                                className="mr-3 text-maua-blue focus:ring-maua-blue"
+                                                required
+                                            />
+                                            <span className="text-sm text-gray-700">{modality}</span>
+                                        </label>
+                                    ))}
+                                </div>
+                            </div>
+
+                        <div>
+                            <label className="block text-sm font-medium text-gray-700 mb-2">Público-Alvo *</label>
+                            <input 
+                                type="text" 
+                                name="targetAudience" 
+                                value={formData.targetAudience} 
+                                onChange={handleInputChange} 
+                                placeholder="Ex: Comunidade IMT, Professores de Engenharia"
+                                className="w-full px-4 py-3 rounded-xl border-2 border-gray-200 focus:border-maua-blue focus:outline-none transition-colors"
+                                required
+                            />
+                        </div>
+
+                        <div>
+                            <label className="block text-sm font-medium text-gray-700 mb-2">Tipo de Atividade *</label>
+                            <input 
+                                type="text" 
+                                name="activityType" 
+                                value={formData.activityType} 
+                                onChange={handleInputChange} 
+                                placeholder="Ex: Workshop, Palestra, Treinamento"
+                                className="w-full px-4 py-3 rounded-xl border-2 border-gray-200 focus:border-maua-blue focus:outline-none transition-colors"
+                                required
+                            />
+                        </div>
+
+                        <div>
+                            <label className="block text-sm font-medium text-gray-700 mb-2">Número Máximo de Participantes *</label>
+                            <input 
+                                type="number" 
+                                min="0" 
+                                name="numberMaxParticipants" 
+                                value={formData.numberMaxParticipants} 
+                                onChange={handleMaxParticipantsChange} 
+                                placeholder="Ex: 50"
+                                className="w-full px-4 py-3 rounded-xl border-2 border-gray-200 focus:border-maua-blue focus:outline-none transition-colors"
+                                required
+                            />
+                        </div>
+                    </div>
+
+                    {/* Detalhes do Evento */}
+                    <div className="space-y-6">
+                        <h3 className="text-lg font-semibold text-gray-800 border-b border-gray-200 pb-2">Detalhes do Evento</h3>
+
+                        <div>
+                            <label className="block text-sm font-medium text-gray-700 mb-2">Objetivos *</label>
+                            <textarea 
+                                name="goals" 
+                                value={formData.goals} 
+                                onChange={handleInputChange} 
+                                placeholder="Descreva os objetivos do evento"
+                                rows={3}
+                                className="w-full px-4 py-3 rounded-xl border-2 border-gray-200 focus:border-maua-blue focus:outline-none transition-colors resize-none"
+                                required
+                            />
+                        </div>
+
+                        <div>
+                            <label className="block text-sm font-medium text-gray-700 mb-2">Atividades Planejadas *</label>
+                            <ContentActivitiesInput formData={formData} handleInputChange={handleInputChange} />
+                        </div>
+
+                        <div>
+                            <label className="block text-sm font-medium text-gray-700 mb-3">Competências Desenvolvidas *</label>
+                            <div className="grid grid-cols-1 md:grid-cols-2 gap-3 max-h-60 overflow-y-auto p-3 rounded-lg border border-gray-200 bg-gray-50">
+                                {competenciasDisponiveis.map((competency, index) => (
+                                    <label key={index} className="flex items-center text-sm text-gray-700">
+                                        <input 
+                                            type="checkbox" 
+                                            value={competency} 
+                                            checked={selectedCompetencies.includes(competency)}
+                                            onChange={handleCompetencyChange} 
+                                            className="mr-2 text-maua-blue focus:ring-maua-blue"
+                                        />
+                                        {competency}
+                                    </label>
+                                ))}
+                            </div>
+                        </div>
+
+                        <div>
+                            <label className="block text-sm font-medium text-gray-700 mb-2">Link da Reunião (se for remoto)</label>
+                            <input 
+                                type="text" 
+                                name="link" 
+                                value={formData.link} 
+                                onChange={handleInputChange} 
+                                placeholder="https://meet.google.com/..."
+                                className="w-full px-4 py-3 rounded-xl border-2 border-gray-200 focus:border-maua-blue focus:outline-none transition-colors"
+                            />
+                        </div>
+                    </div>
+
+                        {/* Botão de Submit */}
+                        <div className="flex justify-end pt-6 border-t border-gray-200">
+                            <button 
+                                type="submit"
+                                className="bg-gradient-to-r from-maua-green to-maua-green-hover text-white px-8 py-4 rounded-xl font-semibold text-lg hover:shadow-lg transform hover:scale-105 transition-all duration-200 active:scale-95 flex items-center gap-3"
+                            >
+                                <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 6v6m0 0v6m0-6h6m-6 0H6" />
+                                </svg>
+                                Cadastrar Evento
+                            </button>
+                        </div>
+                    </form>
+                </div>
             </div>
-        </body>
+        </div>
     );
 }

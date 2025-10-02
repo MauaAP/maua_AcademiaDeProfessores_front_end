@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from "react";
-import './relatorio.css';
 import TemplateCertificado from "../certificado/certificado";
 import { IoIosDownload } from "react-icons/io";
 import DatePicker from "react-datepicker";

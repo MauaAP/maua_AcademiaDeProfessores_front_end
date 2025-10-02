@@ -1,5 +1,4 @@
 import React, { useState } from "react";
-import './formlogin.css';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import { jwtDecode } from "jwt-decode";
@@ -80,32 +79,89 @@ export default function FormsLogin() {
   
 
   return (
-    <section className="absolute top-0 right-0 w-1/2 min-h-screen flex flex-col items-center justify-center bg-white max-md:w-full max-md:bg-transparent">
-      <form className="formulario p-8 max-md:shadow-lg max-md:bg-white max-md:rounded-xl" onSubmit={handleSubmit}>
-        <h2 className="font-bold text-xl">Portal do Professor</h2>
-        <label htmlFor='email'>Email {emailError && <span style={{ color: 'red', fontSize: '8'}}>Email inválido</span>}</label>
-        <input 
-          type='email' 
-          placeholder='Insira seu email' 
-          className={`form-control ${emailError && 'error'}`}
-          value={email} 
-          onChange={handleEmailChange}
-        />
-        <label htmlFor='password'>Senha</label>
-        <input 
-          type='password' 
-          placeholder='Insira sua senha' 
-          className='form-control' 
-          value={password} 
-          onChange={handlePasswordChange}
-        />
-        <button type="submit" className={`btn ${loading ? 'loading flex items-center gap-2' : ''}`} disabled={submitButtonDisabled || loading}>
-          {loading ? <>Carregando...<FaSpinner className="spin" /></>  : 'Entrar'}
-        </button>
-        <div className="flex justify-center mt-4">
-          <a className="w-32" href="https://maua.br"><img src="./imagens/logo_maua.png" alt="logo maua"/></a>
-        </div>
-      </form>
+    <section className="w-full flex flex-col items-center justify-center py-8 px-4">
+      <div className="w-full max-w-md mx-auto">
+        <form className="bg-white rounded-2xl shadow-2xl p-6 sm:p-8 border border-gray-100" onSubmit={handleSubmit}>
+          {/* Header */}
+          <div className="text-center mb-8">
+            <div className="w-16 h-16 bg-gradient-to-r from-maua-blue to-maua-light-blue rounded-full flex items-center justify-center mx-auto mb-4">
+              <span className="text-white text-2xl font-bold">M</span>
+            </div>
+            <h2 className="text-2xl font-bold text-gray-800 mb-2">Portal do Professor</h2>
+            <p className="text-gray-600 text-sm">Instituto Mauá de Tecnologia</p>
+          </div>
+
+          {/* Form Fields */}
+          <div className="space-y-6">
+            <div>
+              <label htmlFor='email' className="block text-sm font-medium text-gray-700 mb-2">
+                Email
+                {emailError && <span className="text-red-500 text-xs ml-2">• Email inválido</span>}
+              </label>
+              <input 
+                type='email' 
+                placeholder='seu.email@maua.br' 
+                className={`w-full px-4 py-3 rounded-xl border-2 transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-maua-light-blue/20 ${
+                  emailError 
+                    ? 'border-red-300 bg-red-50 focus:border-red-400' 
+                    : 'border-gray-200 bg-gray-50 focus:border-maua-light-blue hover:border-gray-300'
+                }`}
+                value={email} 
+                onChange={handleEmailChange}
+              />
+            </div>
+
+            <div>
+              <label htmlFor='password' className="block text-sm font-medium text-gray-700 mb-2">
+                Senha
+              </label>
+              <input 
+                type='password' 
+                placeholder='Digite sua senha' 
+                className='w-full px-4 py-3 rounded-xl border-2 border-gray-200 bg-gray-50 transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-maua-light-blue/20 focus:border-maua-light-blue hover:border-gray-300' 
+                value={password} 
+                onChange={handlePasswordChange}
+              />
+            </div>
+          </div>
+
+          {/* Submit Button */}
+          <button 
+            type="submit" 
+            className={`w-full mt-8 py-3 px-6 rounded-xl font-semibold text-white transition-all duration-200 transform ${
+              submitButtonDisabled || loading
+                ? 'bg-gray-400 cursor-not-allowed'
+                : 'bg-gradient-to-r from-maua-light-blue to-maua-blue hover:from-maua-blue hover:to-maua-light-blue hover:scale-105 hover:shadow-lg active:scale-95'
+            }`} 
+            disabled={submitButtonDisabled || loading}
+          >
+            {loading ? (
+              <div className="flex items-center justify-center gap-2">
+                <FaSpinner className="animate-spin" />
+                <span>Entrando...</span>
+              </div>
+            ) : (
+              'Entrar'
+            )}
+          </button>
+
+          {/* Footer */}
+          <div className="mt-8 text-center">
+            <div className="flex justify-center mb-4">
+              <a className="transition-transform hover:scale-105" href="https://maua.br">
+                <img 
+                  src="./imagens/logo_maua.png" 
+                  alt="Logo Mauá" 
+                  className="h-12 w-auto"
+                />
+              </a>
+            </div>
+            <p className="text-xs text-gray-500">
+              © 2024 Instituto Mauá de Tecnologia
+            </p>
+          </div>
+        </form>
+      </div>
     </section>
   );
 }

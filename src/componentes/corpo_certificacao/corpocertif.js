@@ -3,7 +3,6 @@ import { FaUserCircle } from "react-icons/fa";
 import { AiOutlineLoading } from "react-icons/ai"; // Importa o ícone de carregamento
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
-import './corpocertif.css';
 
 export default function CorpoCerti({ lista, eventId }) {
     const navegacao = useNavigate();
@@ -92,12 +91,12 @@ export default function CorpoCerti({ lista, eventId }) {
     };
 
     return (
-        <div className="corpo-certificacao">
+        <div className="p-2.5 flex flex-col text-lg">
             <p>Selecione seu nome e depois aperte o botão para confirmar sua presença!</p>
-            <input className="pesquisa" type='text' placeholder="🔎 Digite seu nome" value={filtro} onChange={handleFiltroChange} />
-            <div className="lista">
+            <input className="w-94 mb-2.5 p-2.5 rounded-md border-none shadow-md text-base" type='text' placeholder="🔎 Digite seu nome" value={filtro} onChange={handleFiltroChange} />
+            <div className="flex flex-col">
                 {filteredList.map((pessoa) => (
-                    <div className="topicos" key={pessoa.id} onClick={() => handleTopicClick(pessoa.id)}>
+                    <div className="rounded-md p-1.5 bg-maua-gray mt-2.5 mb-2.5 flex justify-between items-center" key={pessoa.id} onClick={() => handleTopicClick(pessoa.id)}>
                         <FaUserCircle size={30} />
                         <div>
                             <p>{pessoa.name}</p>
@@ -117,8 +116,8 @@ export default function CorpoCerti({ lista, eventId }) {
                 <input onChange={(e) => setName(e.target.value)} type="text" className="shadow-sm border-2 border-orange-900 rounded-lg p-2" placeholder="insira seu nome..."/>
                 <input onChange={(e) => setEmail(e.target.value)} type="email" className="shadow-sm border-2 border-orange-900 rounded-lg p-2" placeholder="insira seu email..."/>
             </div>
-            <button className="botao" onClick={() => handleSubmit(idSelecionado)}>
-                {loading ? <AiOutlineLoading className="loading-icon" size={20} /> : "Confirmar Presença"}
+            <button className="ml-10 w-4/5 p-5 mt-4 rounded-md bg-maua-green border-none text-white text-lg hover:cursor-pointer hover:font-bold hover:bg-maua-green-hover" onClick={() => handleSubmit(idSelecionado)}>
+                {loading ? <AiOutlineLoading className="animate-spin" size={20} /> : "Confirmar Presença"}
             </button>
         </div>
     );

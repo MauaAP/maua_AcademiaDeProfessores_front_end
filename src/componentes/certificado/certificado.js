@@ -10,6 +10,14 @@ export default function TemplateCertificado ({ certificadoId, evento, professor,
     const notisucess = (message) => toast.success(message);
     
     const handleDelete = async () => {
+        const confirmDelete = window.confirm(
+            `Tem certeza que deseja deletar o certificado do evento "${evento}"?\n\nEsta ação não pode ser desfeita.`
+        );
+        
+        if (!confirmDelete) {
+            return;
+        }
+
         try {
             await axios.delete(`https://6mv3jcpmik.us-east-1.awsapprunner.com/api/presence/${certificadoId}`, {
                 headers: {
@@ -44,18 +52,60 @@ export default function TemplateCertificado ({ certificadoId, evento, professor,
     };
 
     return (
-        <div className="flex items-center gap-8 w-full bg-gray-300 mb-4 p-4 rounded-xl shadow-md max-md:flex-col">
-            <div className="bg-gray-400 p-2 rounded-md">
-                <IoIosPaper size={32} />
-            </div>
-            <p className="flex-[3] max-md:text-center">{evento}</p>
-            <p className="flex-[3] max-md:text-center">{professor}</p>
-            <p className="flex-[2] max-md:text-center">{data}</p>
-            <div className="flex flex-col gap-2 max-md:w-full">
-                <button className="flex items-center justify-between gap-2 bg-[#69A120] text-white p-2 rounded-lg duration-100 hover:bg-[#517e17] max-md:justify-center" onClick={handleDownload}>Baixar <IoIosDownload size={16} /></button>
-                {showDelete &&
-                    <button className="flex items-center justify-between gap-2 bg-[#A12020] text-white p-2 rounded-lg duration-100 hover:bg-[#7c1a1a] max-md:justify-center" onClick={handleDelete}>Deletar <IoIosTrash size={16}/></button>
-                }
+        <div className="bg-white rounded-2xl shadow-lg hover:shadow-xl transition-all duration-300 border border-gray-100 overflow-hidden group h-full flex flex-col">
+            <div className="p-5 flex-1 flex flex-col">
+                {/* Header com ícone e data */}
+                <div className="flex items-start justify-between mb-4">
+                    <div className="flex items-center space-x-3 flex-1 min-w-0">
+                        <div className="w-12 h-12 bg-gradient-to-br from-maua-blue to-maua-light-blue rounded-xl flex items-center justify-center shadow-md flex-shrink-0">
+                            <IoIosPaper className="text-white text-xl" />
+                        </div>
+                        <div className="min-w-0 flex-1">
+                            <h3 className="font-semibold text-gray-900 text-lg leading-tight line-clamp-2 break-words mb-1">
+                                {evento}
+                            </h3>
+                        </div>
+                    </div>
+                    <div className="flex-shrink-0 ml-3">
+                        <span className="inline-flex items-center px-3 py-1.5 rounded-full text-xs font-medium bg-green-100 text-green-800 whitespace-nowrap">
+                            {data}
+                        </span>
+                    </div>
+                </div>
+
+                {/* Informações do professor */}
+                <div className="mb-6">
+                    <div className="bg-gray-50 rounded-lg p-3">
+                        <p className="text-sm text-gray-600 mb-1">
+                            <span className="font-medium">Professor:</span>
+                        </p>
+                        <p className="text-sm font-medium text-gray-900 truncate">
+                            {professor}
+                        </p>
+                    </div>
+                </div>
+
+                {/* Botões de ação */}
+                <div className="mt-auto">
+                    <div className="space-y-3">
+                        <button 
+                            onClick={handleDownload}
+                            className="w-full flex items-center justify-center gap-2 bg-gradient-to-r from-maua-green to-maua-green-hover text-white px-4 py-3 rounded-xl font-medium hover:shadow-lg transform hover:scale-105 transition-all duration-200 active:scale-95"
+                        >
+                            <IoIosDownload size={18} />
+                            <span>Baixar Certificado</span>
+                        </button>
+                        {showDelete && (
+                            <button 
+                                onClick={handleDelete}
+                                className="w-full flex items-center justify-center gap-2 bg-gradient-to-r from-red-500 to-red-600 text-white px-4 py-3 rounded-xl font-medium hover:shadow-lg transform hover:scale-105 transition-all duration-200 active:scale-95"
+                            >
+                                <IoIosTrash size={18} />
+                                <span>Deletar</span>
+                            </button>
+                        )}
+                    </div>
+                </div>
             </div>
         </div>
     );
