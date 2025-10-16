@@ -63,6 +63,26 @@ export default function Eventos({ listaEventos, cadEvento = "", mostrarInputTitu
     const indexOfFirstItem = indexOfLastItem - itemsPerPage;
     const currentItems = filteredEventos.slice(indexOfFirstItem, indexOfLastItem);
     const totalPages = Math.ceil(filteredEventos.length / itemsPerPage);
+    const parseEventTimestamp = (value) => {
+        if (value == null) return NaN;
+        if (typeof value === 'number') return value;
+        if (typeof value === 'string') {
+            const asNumber = Number(value);
+            if (!Number.isNaN(asNumber) && isFinite(asNumber)) return asNumber;
+            const parsed = Date.parse(value);
+            return Number.isNaN(parsed) ? NaN : parsed;
+        }
+        const parsed = Date.parse(value);
+        return Number.isNaN(parsed) ? NaN : parsed;
+    };
+
+    const startOfToday = (() => { const d = new Date(); d.setHours(0,0,0,0); return d.getTime(); })();
+
+    const upcomingEvents = [...listaEventos]
+        .map(ev => ({ ev, ts: parseEventTimestamp(ev.date) }))
+        .filter(x => !Number.isNaN(x.ts) && x.ts >= startOfToday)
+        .sort((a, b) => a.ts - b.ts)
+        .map(x => x.ev);
 
     const paginate = (pageNumber) => setCurrentPage(pageNumber);
 
@@ -238,6 +258,34 @@ export default function Eventos({ listaEventos, cadEvento = "", mostrarInputTitu
                                 Adicionar Presença
                             </button>
                         </div>
+                    </div>
+                </div>
+
+                {/* Upcoming Events Carousel */}
+                <div className="bg-white rounded-2xl shadow-lg border border-gray-100 overflow-hidden mb-8">
+                    <div className="px-6 py-4 border-b border-gray-100 flex items-center justify-between">
+                        <h2 className="text-xl font-semibold text-gray-900">Próximos eventos</h2>
+                        <span className="text-sm text-gray-500">{upcomingEvents.length}</span>
+                    </div>
+                    <div className="p-4">
+                        {upcomingEvents.length === 0 ? (
+                            <div className="text-center py-8 text-gray-500">Nenhum evento futuro encontrado.</div>
+                        ) : (
+                            <div className="flex gap-4 overflow-x-auto no-scrollbar snap-x snap-mandatory">
+                                {upcomingEvents.map((ev, idx) => (
+                                    <div key={idx} className="min-w-[260px] max-w-[260px] snap-start bg-gray-50 border border-gray-200 rounded-xl p-4 flex-shrink-0 hover:border-maua-blue transition-colors">
+                                        <div className="mb-2">
+                                            <div className="text-sm text-gray-500">{new Date(ev.date).toLocaleDateString('pt-BR')}</div>
+                                            <div className="font-semibold text-gray-900 line-clamp-2">{ev.eventName}</div>
+                                        </div>
+                                        <div className="text-sm text-gray-600 truncate">{ev.local}</div>
+                                        <div className="mt-3">
+                                            <span className="inline-flex items-center px-2.5 py-1 rounded-full text-xs font-medium bg-blue-100 text-blue-800">{ev.modality}</span>
+                                        </div>
+                                    </div>
+                                ))}
+                            </div>
+                        )}
                     </div>
                 </div>
 
