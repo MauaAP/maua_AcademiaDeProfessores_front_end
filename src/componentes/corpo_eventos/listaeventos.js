@@ -2,13 +2,19 @@ import React, { useState } from "react";
 import { FaCalendarPlus, FaSearch, FaFilter, FaTh, FaList } from "react-icons/fa";
 import { FaSpinner } from "react-icons/fa";
 import TemplateEvento from "../evento/evento";
+import Select from "react-select";
+import axios from "axios";
+import { toast } from 'react-toastify';
 
-export default function Eventos({ listaEventos, cadEvento = "", mostrarInputTituloEvento = true }) {
+export default function Eventos({ listaEventos, cadEvento = "", mostrarInputTituloEvento = true, listaProfessores = [] }) {
     const [filtro, setFiltro] = useState('');
     const [currentPage, setCurrentPage] = useState(1);
     const [sortBy, setSortBy] = useState('date');
     const [sortOrder, setSortOrder] = useState('desc');
     const [viewMode, setViewMode] = useState('grid');
+    const [isPresenceModalOpen, setIsPresenceModalOpen] = useState(false);
+    const [presenceEventId, setPresenceEventId] = useState('');
+    const [presenceProfessorId, setPresenceProfessorId] = useState('');
     const itemsPerPage = 9;
 
     const handleFiltroChange = (event) => {
@@ -111,6 +117,34 @@ export default function Eventos({ listaEventos, cadEvento = "", mostrarInputTitu
         return pageButtons;
     };
 
+    const openPresenceModal = () => {
+        setPresenceEventId('');
+        setPresenceProfessorId('');
+        setIsPresenceModalOpen(true);
+    };
+
+    const closePresenceModal = () => {
+        setIsPresenceModalOpen(false);
+    };
+
+    const handleConfirmPresence = async (e) => {
+        e.preventDefault();
+        // Integração com API pode ser adicionada aqui
+        try {
+            const response = await axios.post("https://6mv3jcpmik.us-east-1.awsapprunner.com/api/create-presence", {
+                userid: presenceProfessorId,
+                eventid: presenceEventId
+            });
+
+            console.log("Presença criada com sucesso:", response.data);
+            setIsPresenceModalOpen(false);
+            toast.success('Presença criada com sucesso!');
+        } catch (error) {
+            console.error("Erro ao adicionar presença:", error);
+        }
+        setIsPresenceModalOpen(false);
+    };
+
     return (
         <div className="min-h-screen bg-gradient-to-br from-gray-50 to-gray-100 p-4 sm:p-6 lg:p-8">
             <div className="max-w-7xl mx-auto">
@@ -194,6 +228,15 @@ export default function Eventos({ listaEventos, cadEvento = "", mostrarInputTitu
                                     Cadastrar Evento
                                 </a>
                             )}
+
+                            {/* Add Presence Button */}
+                            <button
+                                type="button"
+                                onClick={openPresenceModal}
+                                className="flex items-center gap-3 px-6 py-3 rounded-xl bg-gradient-to-r from-maua-orange to-maua-orange-hover text-white font-semibold hover:shadow-lg transform hover:scale-105 transition-all duration-200 active:scale-95"
+                            >
+                                Adicionar Presença
+                            </button>
                         </div>
                     </div>
                 </div>
@@ -257,6 +300,61 @@ export default function Eventos({ listaEventos, cadEvento = "", mostrarInputTitu
                     )}
                 </div>
             </div>
+            {isPresenceModalOpen && (
+                <div className="fixed inset-0 bg-black bg-opacity-50 z-40 flex items-center justify-center p-4">
+                    <div className="bg-white rounded-2xl shadow-2xl w-full max-w-xl p-6">
+                        <h2 className="text-2xl font-bold text-gray-900 mb-1">Adicionar Presença</h2>
+                        <p className="text-gray-600 mb-6">Selecione o evento e o professor</p>
+                        <form onSubmit={handleConfirmPresence} className="space-y-5">
+                            <div>
+                                <label className="block text-sm font-medium text-gray-700 mb-2">Evento</label>
+                                {(() => {
+                                    const eventOptions = listaEventos.map((ev) => ({
+                                        value: ev.eventId,
+                                        label: `${ev.eventName} — ${new Date(ev.date).toLocaleDateString('pt-BR')}`
+                                    }));
+                                    const selected = eventOptions.find(o => o.value === presenceEventId) || null;
+                                    return (
+                                        <Select
+                                            options={eventOptions}
+                                            value={selected}
+                                            onChange={(opt) => setPresenceEventId(opt ? opt.value : '')}
+                                            placeholder="Selecione um evento..."
+                                            isSearchable
+                                            noOptionsMessage={() => "Nenhuma opção"}
+                                        />
+                                    );
+                                })()}
+                            </div>
+                            <div>
+                                <label className="block text-sm font-medium text-gray-700 mb-2">Professor</label>
+                                {(() => {
+                                    const profOptions = listaProfessores.map((prof) => {
+                                        const value = prof.id ?? prof.userId ?? prof.professorId ?? '';
+                                        const label = prof.name ?? prof.fullName ?? prof.email ?? String(value);
+                                        return { value: String(value), label };
+                                    });
+                                    const selected = profOptions.find(o => o.value === String(presenceProfessorId)) || null;
+                                    return (
+                                        <Select
+                                            options={profOptions}
+                                            value={selected}
+                                            onChange={(opt) => setPresenceProfessorId(opt ? opt.value : '')}
+                                            placeholder="Selecione um professor..."
+                                            isSearchable
+                                            noOptionsMessage={() => "Nenhuma opção"}
+                                        />
+                                    );
+                                })()}
+                            </div>
+                            <div className="flex justify-end gap-3 pt-2">
+                                <button type="button" onClick={closePresenceModal} className="px-6 py-3 rounded-xl border-2 border-gray-200 text-gray-700 hover:bg-gray-50">Cancelar</button>
+                                <button type="submit" className="px-6 py-3 rounded-xl bg-gradient-to-r from-maua-blue to-maua-light-blue text-white font-semibold hover:shadow-lg">Adicionar</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            )}
         </div>
     );
 }

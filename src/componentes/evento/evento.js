@@ -11,31 +11,52 @@ export default function TemplateEvento({ eventId, eventName, date, host, manager
     const [isEditing, setIsEditing] = useState(false);
     const [isQrCode, setQtCode] = useState(false);
     const [qrCodeValue, setQrCodeValue] = useState('');
-
-    const editedData = {
-        eventId,
-        eventName,
-        date,
-        host,
-        manager,
-        period,
-        hostEmail,
-        hostPhone,
-        local,
-        modality,
-        targetAudience,
-        activityType,
-        goals,
-        contentActivities,
-        developedCompetencies,
-        initTime,
-        finishTime
-    };
+    const competenciasDisponiveis = [
+        "CTr 1 - Senso Crítico (Seja Crítico)",
+        "CTr 2 - Seleção de Informações (Seja Seletivo)",
+        "CTr 3 - Saber enfrentar desafios",
+        "CTr 4 - Proatividade (Iniciativa)",
+        "CTr 5 - Criar/Inovar",
+        "CTr 6 - Organização/Planejamento",
+        "CTr 7 - Relacionamento Interpessoal",
+        "CTr 8 - Habilidade de lidar com o imprevisto/Trabalhar em ambientes incertos",
+        "CTr 9 - Habilidade de resolver problemas",
+        "CTr 10 - Tomar decisões",
+        "CTe 1 - Formular e conceber soluções desejáveis e inovadoras na sua área",
+        "CTe 2 - Analisar e compreender os fenômenos, eventos e modelos de sua área com base nas ciências que a fundamentam",
+        "CTe 3 - Conceber criativamente, projetar e analisar sistemas, produtos (bens e serviços) componentes ou processos, viáveis técnica e economicamente",
+        "CTe 4 - Implantar, supervisionar e controlar as soluções de sua área",
+        "CTe 5 - Comunicar-se eficazmente nas formas escrita, oral e gráfica",
+        "CTe 6 - Trabalhar e liderar equipes multidisciplinares",
+        "CTe 7 - Conhecer e aplicar com ética a legislação e os atos normativos no âmbito do exercício da profissão",
+        "CTe 8 - Aprender de forma autônoma e lidar com situações e contextos novos e/ou complexos",
+        "CTe 9 - Compreender o potencial das tecnologias e aplicá-las na resolução de problemas e aproveitamento de oportunidades",
+        "CTe 10 - Conhecer o setor produtivo de sua especialização, revelando sólida visão setorial, relacionado ao mercado, materiais, processos produtivos e tecnologias"
+    ];
+    const [editForm, setEditForm] = useState({
+        eventName: '',
+        date: '',
+        local: '',
+        modality: '',
+        host: '',
+        hostEmail: '',
+        hostPhone: '',
+        manager: '',
+        period: '',
+        targetAudience: '',
+        activityType: '',
+        goals: '',
+        contentActivities: '',
+        developedCompetencies: '',
+        initTime: '',
+        finishTime: '',
+        link: ''
+    });
+    const [selectedCompetencies, setSelectedCompetencies] = useState([]);
 
     const handleUpdate = () => {
-        // implementar a requisição http
-        console.log("Dados atualizados:", editedData);
-        setTimeout(notiatualizar, 10); // Chama a função de notificação após um pequeno atraso
+        console.log("Dados atualizados:", editForm);
+        setTimeout(notiatualizar, 10);
         setIsEditing(false);
     };
 
@@ -44,11 +65,44 @@ export default function TemplateEvento({ eventId, eventName, date, host, manager
     const notiatualizar = () => toast.success("Dados Atualizados!");
 
     const newAtt = () => {
+        setEditForm({
+            eventName: eventName || '',
+            date: date || '',
+            local: local || '',
+            modality: modality || '',
+            host: host || '',
+            hostEmail: Array.isArray(hostEmail) ? hostEmail.join(", ") : (hostEmail || ''),
+            hostPhone: Array.isArray(hostPhone) ? hostPhone.join(", ") : (hostPhone || ''),
+            manager: Array.isArray(manager) ? manager.join(", ") : (manager || ''),
+            period: period || '',
+            targetAudience: targetAudience || '',
+            activityType: activityType || '',
+            goals: goals || '',
+            contentActivities: Array.isArray(contentActivities) ? contentActivities.join(", ") : (contentActivities || ''),
+            developedCompetencies: developedCompetencies || '',
+            initTime: initTime || '',
+            finishTime: finishTime || '',
+            link: ''
+        });
+        const initialComp = (developedCompetencies || '').split(',').map(c => c.trim()).filter(Boolean);
+        setSelectedCompetencies(initialComp);
         setIsEditing(true);
         toast.dismiss();
     }
 
-    const linkValue = editedData.link ? editedData.link : "Não se aplica";
+    const handleFieldChange = (e) => {
+        const { name, value } = e.target;
+        setEditForm(prev => ({ ...prev, [name]: value }));
+    }
+
+    const handleCompetencyChange = (e) => {
+        const { value, checked } = e.target;
+        setSelectedCompetencies(prev => {
+            const updated = checked ? [...prev, value] : prev.filter(c => c !== value);
+            setEditForm(f => ({ ...f, developedCompetencies: updated.join(', ') }));
+            return updated;
+        });
+    };
 
     const handleDelete = async () => {
         const confirmDelete = window.confirm(
@@ -171,86 +225,99 @@ export default function TemplateEvento({ eventId, eventName, date, host, manager
                         <div className="bg-white p-8 rounded-2xl shadow-2xl w-11/12 max-w-6xl max-h-[90vh] overflow-y-auto relative z-40">
                             <div className="mb-6">
                                 <h2 className="text-2xl font-bold text-gray-900 mb-2">Editar Evento</h2>
-                                <p className="text-gray-600">Modifique as informações do evento conforme necessário</p>
+                                <p className="text-gray-600">Ajuste as informações do evento</p>
                             </div>
-                            
+
                             <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
                                 <div className="space-y-4">
                                     <div>
-                                        <label className="block text-sm font-medium text-gray-700 mb-2">{eventName}</label>
-                                        <input type="text" name="eventName" placeholder="Nome do Evento" className="w-full p-3 rounded-xl border-2 border-gray-200 focus:border-maua-blue focus:outline-none transition-colors" />
+                                        <label className="block text-sm font-medium text-gray-700 mb-2">Nome do Evento</label>
+                                        <input type="text" name="eventName" value={editForm.eventName} onChange={handleFieldChange} placeholder="Nome do Evento" className="w-full p-3 rounded-xl border-2 border-gray-200 focus:border-maua-blue focus:outline-none transition-colors" />
                                     </div>
                                     <div>
-                                        <label className="block text-sm font-medium text-gray-700 mb-2">{date}</label>
-                                        <InputMask mask='99/99/9999' placeholder="Data do Evento" className="w-full p-3 rounded-xl border-2 border-gray-200 focus:border-maua-blue focus:outline-none transition-colors" />
+                                        <label className="block text-sm font-medium text-gray-700 mb-2">Data</label>
+                                        <InputMask mask='99/99/9999' name="date" value={editForm.date} onChange={handleFieldChange} placeholder="Data do Evento" className="w-full p-3 rounded-xl border-2 border-gray-200 focus:border-maua-blue focus:outline-none transition-colors" />
                                     </div>
                                     <div>
-                                        <label className="block text-sm font-medium text-gray-700 mb-2">{local}</label>
-                                        <input type="text" name="local" placeholder="Local do Evento" className="w-full p-3 rounded-xl border-2 border-gray-200 focus:border-maua-blue focus:outline-none transition-colors" />
+                                        <label className="block text-sm font-medium text-gray-700 mb-2">Local</label>
+                                        <input type="text" name="local" value={editForm.local} onChange={handleFieldChange} placeholder="Local do Evento" className="w-full p-3 rounded-xl border-2 border-gray-200 focus:border-maua-blue focus:outline-none transition-colors" />
                                     </div>
                                     <div>
-                                        <label className="block text-sm font-medium text-gray-700 mb-2">{modality}</label>
-                                        <input type="text" name="modality" placeholder="Modalidade" className="w-full p-3 rounded-xl border-2 border-gray-200 focus:border-maua-blue focus:outline-none transition-colors" />
+                                        <label className="block text-sm font-medium text-gray-700 mb-2">Modalidade</label>
+                                        <input type="text" name="modality" value={editForm.modality} onChange={handleFieldChange} placeholder="Modalidade" className="w-full p-3 rounded-xl border-2 border-gray-200 focus:border-maua-blue focus:outline-none transition-colors" />
                                     </div>
                                     <div>
-                                        <label className="block text-sm font-medium text-gray-700 mb-2">{hostPhone}</label>
-                                        <InputMask mask="(99) 99999-9999" placeholder="Telefone do Aplicador" className="w-full p-3 rounded-xl border-2 border-gray-200 focus:border-maua-blue focus:outline-none transition-colors" />
+                                        <label className="block text-sm font-medium text-gray-700 mb-2">Telefone do Aplicador</label>
+                                        <InputMask mask="(99) 99999-9999" name="hostPhone" value={editForm.hostPhone} onChange={handleFieldChange} placeholder="Telefone do Aplicador" className="w-full p-3 rounded-xl border-2 border-gray-200 focus:border-maua-blue focus:outline-none transition-colors" />
                                     </div>
                                     <div>
-                                        <label className="block text-sm font-medium text-gray-700 mb-2">{manager.join(", ")}</label>
-                                        <input type="text" name="manager" placeholder="Responsável" className="w-full p-3 rounded-xl border-2 border-gray-200 focus:border-maua-blue focus:outline-none transition-colors" />
+                                        <label className="block text-sm font-medium text-gray-700 mb-2">Responsável</label>
+                                        <input type="text" name="manager" value={editForm.manager} onChange={handleFieldChange} placeholder="Responsável" className="w-full p-3 rounded-xl border-2 border-gray-200 focus:border-maua-blue focus:outline-none transition-colors" />
                                     </div>
                                     <div>
-                                        <label className="block text-sm font-medium text-gray-700 mb-2">{period}</label>
-                                        <input type="text" name="period" placeholder="Período" className="w-full p-3 rounded-xl border-2 border-gray-200 focus:border-maua-blue focus:outline-none transition-colors" />
+                                        <label className="block text-sm font-medium text-gray-700 mb-2">Período</label>
+                                        <input type="text" name="period" value={editForm.period} onChange={handleFieldChange} placeholder="Período" className="w-full p-3 rounded-xl border-2 border-gray-200 focus:border-maua-blue focus:outline-none transition-colors" />
                                     </div>
                                 </div>
-                                
+
                                 <div className="space-y-4">
                                     <div>
-                                        <label className="block text-sm font-medium text-gray-700 mb-2">{host}</label>
-                                        <input type="text" name="host" placeholder="Aplicador" className="w-full p-3 rounded-xl border-2 border-gray-200 focus:border-maua-blue focus:outline-none transition-colors" />
+                                        <label className="block text-sm font-medium text-gray-700 mb-2">Aplicador</label>
+                                        <input type="text" name="host" value={editForm.host} onChange={handleFieldChange} placeholder="Aplicador" className="w-full p-3 rounded-xl border-2 border-gray-200 focus:border-maua-blue focus:outline-none transition-colors" />
                                     </div>
                                     <div>
-                                        <label className="block text-sm font-medium text-gray-700 mb-2">{hostEmail.join(", ")}</label>
-                                        <input type="text" name="hostEmail" placeholder="Email do Aplicador" className="w-full p-3 rounded-xl border-2 border-gray-200 focus:border-maua-blue focus:outline-none transition-colors" />
+                                        <label className="block text-sm font-medium text-gray-700 mb-2">Email do Aplicador</label>
+                                        <input type="text" name="hostEmail" value={editForm.hostEmail} onChange={handleFieldChange} placeholder="Email do Aplicador" className="w-full p-3 rounded-xl border-2 border-gray-200 focus:border-maua-blue focus:outline-none transition-colors" />
                                     </div>
                                     <div>
-                                        <label className="block text-sm font-medium text-gray-700 mb-2">{targetAudience}</label>
-                                        <textarea name="targetAudience" placeholder="Público Alvo" rows="3" className="w-full p-3 rounded-xl border-2 border-gray-200 focus:border-maua-blue focus:outline-none transition-colors resize-none" />
+                                        <label className="block text-sm font-medium text-gray-700 mb-2">Público Alvo</label>
+                                        <textarea name="targetAudience" value={editForm.targetAudience} onChange={handleFieldChange} placeholder="Público Alvo" rows="3" className="w-full p-3 rounded-xl border-2 border-gray-200 focus:border-maua-blue focus:outline-none transition-colors resize-none" />
                                     </div>
                                     <div>
-                                        <label className="block text-sm font-medium text-gray-700 mb-2">{activityType}</label>
-                                        <input type="text" name="activityType" placeholder="Tipo de Atividade" className="w-full p-3 rounded-xl border-2 border-gray-200 focus:border-maua-blue focus:outline-none transition-colors" />
+                                        <label className="block text-sm font-medium text-gray-700 mb-2">Tipo de Atividade</label>
+                                        <input type="text" name="activityType" value={editForm.activityType} onChange={handleFieldChange} placeholder="Tipo de Atividade" className="w-full p-3 rounded-xl border-2 border-gray-200 focus:border-maua-blue focus:outline-none transition-colors" />
                                     </div>
                                     <div>
-                                        <label className="block text-sm font-medium text-gray-700 mb-2">{contentActivities.join(", ")}</label>
-                                        <input type="text" name="contentAtt" placeholder="Atividades Planejadas" className="w-full p-3 rounded-xl border-2 border-gray-200 focus:border-maua-blue focus:outline-none transition-colors" />
+                                        <label className="block text-sm font-medium text-gray-700 mb-2">Atividades Planejadas</label>
+                                        <input type="text" name="contentActivities" value={editForm.contentActivities} onChange={handleFieldChange} placeholder="Atividades Planejadas" className="w-full p-3 rounded-xl border-2 border-gray-200 focus:border-maua-blue focus:outline-none transition-colors" />
                                     </div>
                                     <div>
-                                        <label className="block text-sm font-medium text-gray-700 mb-2">{goals}</label>
-                                        <textarea name="goals" placeholder="Objetivos" rows="3" className="w-full p-3 rounded-xl border-2 border-gray-200 focus:border-maua-blue focus:outline-none transition-colors resize-none" />
+                                        <label className="block text-sm font-medium text-gray-700 mb-2">Objetivos</label>
+                                        <textarea name="goals" value={editForm.goals} onChange={handleFieldChange} placeholder="Objetivos" rows="3" className="w-full p-3 rounded-xl border-2 border-gray-200 focus:border-maua-blue focus:outline-none transition-colors resize-none" />
                                     </div>
                                 </div>
-                                
+
                                 <div className="space-y-4">
                                     <div>
-                                        <label className="block text-sm font-medium text-gray-700 mb-2">{developedCompetencies}</label>
-                                        <textarea name="developedCompetencies" placeholder="Competências Desenvolvidas" rows="3" className="w-full p-3 rounded-xl border-2 border-gray-200 focus:border-maua-blue focus:outline-none transition-colors resize-none" />
+                                        <label className="block text-sm font-medium text-gray-700 mb-2">Competências Desenvolvidas</label>
+                                        <div className="grid grid-cols-1 md:grid-cols-2 gap-3 max-h-60 overflow-y-auto p-3 rounded-lg border border-gray-200 bg-gray-50">
+                                            {competenciasDisponiveis.map((competency, index) => (
+                                                <label key={index} className="flex items-center text-sm text-gray-700">
+                                                    <input 
+                                                        type="checkbox" 
+                                                        value={competency} 
+                                                        checked={selectedCompetencies.includes(competency)}
+                                                        onChange={handleCompetencyChange} 
+                                                        className="mr-2 text-maua-blue focus:ring-maua-blue"
+                                                    />
+                                                    {competency}
+                                                </label>
+                                            ))}
+                                        </div>
                                     </div>
                                     <div>
-                                        <label className="block text-sm font-medium text-gray-700 mb-2">{initTime}</label>
-                                        <InputMask mask='99:99' placeholder="Horário de Início" className="w-full p-3 rounded-xl border-2 border-gray-200 focus:border-maua-blue focus:outline-none transition-colors" />
+                                        <label className="block text-sm font-medium text-gray-700 mb-2">Horário de Início</label>
+                                        <InputMask mask='99:99' name="initTime" value={editForm.initTime} onChange={handleFieldChange} placeholder="Horário de Início" className="w-full p-3 rounded-xl border-2 border-gray-200 focus:border-maua-blue focus:outline-none transition-colors" />
                                     </div>
                                     <div>
-                                        <label className="block text-sm font-medium text-gray-700 mb-2">{finishTime}</label>
-                                        <InputMask mask='99:99' placeholder="Horário de Término" className="w-full p-3 rounded-xl border-2 border-gray-200 focus:border-maua-blue focus:outline-none transition-colors" />
+                                        <label className="block text-sm font-medium text-gray-700 mb-2">Horário de Término</label>
+                                        <InputMask mask='99:99' name="finishTime" value={editForm.finishTime} onChange={handleFieldChange} placeholder="Horário de Término" className="w-full p-3 rounded-xl border-2 border-gray-200 focus:border-maua-blue focus:outline-none transition-colors" />
                                     </div>
                                     <div>
-                                        <label className="block text-sm font-medium text-gray-700 mb-2">{linkValue}</label>
-                                        <input type="text" name="link" placeholder="Link do Evento" className="w-full p-3 rounded-xl border-2 border-gray-200 focus:border-maua-blue focus:outline-none transition-colors" />
+                                        <label className="block text-sm font-medium text-gray-700 mb-2">Link do Evento</label>
+                                        <input type="text" name="link" value={editForm.link} onChange={handleFieldChange} placeholder="Link do Evento" className="w-full p-3 rounded-xl border-2 border-gray-200 focus:border-maua-blue focus:outline-none transition-colors" />
                                     </div>
-                                    
+
                                     <div className="pt-4 space-y-3">
                                         <button className="w-full px-6 py-3 bg-gradient-to-r from-maua-orange to-maua-orange-hover text-white rounded-xl font-semibold hover:shadow-lg transform hover:scale-105 transition-all duration-200 active:scale-95" onClick={handleUpdate}>
                                             Atualizar
