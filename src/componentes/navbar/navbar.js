@@ -69,15 +69,24 @@ export default function NavBar({itensMenu, cor }) {
 
     return (
         <>
-            <nav className="flex justify-between items-center text-white px-6 py-4 shadow-lg backdrop-blur-sm" style={{ backgroundColor: cor }}>
+            <nav className="flex justify-between items-center text-white px-4 sm:px-6 py-3 sm:py-4 shadow-lg backdrop-blur-sm" style={{ backgroundColor: cor }}>
                 {/* Logo e Info do Usuário */}
-                <div className="flex items-center space-x-4">
-                    <div className="w-10 h-10 bg-white/20 rounded-full flex items-center justify-center">
-                        <FaUserCircle className="text-2xl" />
+                <div className="flex items-center space-x-3 sm:space-x-4">
+                    <div className="flex-shrink-0">
+                        <img 
+                            src="/imagens/logo_acad.jpeg" 
+                            alt="Logo Academia de Professores" 
+                            className="h-10 sm:h-12 w-auto object-contain rounded-lg bg-white/10 p-1"
+                        />
                     </div>
                     <div className="hidden sm:block">
                         <h1 className="text-lg font-semibold">{getCargoText(cargo)}</h1>
                         <p className="text-sm opacity-90">{nomeUsuario}</p>
+                    </div>
+                    <div className="sm:hidden">
+                        <div className="w-8 h-8 bg-white/20 rounded-full flex items-center justify-center">
+                            <FaUserCircle className="text-lg" />
+                        </div>
                     </div>
                 </div>
 
@@ -86,7 +95,7 @@ export default function NavBar({itensMenu, cor }) {
                     onClick={toggleMenu}
                     className="p-2 rounded-lg bg-white/10 hover:bg-white/20 transition-all duration-200"
                 >
-                    <IoMenu className="text-2xl" />
+                    <IoMenu className="text-xl sm:text-2xl" />
                 </button>
             </nav>
 

@@ -116,9 +116,18 @@ export function CorpoDownloadRelatorio({ professor }) {
     }, [])
 
     return (
-        <section className='p-24 max-md:p-8'>
-            <div className="flex justify-between lg:items-center gap-4 max-lg:flex-col">
-                <h2 className="text-2xl font-semibold text-[#4F1313] max-lg:text-center">Relatórios</h2>
+        <section className='p-12 sm:p-24 max-md:p-8'>
+            <div className="flex items-center justify-between lg:items-center gap-4 max-lg:flex-col mb-6 sm:mb-8">
+                <div className="flex items-center gap-3 sm:gap-4">
+                    <div className="flex-shrink-0">
+                        <img 
+                            src="/imagens/logo_acad.jpeg" 
+                            alt="Logo Academia de Professores" 
+                            className="h-10 sm:h-14 w-auto object-contain rounded-lg"
+                        />
+                    </div>
+                    <h2 className="text-xl sm:text-2xl font-semibold text-[#4F1313] max-lg:text-center">Relatórios</h2>
+                </div>
             </div>
 
             <div className="flex flex-col justify-center items-center gap-8 mt-8">

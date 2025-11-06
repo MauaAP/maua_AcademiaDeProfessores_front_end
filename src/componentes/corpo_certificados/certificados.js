@@ -115,11 +115,20 @@ export default function Certificados({ certificadosData, mostrarBusca = true }) 
         {/* Header */}
         <div className="bg-white rounded-2xl shadow-lg border border-gray-100 p-4 sm:p-6 mb-6 sm:mb-8">
           <div className="flex flex-col gap-6">
-            <div>
-              <h1 className="text-2xl sm:text-3xl font-bold text-gray-900 mb-2">Certificados</h1>
-              <p className="text-gray-600 text-sm sm:text-base">
-                {filteredCertificados.length} certificado{filteredCertificados.length !== 1 ? 's' : ''} encontrado{filteredCertificados.length !== 1 ? 's' : ''}
-              </p>
+            <div className="flex items-center gap-3 sm:gap-4">
+              <div className="flex-shrink-0">
+                <img 
+                  src="/imagens/logo_acad.jpeg" 
+                  alt="Logo Academia de Professores" 
+                  className="h-12 sm:h-16 w-auto object-contain rounded-lg"
+                />
+              </div>
+              <div>
+                <h1 className="text-2xl sm:text-3xl font-bold text-gray-900 mb-2">Certificados</h1>
+                <p className="text-gray-600 text-sm sm:text-base">
+                  {filteredCertificados.length} certificado{filteredCertificados.length !== 1 ? 's' : ''} encontrado{filteredCertificados.length !== 1 ? 's' : ''}
+                </p>
+              </div>
             </div>
             
             {/* Search and Controls */}

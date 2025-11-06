@@ -84,8 +84,12 @@ export default function FormsLogin() {
         <form className="bg-white rounded-2xl shadow-2xl p-6 sm:p-8 border border-gray-100" onSubmit={handleSubmit}>
           {/* Header */}
           <div className="text-center mb-8">
-            <div className="w-16 h-16 bg-gradient-to-r from-maua-blue to-maua-light-blue rounded-full flex items-center justify-center mx-auto mb-4">
-              <span className="text-white text-2xl font-bold">M</span>
+            <div className="flex justify-center mb-4">
+              <img 
+                src="/imagens/logo_acad.jpeg" 
+                alt="Logo Academia de Professores" 
+                className="h-20 sm:h-24 w-auto object-contain rounded-lg shadow-md"
+              />
             </div>
             <h2 className="text-2xl font-bold text-gray-800 mb-2">Portal do Professor</h2>
             <p className="text-gray-600 text-sm">Instituto Mauá de Tecnologia</p>

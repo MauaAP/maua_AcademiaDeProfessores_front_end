@@ -143,13 +143,22 @@ export default function Professores({ listaprofessores }) {
         <div className="min-h-screen bg-gradient-to-br from-gray-50 to-gray-100 p-4 sm:p-6 lg:p-8">
             <div className="max-w-7xl mx-auto">
                 {/* Header */}
-                <div className="bg-white rounded-2xl shadow-lg border border-gray-100 p-6 mb-8">
+                <div className="bg-white rounded-2xl shadow-lg border border-gray-100 p-4 sm:p-6 mb-6 sm:mb-8">
                     <div className="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-6">
-                        <div>
-                            <h1 className="text-3xl font-bold text-gray-900 mb-2">Usuários</h1>
-                            <p className="text-gray-600">
-                                {filteredProfessores.length} usuário{filteredProfessores.length !== 1 ? 's' : ''} encontrado{filteredProfessores.length !== 1 ? 's' : ''}
-                            </p>
+                        <div className="flex items-center gap-3 sm:gap-4">
+                            <div className="flex-shrink-0">
+                                <img 
+                                    src="/imagens/logo_acad.jpeg" 
+                                    alt="Logo Academia de Professores" 
+                                    className="h-12 sm:h-16 w-auto object-contain rounded-lg"
+                                />
+                            </div>
+                            <div>
+                                <h1 className="text-2xl sm:text-3xl font-bold text-gray-900 mb-1 sm:mb-2">Usuários</h1>
+                                <p className="text-sm sm:text-base text-gray-600">
+                                    {filteredProfessores.length} usuário{filteredProfessores.length !== 1 ? 's' : ''} encontrado{filteredProfessores.length !== 1 ? 's' : ''}
+                                </p>
+                            </div>
                         </div>
                         
             {/* Search and Controls */}

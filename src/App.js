@@ -17,6 +17,7 @@ import HomeMod from "./paginas/moderador/Home_Mod";
 import ListaEventosMod from "./paginas/moderador/EventosMod";
 import CadastroEvMod from "./paginas/moderador/CadastroEventoMod";
 import EventoProf from "./paginas/professores/Eventos";
+import Calendario from "./paginas/compartilhado/Calendario";
 import "react-toastify/dist/ReactToastify.css";
 import { ToastContainer } from "react-toastify";
 import PrivateRoutesAD from "./utils/PrivateRoutesADMIN";
@@ -31,6 +32,7 @@ const itensMenu = [
   { nome: "Certificados", rota: "/paginaInicial" },
   { nome: "Relatório", rota: "/relatoriosProf" },
   { nome: "Lista de Eventos", rota: "/eventos"},
+  { nome: "Calendário", rota: "/calendario"},
   { nome: "Sair", rota: "/" }
 ];
 
@@ -40,6 +42,7 @@ const itensMenuAdm = [
   { nome: "Relatórios", rota: "/relatorios" },
   { nome: "Lista de Usuários", rota: "/listaProfessores" },
   { nome: "Lista de Eventos", rota: "/listaEventos" },
+  { nome: "Calendário", rota: "/calendario"},
   { nome: "Sair", rota: "/" }
 ];
 
@@ -48,6 +51,7 @@ const itensMenuMod = [
   { nome: "Certificados", rota: "/paginaInicialMod" },
   { nome: "Relatório", rota: "/relatoriosMod" },
   { nome: "Lista de Eventos", rota: "/listaEventosMod" },
+  { nome: "Calendário", rota: "/calendario"},
   { nome: "Sair", rota: "/" }
 ];
 
@@ -70,6 +74,7 @@ export default function App() {
               <Route path="/cadastroProfessores" element={<CadastroProfs itensMenu={itensMenuAdm}/>}/>
               <Route path="/cadastroEventos" element={<CadastroEv itensMenu={itensMenuAdm}/>}/>
               <Route path='/relatorios' element={<Relatorios itensMenu={itensMenuAdm}/>}/>
+              <Route path='/calendario' element={<Calendario itensMenu={itensMenuAdm}/>}/>
             </Route>
 
             <Route element={<PrivateRoutesCO/>}>
@@ -77,6 +82,7 @@ export default function App() {
               <Route path='/perfil' element={<SobreProf itensMenu={itensMenu}/>}/>
               <Route path='/eventos' element={<EventoProf itensMenu={itensMenu}/>}/>
               <Route path='/relatoriosProf' element={<RelatoriosProf itensMenu={itensMenu}/>}/>
+              <Route path='/calendario' element={<Calendario itensMenu={itensMenu}/>}/>
             </Route>
 
             <Route element={<PrivateRoutesMOD/>}>
@@ -85,6 +91,7 @@ export default function App() {
               <Route path='/relatoriosMod' element={<RelatoriosMod itensMenu={itensMenuMod}/>}/>
               <Route path='/listaEventosMod' element={<ListaEventosMod itensMenu={itensMenuMod}/>}/>
               <Route path='/cadastroEventosMod' element={<CadastroEvMod itensMenu={itensMenuMod}/>}/>
+              <Route path='/calendario' element={<Calendario itensMenu={itensMenuMod}/>}/>
             </Route>
         
         </Routes>
