@@ -26,6 +26,9 @@ import PrivateRoutesMOD from "./utils/PrivateRoutesMOD";
 import ErrorPage from "./paginas/certificacoes/error";
 import Certificacao from "./paginas/certificacoes/certificados";
 import EndPage from "./paginas/certificacoes/finalizacao";
+import AvaliacaoPage from "./paginas/certificacoes/avaliacao";
+import Avaliacoes from "./paginas/admin/Avaliacoes";
+import GerenciarPerguntasPage from "./paginas/admin/GerenciarPerguntas";
 
 const itensMenu = [
   { nome: "Meu Perfil", rota: "/perfil" },
@@ -42,6 +45,8 @@ const itensMenuAdm = [
   { nome: "Relatórios", rota: "/relatorios" },
   { nome: "Lista de Usuários", rota: "/listaProfessores" },
   { nome: "Lista de Eventos", rota: "/listaEventos" },
+  { nome: "Avaliações", rota: "/avaliacoes" },
+  { nome: "Perguntas", rota: "/gerenciarPerguntas" },
   { nome: "Calendário", rota: "/calendario"},
   { nome: "Sair", rota: "/" }
 ];
@@ -65,6 +70,7 @@ export default function App() {
             <Route path='/error' element={<ErrorPage/>}/>
             <Route path="/certificacao" element={<Certificacao/>}/>
             <Route path="/end" element={<EndPage/>}/>
+            <Route path="/avaliacao" element={<AvaliacaoPage/>}/>
 
             <Route element={<PrivateRoutesAD/>}>
               <Route path='/perfilADM' element={<SobreADM itensMenu={itensMenuAdm}/>}/>
@@ -74,6 +80,8 @@ export default function App() {
               <Route path="/cadastroProfessores" element={<CadastroProfs itensMenu={itensMenuAdm}/>}/>
               <Route path="/cadastroEventos" element={<CadastroEv itensMenu={itensMenuAdm}/>}/>
               <Route path='/relatorios' element={<Relatorios itensMenu={itensMenuAdm}/>}/>
+              <Route path='/avaliacoes' element={<Avaliacoes itensMenu={itensMenuAdm}/>}/>
+              <Route path='/gerenciarPerguntas' element={<GerenciarPerguntasPage itensMenu={itensMenuAdm}/>}/>
               <Route path='/calendario' element={<Calendario itensMenu={itensMenuAdm}/>}/>
             </Route>
 

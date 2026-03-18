@@ -242,6 +242,7 @@ export default function Certificados({ certificadosData, mostrarBusca = true }) 
                     <div key={index} className="animate-fadeIn h-full">
                       <TemplateCertificado
                         certificadoId={certificado.presenceId}
+                        eventId={certificado.eventId}
                         evento={certificado.eventName}
                         professor={certificado.userName}
                         data={new Date(certificado.date).toLocaleDateString('pt-BR')}
