@@ -27,7 +27,7 @@ export default function CorpoCerti({ lista, eventId }) {
                         eventId: eventId
                     });
                     console.log('presença criada com sucesso:', response.data);
-                    navegacao(`/avaliacao?eventId=${eventId}`);
+                    navegacao("/end");
                     return;
                 } catch (error) {
                     console.error("Erro ao criar usuário:", error);
@@ -44,7 +44,7 @@ export default function CorpoCerti({ lista, eventId }) {
             });
 
             console.log("Presença criada com sucesso:", response.data);
-            navegacao(`/avaliacao?eventId=${eventId}`);
+            navegacao("/end");
         } catch (error) {
             console.error("Erro ao criar presença:", error);
             alert("Houve um erro ao confirmar sua presença. Tente novamente.");

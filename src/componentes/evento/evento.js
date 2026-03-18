@@ -139,6 +139,12 @@ export default function TemplateEvento({ eventId, eventName, date, host, manager
         setQtCode(true)
     };
 
+    const handleGerarQRCodeAvaliacao = () => {
+        const url = `https://main.d3ox2o8vvrjgn9.amplifyapp.com/avaliacao?eventId=${eventId}`;
+        setQrCodeValue(url);
+        setQtCode(true)
+    };
+
     return (
         <>
             <div className="bg-white rounded-2xl shadow-lg hover:shadow-xl transition-all duration-300 border border-gray-100 overflow-hidden group h-full flex flex-col">
@@ -183,15 +189,28 @@ export default function TemplateEvento({ eventId, eventName, date, host, manager
                     {mostrarOpcoesEsp && (
                         <div className="mt-auto">
                             <div className="space-y-3">
-                                <button 
-                                    onClick={handleGerarQRCode}
-                                    className="w-full flex items-center justify-center gap-2 bg-gradient-to-r from-maua-light-blue to-maua-blue text-white px-4 py-3 rounded-xl font-medium hover:shadow-lg transform hover:scale-105 transition-all duration-200 active:scale-95"
-                                >
-                                    <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 4v1m6 11h2m-6 0h-2v4m0-11v3m0 0h.01M12 12h4.01M16 20h4M4 12h4m12 0h.01M5 8h2a1 1 0 001-1V5a1 1 0 00-1-1H5a1 1 0 00-1 1v2a1 1 0 001 1zm12 0h2a1 1 0 001-1V5a1 1 0 00-1-1h-2a1 1 0 00-1 1v2a1 1 0 001 1zM5 20h2a1 1 0 001-1v-2a1 1 0 00-1-1H5a1 1 0 00-1 1v2a1 1 0 001 1z" />
-                                    </svg>
-                                    <span>Gerar QR Code</span>
-                                </button>
+                                <div className="grid grid-cols-2 gap-3">
+                                    <button 
+                                        onClick={handleGerarQRCode}
+                                        className="w-full flex items-center justify-center gap-2 bg-gradient-to-r from-maua-light-blue to-maua-blue text-white px-2 py-3 rounded-xl font-medium hover:shadow-lg transform hover:scale-105 transition-all duration-200 active:scale-95 text-xs sm:text-sm"
+                                    >
+                                        <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 4v1m6 11h2m-6 0h-2v4m0-11v3m0 0h.01M12 12h4.01M16 20h4M4 12h4m12 0h.01M5 8h2a1 1 0 001-1V5a1 1 0 00-1-1H5a1 1 0 00-1 1v2a1 1 0 001 1zm12 0h2a1 1 0 001-1V5a1 1 0 00-1-1h-2a1 1 0 00-1 1v2a1 1 0 001 1zM5 20h2a1 1 0 001-1v-2a1 1 0 00-1-1H5a1 1 0 00-1 1v2a1 1 0 001 1z" />
+                                        </svg>
+                                        <span className="hidden sm:inline">QR Code Presença</span>
+                                        <span className="sm:hidden">Presença</span>
+                                    </button>
+                                    <button 
+                                        onClick={handleGerarQRCodeAvaliacao}
+                                        className="w-full flex items-center justify-center gap-2 bg-gradient-to-r from-maua-green to-maua-green-hover text-white px-2 py-3 rounded-xl font-medium hover:shadow-lg transform hover:scale-105 transition-all duration-200 active:scale-95 text-xs sm:text-sm"
+                                    >
+                                        <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M11.049 2.927c.3-.921 1.603-.921 1.902 0l1.519 4.674a1 1 0 00.95.69h4.915c.969 0 1.371 1.24.588 1.81l-3.976 2.888a1 1 0 00-.363 1.118l1.518 4.674c.3.922-.755 1.688-1.538 1.118l-3.976-2.888a1 1 0 00-1.176 0l-3.976 2.888c-.783.57-1.838-.197-1.538-1.118l1.518-4.674a1 1 0 00-.363-1.118l-3.976-2.888c-.784-.57-.38-1.81.588-1.81h4.914a1 1 0 00.951-.69l1.519-4.674z" />
+                                        </svg>
+                                        <span className="hidden sm:inline">QR Code Avaliação</span>
+                                        <span className="sm:hidden">Avaliação</span>
+                                    </button>
+                                </div>
                                 <a
                                     href={`/avaliacoes?eventId=${eventId}`}
                                     className="w-full flex items-center justify-center gap-2 bg-gradient-to-r from-maua-orange to-maua-orange-hover text-white px-4 py-3 rounded-xl font-medium hover:shadow-lg transform hover:scale-105 transition-all duration-200 active:scale-95"
