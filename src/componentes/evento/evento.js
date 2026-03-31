@@ -56,19 +56,39 @@ export default function TemplateEvento({ eventId, eventName, date, host, manager
 
     const handleUpdate = async () => {
         try {
-            let dateToSend = editForm.date;
-            if (dateToSend && /^\d{2}\/\d{2}\/\d{4}$/.test(dateToSend)) {
-                const [day, month, year] = dateToSend.split('/');
-                dateToSend = `${year}-${month}-${day}`;
+            // date: "DD/MM/YYYY" (máscara) ou ISO string → timestamp (number)
+            let dateTimestamp;
+            const dateStr = editForm.date;
+            if (/^\d{2}\/\d{2}\/\d{4}$/.test(dateStr)) {
+                const [day, month, year] = dateStr.split('/');
+                dateTimestamp = new Date(`${year}-${month}-${day}`).getTime();
+            } else {
+                dateTimestamp = new Date(dateStr).getTime();
             }
+
+            // initTime/finishTime: "HH:MM" → timestamp usando a data do evento
+            const parseTimeToTimestamp = (timeStr) => {
+                const [hours, minutes] = timeStr.split(':').map(Number);
+                const d = new Date(dateTimestamp);
+                d.setHours(hours, minutes, 0, 0);
+                return d.getTime();
+            };
+
+            // campos que o backend espera como string[]
+            const toArray = (val) =>
+                val.split(',').map(s => s.trim()).filter(Boolean);
 
             await axios.put(
                 `https://6mv3jcpmik.us-east-1.awsapprunner.com/api/update-event/${eventId}`,
                 {
                     ...editForm,
-                    date: dateToSend,
-                    initTime: extractHHMM(editForm.initTime),
-                    finishTime: extractHHMM(editForm.finishTime),
+                    date: dateTimestamp,
+                    initTime: parseTimeToTimestamp(extractHHMM(editForm.initTime)),
+                    finishTime: parseTimeToTimestamp(extractHHMM(editForm.finishTime)),
+                    manager: toArray(editForm.manager),
+                    hostEmail: toArray(editForm.hostEmail),
+                    hostPhone: toArray(editForm.hostPhone),
+                    contentActivities: toArray(editForm.contentActivities),
                 },
                 { headers: { Authorization: `Bearer ${localStorage.getItem('token')}` } }
             );
