@@ -9,21 +9,22 @@ export function CorpoDownloadRelatorio({ professor }) {
 
     async function relatorioGeral() {
         try {
-            await axios.get("https://6mv3jcpmik.us-east-1.awsapprunner.com/api/download-events", {
+            const response = await axios.get("https://6mv3jcpmik.us-east-1.awsapprunner.com/api/download-events", {
                 headers: {
                     Authorization: `Bearer ${localStorage.getItem("token")}`
-                }
-            }).then((response) => {
-                const url = window.URL.createObjectURL(new Blob([response.data])); // Cria uma URL com o arquivo blob
-                const link = document.createElement('a');
-                link.href = url;
-                link.setAttribute('download', 'relatorioGeral.csv'); // Substitua pelo nome do arquivo desejado
-                document.body.appendChild(link);
-                link.click();
-                link.remove();
+                },
+                responseType: 'blob'
             });
+            const url = window.URL.createObjectURL(new Blob([response.data]));
+            const link = document.createElement('a');
+            link.href = url;
+            link.setAttribute('download', 'base_geral_eventos.csv');
+            document.body.appendChild(link);
+            link.click();
+            link.remove();
+            window.URL.revokeObjectURL(url);
         } catch (error) {
-            console.error("Erro ao buscar eventos:", error);
+            console.error("Erro ao baixar base geral:", error);
         }
     }
 
@@ -133,8 +134,8 @@ export function CorpoDownloadRelatorio({ professor }) {
             <div className="flex flex-col justify-center items-center gap-8 mt-8">
                 <div className={`${professor ? "hidden" : "flex"} items-center justify-between p-8 bg-gray-300 w-1/2 rounded-xl shadow-md max-md:flex-col max-md:w-full`}>
                     <div>
-                        <h3 className="text-lg font-semibold text-[#4F1313]">Download Relatório Geral de Atividades</h3>
-                        <p className="text-sm text-[#4F1313]">Baixe o relatório de certificados em CSV.</p>
+                        <h3 className="text-lg font-semibold text-[#4F1313]">Download Base Geral de Eventos</h3>
+                        <p className="text-sm text-[#4F1313]">Baixe a base completa de todos os eventos em CSV.</p>
                     </div>
                     <button onClick={relatorioGeral} className="flex items-center justify-between gap-2 bg-[#69A120] text-white p-2 rounded-lg duration-100 hover:bg-[#517e17] max-md:justify-center">Baixar <IoIosDownload size={16} /></button>
                 </div>

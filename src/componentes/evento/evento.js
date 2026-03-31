@@ -54,15 +54,53 @@ export default function TemplateEvento({ eventId, eventName, date, host, manager
     });
     const [selectedCompetencies, setSelectedCompetencies] = useState([]);
 
-    const handleUpdate = () => {
-        console.log("Dados atualizados:", editForm);
-        setTimeout(notiatualizar, 10);
-        setIsEditing(false);
+    const handleUpdate = async () => {
+        try {
+            let dateToSend = editForm.date;
+            if (dateToSend && /^\d{2}\/\d{2}\/\d{4}$/.test(dateToSend)) {
+                const [day, month, year] = dateToSend.split('/');
+                dateToSend = `${year}-${month}-${day}`;
+            }
+
+            await axios.put(
+                `https://6mv3jcpmik.us-east-1.awsapprunner.com/api/update-event/${eventId}`,
+                {
+                    ...editForm,
+                    date: dateToSend,
+                    initTime: extractHHMM(editForm.initTime),
+                    finishTime: extractHHMM(editForm.finishTime),
+                },
+                { headers: { Authorization: `Bearer ${localStorage.getItem('token')}` } }
+            );
+            notiatualizar();
+            setIsEditing(false);
+            setTimeout(() => window.location.reload(), 1000);
+        } catch (error) {
+            console.error('Erro ao atualizar evento:', error);
+            const status = error.response?.status;
+            if (status === 403) {
+                toast.error('Sem permissão para atualizar este evento.');
+            } else if (status === 404) {
+                toast.error('Evento não encontrado.');
+            } else {
+                toast.error('Erro ao atualizar evento. Tente novamente!');
+            }
+        }
     };
 
     const notideletar = () => toast.warning("Evento apagado!");
     const notierror = () => toast.error("Erro ao apagar evento. Tente novamente!");
     const notiatualizar = () => toast.success("Dados Atualizados!");
+
+    const extractHHMM = (timeStr) => {
+        if (!timeStr) return '';
+        // "DD/MM/YYYY, HH:MM:SS" → "HH:MM"
+        if (timeStr.includes(', ')) return timeStr.split(', ')[1].slice(0, 5);
+        // ISO "2025-10-29T10:00:00.000Z" → "HH:MM"
+        if (timeStr.includes('T')) return timeStr.split('T')[1].slice(0, 5);
+        // já "HH:MM" ou "HH:MM:SS"
+        return timeStr.slice(0, 5);
+    };
 
     const newAtt = () => {
         setEditForm({
@@ -80,8 +118,8 @@ export default function TemplateEvento({ eventId, eventName, date, host, manager
             goals: goals || '',
             contentActivities: Array.isArray(contentActivities) ? contentActivities.join(", ") : (contentActivities || ''),
             developedCompetencies: developedCompetencies || '',
-            initTime: initTime || '',
-            finishTime: finishTime || '',
+            initTime: extractHHMM(initTime),
+            finishTime: extractHHMM(finishTime),
             link: ''
         });
         const initialComp = (developedCompetencies || '').split(',').map(c => c.trim()).filter(Boolean);

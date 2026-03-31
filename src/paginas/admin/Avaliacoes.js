@@ -5,6 +5,7 @@ import { LoadingCard } from "../../componentes/Loading/Loading";
 import axios from "axios";
 import { toast } from "react-toastify";
 import Select from "react-select";
+import { useSearchParams } from "react-router-dom";
 
 const API_BASE = "https://6mv3jcpmik.us-east-1.awsapprunner.com";
 
@@ -14,15 +15,30 @@ export default function Avaliacoes({ itensMenu }) {
     const [avaliacoesData, setAvaliacoesData] = useState([]);
     const [loadingEventos, setLoadingEventos] = useState(true);
     const [loadingAvaliacoes, setLoadingAvaliacoes] = useState(false);
+    const [searchParams] = useSearchParams();
 
-    // Busca lista de eventos
+    // Busca lista de eventos e pré-seleciona se houver eventId na URL
     useEffect(() => {
         const fetchEventos = async () => {
             try {
                 const response = await axios.get(`${API_BASE}/api/events/`, {
                     headers: { Authorization: `Bearer ${localStorage.getItem("token")}` },
                 });
-                setListaEventos(response.data);
+                const eventos = response.data;
+                setListaEventos(eventos);
+
+                const eventIdParam = searchParams.get("eventId");
+                if (eventIdParam) {
+                    const evento = eventos.find((ev) => String(ev.eventId) === String(eventIdParam));
+                    if (evento) {
+                        const option = {
+                            value: evento.eventId,
+                            label: `${evento.eventName} — ${new Date(evento.date).toLocaleDateString("pt-BR")}`,
+                        };
+                        setEventoSelecionado(option);
+                        fetchAvaliacoes(option);
+                    }
+                }
             } catch (error) {
                 console.error("Erro ao buscar eventos:", error);
                 toast.error("Erro ao buscar a lista de eventos!");
@@ -31,14 +47,12 @@ export default function Avaliacoes({ itensMenu }) {
             }
         };
         fetchEventos();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
 
-    // Busca avaliações quando um evento é selecionado
-    const handleSelectEvento = async (option) => {
-        setEventoSelecionado(option);
+    const fetchAvaliacoes = async (option) => {
         setAvaliacoesData([]);
         if (!option) return;
-
         try {
             setLoadingAvaliacoes(true);
             const response = await axios.get(
@@ -59,6 +73,12 @@ export default function Avaliacoes({ itensMenu }) {
         } finally {
             setLoadingAvaliacoes(false);
         }
+    };
+
+    // Busca avaliações quando um evento é selecionado manualmente
+    const handleSelectEvento = (option) => {
+        setEventoSelecionado(option);
+        fetchAvaliacoes(option);
     };
 
     const eventOptions = listaEventos.map((ev) => ({

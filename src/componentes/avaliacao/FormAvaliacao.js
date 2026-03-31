@@ -64,7 +64,7 @@ export default function FormAvaliacao({ eventId }) {
     useEffect(() => {
         const fetchPerguntas = async () => {
             try {
-                const response = await axios.get(`${API_BASE}/api/evaluations/questions`);
+                const response = await axios.get(`${API_BASE}/api/evaluations/event/${eventId}/questions`);
                 setPerguntas(response.data.questions || []);
             } catch (error) {
                 console.error("Erro ao buscar perguntas:", error);
@@ -75,7 +75,7 @@ export default function FormAvaliacao({ eventId }) {
         };
 
         fetchPerguntas();
-    }, []);
+    }, [eventId]);
 
     const handleResposta = (questionId, value) => {
         setRespostas((prev) => ({ ...prev, [questionId]: value }));
