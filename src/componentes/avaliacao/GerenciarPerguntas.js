@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { toast } from "react-toastify";
-import { FaPlus, FaStar, FaAlignLeft, FaArrowUp, FaArrowDown, FaCheck } from "react-icons/fa";
+import { FaPlus, FaStar, FaAlignLeft, FaArrowUp, FaArrowDown, FaCheck, FaTrash } from "react-icons/fa";
 import { AiOutlineLoading } from "react-icons/ai";
 import Select from "react-select";
 
@@ -124,6 +124,28 @@ export default function GerenciarPerguntas() {
         }
     };
 
+    // --- Deletar pergunta ---
+    const handleDeletarPergunta = async (id) => {
+        if (!window.confirm("Tem certeza que deseja deletar esta pergunta?")) return;
+        try {
+            await axios.delete(`${API_BASE}/api/evaluations/questions/${id}`, {
+                headers: { Authorization: `Bearer ${localStorage.getItem("token")}` },
+            });
+            toast.success("Pergunta deletada com sucesso!");
+            fetchPerguntas();
+        } catch (error) {
+            console.error("Erro ao deletar pergunta:", error);
+            const status = error.response?.status;
+            if (status === 403) {
+                toast.error("Apenas administradores podem deletar perguntas.");
+            } else if (status === 404) {
+                toast.error("Pergunta não encontrada.");
+            } else {
+                toast.error("Erro ao deletar pergunta. Tente novamente.");
+            }
+        }
+    };
+
     // --- Criação de nova pergunta ---
     const handleOpenModal = () => {
         setNovaPergunta({ text: "", type: "RATING" });
@@ -227,6 +249,14 @@ export default function GerenciarPerguntas() {
                                             : <><FaAlignLeft className="text-xs" /> Texto</>
                                         }
                                     </span>
+                                    <button
+                                        type="button"
+                                        onClick={() => handleDeletarPergunta(p.id)}
+                                        className="p-2 rounded-lg text-red-400 hover:text-red-600 hover:bg-red-50 transition-colors"
+                                        title="Deletar pergunta"
+                                    >
+                                        <FaTrash className="text-sm" />
+                                    </button>
                                 </div>
                             </div>
                         ))}
